@@ -1,6 +1,6 @@
 package com.xiv.gearplanner;
 
-import com.codeup.blog.services.UserDetailsLoader;
+import com.xiv.gearplanner.services.UserDetailsLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

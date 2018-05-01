@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<head th:replace="partials/main :: header">
+<head th:replace="partials/layout :: header">
     <meta charset="UTF-8" />
     <title>Index page</title>
 </head>
 <body>
 
-<div th:replace="partials/main :: navbar" />
+<div th:replace="partials/layout :: navbar" />
 <div class="h-100 main-container  mx-auto w-100 text-center">
 
 </div>
 
-<div th:replace="partials/main :: footer" />
+<div th:replace="partials/layout :: footer" />
 <script th:src="@{~/js/global.js}"></script>
 </body>
 </html>
