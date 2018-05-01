@@ -14,3 +14,8 @@
 - Using MySQL database backend
 - Using ES6 compliant Javascript
 - JSON ouput api to be developed
+
+
+#Known issues
+
+- Nothing works at all
