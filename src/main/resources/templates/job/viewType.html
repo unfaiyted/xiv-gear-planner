@@ -10,7 +10,15 @@
 <div th:replace="partials/layout :: navbar" />
 <div class="h-100 main-container  mx-auto w-100 text-center">
 
-</div>
+    View List of Types
+
+
+    <div th:each="type : ${types}">
+       <div th:data-id="${type.getId()}">
+       <span th:text="${type.getName()}" />
+       </div>
+    </div>
+
 
 <div th:replace="partials/layout :: footer" />
 <script th:src="@{~/js/global.js}"></script>

@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+
 public class UserWithRoles extends User implements UserDetails {
     List<String> roles;
 
@@ -18,7 +19,8 @@ public class UserWithRoles extends User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList(String.join(",", roles));
+        return AuthorityUtils.
+                commaSeparatedStringToAuthorityList(String.join(",", roles));
     }
 
     @Override

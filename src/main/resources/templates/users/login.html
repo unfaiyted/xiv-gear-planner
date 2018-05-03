@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Home</title>
+</head>
+<body>
+
+
+<div th:replace="partials/layout :: navbar" />
+<div class="header-spacer"></div>
+
+<div sec:authorize="isAuthenticated()">
+    You are already logged in. <a th:href="@{/logout}">Logout?</a>
+</div>
+<div class="col-4 mx-auto">
+
+    <div  th:if="${param.logout}" class="p-2 m-2alert alert-warning" role="alert">
+        You have been logged out.
+    </div>
+
+    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+        <p th:title="${session.SPRING_SECURITY_LAST_EXCEPTION.message}">Invalid username or password.</p>
+
+    </div>
+
+</div>
+
+<form class="card card-block bg-faded m-3 p-3 col-4 mx-auto" th:action="@{/login}" method="post" name="f" th:object="${user}">
+        <h5 class="card-title">Please login</h5>
+    <form>
+        <div class="form-group">
+            <label th:for="*{username}">Username</label>
+            <input type="text" class="form-control" th:field="*{username}" aria-describedby="userHelp" placeholder="Enter username">
+            <small id="userHelp" class="form-text text-muted">We'll never share your info with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label th:for="*{password}">Password</label>
+            <input type="password" class="form-control" th:field="*{password}"  placeholder="Password">
+        </div>
+        <div class="form-check mb-1">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Stay Logged in.</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Log In</button>
+        <small id="register" class="form-text text-muted text-right">
+
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+            <a href="/sign-up">Register?</a></small>
+    </form>
+
+
+</form>
+</div>
+<div th:replace="partials/layout :: footer" />
+</body>
+</html>

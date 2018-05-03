@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Home</title>
+</head>
+<body>
+
+<div th:replace="partials/layout :: navbar" />
+<div class="header-spacer"></div>
+<div class="container mx-auto">
+
+  <div class="row">
+
+      <div class="col-6">
+
+<h1>Create an account</h1>
+
+    <form class="card card-block bg-faded m-3 p-3 " th:action="@{/sign-up}" method="POST" th:object="${user}">
+        <legend class="m-b-1 text-xs-center">Sign up</legend>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">@</span>
+        </div>
+        <input type="text" id="username" th:field="*{username}" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="">First and last name</span>
+        </div>
+        <input id="firstName" th:field="*{firstName}"  class="form-control" />
+        <input id="lastName" th:field="*{lastName}" class="form-control" />
+    </div>
+
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="email-addon">Email</span>
+        </div>
+        <input type="text" id="email" th:field="*{email}" class="form-control" placeholder="email" aria-label="email" aria-describedby="basic-addon1">
+    </div>
+
+
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="pass-addon">Password</span>
+        </div>
+        <input type="password" class="form-control col-6" th:field="*{password}" placeholder="Password" aria-describedby="passwordHelpBlock">
+
+    </div>
+    <small id="passwordHelpBlock" class="form-text text-muted mx-sm-3">
+        Your password must be 8-20 characters long.
+    </small>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="verifyPass-addon">Password</span>
+        </div>
+        <input type="password" class="form-control col-6" id="verifyPass" th:field="*{password}" placeholder="Verify Password">
+    </div>
+
+
+    <input value="Sign me up!" type="submit" class="btn btn-primary" />
+</form>
+
+
+
+
+      </div>
+
+
+    <div class="col-6">
+
+    </div>
+
+
+  </div>
+</div>
+<div th:replace="partials/layout :: footer" />
+</body>
+</html>

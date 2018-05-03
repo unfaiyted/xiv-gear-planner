@@ -1,7 +1,16 @@
 package com.xiv.gearplanner.controllers;
 
 import com.xiv.gearplanner.models.User;
+import com.xiv.gearplanner.models.UserRole;
+import com.xiv.gearplanner.models.UserWithRoles;
+import com.xiv.gearplanner.repositories.Roles;
 import com.xiv.gearplanner.repositories.Users;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +24,15 @@ import java.time.LocalDateTime;
 public class UserController {
     private Users users;
     private PasswordEncoder passwordEncoder;
+    private Roles roles;
 
 
-    public UserController(Users users, PasswordEncoder passwordEncoder) {
+    @Autowired
+    public UserController(Users users, PasswordEncoder passwordEncoder, Roles roles) {
         this.users = users;
         this.passwordEncoder = passwordEncoder;
+        this.roles = roles;
+
     }
 
     @GetMapping("/sign-up")
@@ -31,19 +44,33 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public String saveUser(@ModelAttribute User user) {
+
         String hash = passwordEncoder.encode(user.getPassword());
         user.setPassword(hash);
         user.setCreatedAt(LocalDateTime.now());
         users.save(user);
+        roles.save(UserRole.newUser(user));
+
+        authenticate(user);
         return "redirect:/login";
     }
     
 
     @GetMapping("/profile")
     public String loadProfile(Model model) {
-
         return "users/profile";
     }
 
+
+    private void authenticate(User user) {
+        UserDetails userDetails = new UserWithRoles(user, roles.ofUserWith(user.getUsername()));
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                userDetails.getPassword(),
+                userDetails.getAuthorities()
+        );
+        SecurityContext context = SecurityContextHolder.getContext();
+        context.setAuthentication(auth);
+    }
 
 }

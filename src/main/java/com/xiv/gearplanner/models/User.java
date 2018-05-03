@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
-@DiscriminatorFormula("'GenericUser'")
 public class User {
     @Id @GeneratedValue
     private Long id;
@@ -111,4 +110,13 @@ public class User {
     public void setLastLoginDate(LocalDateTime lastLoginDate) {
         this.lastLoginDate = lastLoginDate;
     }
+
+    @Override
+    public String toString() {
+        String data = Long.toString(id) + username + password;
+
+
+            return data;
+    }
+
 }

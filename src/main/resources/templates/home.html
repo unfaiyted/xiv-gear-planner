@@ -10,6 +10,15 @@
 <div th:replace="partials/layout :: navbar" />
 <div class="h-100 main-container  mx-auto w-100 text-center">
 
+    <div sec:authorize="isAuthenticated()">
+        This content is only shown to authenticated users.
+
+        User ID: <span th:text="${#authentication.principal.id}"/>
+        Username: <span th:text="${#authentication.principal.username}"/>
+        Email: <span th:text="${#authentication.principal.email}"/>
+    </div>
+
+
 </div>
 
 <div th:replace="partials/layout :: footer" />
