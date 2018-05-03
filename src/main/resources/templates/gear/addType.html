@@ -14,7 +14,7 @@
 
         <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"   class="alert alert-danger" role="alert" />
 
-        <label th:for="*{name}">Job Type Name:</label>
+        <label th:for="*{name}">Gear Type Category:</label>
         <input th:field="*{name}" class="form-control">
         <input type="submit" name="submit-post" id="submit-post" class="btn btn-primary m-1 p-1"/>
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>

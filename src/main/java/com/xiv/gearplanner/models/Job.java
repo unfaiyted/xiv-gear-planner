@@ -63,4 +63,14 @@ public class Job {
     public void setType(JobType type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Job{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", abbr='" + abbr + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }

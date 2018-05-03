@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Index page</title>
+</head>
+<body>
+
+<div th:replace="partials/layout :: navbar" />
+<div class="h-100 main-container  mx-auto w-100 text-center">
+
+    <form method="post" th:object="${player}" name="type-form">
+
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"   class="alert alert-danger" role="alert" />
+
+        <div th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"   class="alert alert-danger" role="alert" />
+
+
+        <label th:for="*{name}">Player Name</label>
+        <input th:field="*{name}" class="">
+
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary active">
+                <input type="radio" name="gender" id="male" autocomplete="off" value="false" checked> Male
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio" name="gender" id="female" autocomplete="off" value="true"> Female
+            </label>
+        </div>
+
+
+        <label for="job">Main Job</label>
+        <select th:object="${jobs}" name="job" id="job">
+            <option  th:each="job : ${jobs}" th:value="${job.getId()}" th:text="${job.getName()}"></option>
+        </select>
+
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input type="submit" name="submit-post" id="submit-post" class="btn btn-primary m-1 p-1"/>
+
+    </form>
+
+</div>
+
+<div th:replace="partials/layout :: footer" />
+<script th:src="@{~/js/global.js}"></script>
+</body>
+</html>

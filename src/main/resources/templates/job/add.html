@@ -14,16 +14,15 @@
 
     <form method="post" th:object="${job}" name="type-form">
 
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"   class="alert alert-danger" role="alert" />
+
+        <div th:if="${#fields.hasErrors('abbr')}" th:errors="*{abbr}"   class="alert alert-danger" role="alert" />
+
 
         <label th:for="*{name}">Job Name</label>
         <input th:field="*{name}" class="form-control">
         <label th:for="*{abbr}">Job Abbr</label>
         <input th:field="*{abbr}" class="form-control">
-
-
-        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"   class="alert alert-danger" role="alert" />
-
-        <div th:if="${#fields.hasErrors('abbr')}" th:errors="*{abbr}"   class="alert alert-danger" role="alert" />
 
 
         <label for="job-type">Job Type</label>

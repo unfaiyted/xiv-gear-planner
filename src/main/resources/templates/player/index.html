@@ -10,6 +10,16 @@
 <div th:replace="partials/layout :: navbar" />
 <div class="h-100 main-container  mx-auto w-100 text-center">
     This is the players index file.
+    <a th:href="@{/player/add}">Add new player</a>
+
+    <h4>Players Stored</h4>
+
+    <div th:each="player : ${players}">
+        <span th:text="${player.getName()}"></span>
+        <span th:text="${player.displayGender()}"></span>
+        <span th:text="${player.firstJob()}"></span>
+    </div>
+
 </div>
 
 <div th:replace="partials/layout :: footer" />

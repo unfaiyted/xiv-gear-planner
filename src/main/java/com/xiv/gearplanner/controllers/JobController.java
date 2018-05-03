@@ -40,6 +40,7 @@ public class JobController {
         return jobList;
     }
 
+
     @GetMapping("/job/view")
     public String viewJobTypes(Model model) {
         model.addAttribute("types", jobs.getJobs().findAll());

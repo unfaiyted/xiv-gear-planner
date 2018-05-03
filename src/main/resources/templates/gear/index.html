@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Index page</title>
+</head>
+<body>
+<div th:replace="partials/layout :: navbar" />
+<div class="main-container  mx-auto w-100 text-center">
+    <!-- Gear Interface -->
+
+
+    <a href="/gear/view">View Gear</a>
+    <a href="/gear/add/stat-type">Add Stat Type</a>
+    <a href="/gear/add/type">Add Gear Type</a>
+    <h4>Gear Adder</h4>
+    <hr>
+
+    <form method="post" action="/gear">
+
+    <div class="gear">
+    <div th:replace="gear/add :: gear-add"></div>
+    <div th:replace="gear/addStats :: stat-add"></div>
+        <div id="more-stats"></div>
+        <input type="hidden" id="stat-count" name="stat-count" value="1" />
+        <button type="submit" class="add-more-stats">Add more stats...</button>
+    </div>
+
+    <button type="submit">Submit Gear</button>
+
+
+<br/>
+    <br/>
+
+    </form>
+</div>
+
+<div th:replace="partials/layout :: footer" />
+<script th:src="@{~/js/gear.js}"></script>
+</body>
+</html>

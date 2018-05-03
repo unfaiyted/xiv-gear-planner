@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,15 +17,16 @@ public class Player {
     @Column(nullable = false, length = 255)
     private String name;
     @Column
-    private LocalDateTime dateAdded;
+    private LocalDateTime dateAdded = LocalDateTime.now();
     @Column
     private boolean gender;
 
+    @ManyToMany
+    private List<Job> jobs = new ArrayList<>();
     @OneToMany
-    private List<Job> jobs;
-    @OneToMany
-    private List<GearSet> gearSets;
+    private List<GearSet> gearSets = new ArrayList<>();
 
+    public Player(){}
     public Player(String name) {
         this.name = name;
         this.dateAdded = LocalDateTime.now();
@@ -57,8 +59,20 @@ public class Player {
         return gender;
     }
 
+    public String displayGender() {
+        return (gender) ? "Female" : "Male";
+    }
+
     public List<Job> getJobs() {
         return jobs;
+    }
+
+    public String firstJob() {
+
+        for(Job job : jobs) {
+            return job.getName();
+        }
+        return "NoJob";
     }
 
     public List<GearSet> getGearSets() {
@@ -73,6 +87,27 @@ public class Player {
         gearSets.add(set);
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public void setDateAdded(LocalDateTime dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
+
+    public void setGearSets(List<GearSet> gearSets) {
+        this.gearSets = gearSets;
+    }
 }

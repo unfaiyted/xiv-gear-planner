@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Stats Add page</title>
+</head>
+<body>
+
+<div th:replace="partials/layout :: navbar" />
+<div class="h-100 main-container  mx-auto w-100 text-center">
+
+    <div th:object="${stat}" name="type-form" th:fragment="stat-add">
+        <div id="stat-form">
+        <div th:if="${#fields.hasErrors('value')}" th:errors="*{value}"   class="alert alert-danger" role="alert" />
+
+        <label for="stat-type">Type:</label>
+        <select th:object="${types}" name="stat-type" id="stat-type" class="stat-type">
+            <option  th:each="type : ${types}" th:value="${type.getId()}" th:text="${type.getName()}"></option>
+        </select><span class="text-stat-type"></span>
+
+        <label th:for="*{value}">Value:</label>
+        <input th:field="*{value}" class="input-value"> <span class="text-value"></span>
+
+            <button name="save-stat-type" class="save-stat-type btn btn-primary m-1 p-1">Save</button>
+            <button name="del-stat-type" class="del-stat-type btn btn-primary m-1 p-1">Delete</button>
+        </div>
+
+    </div>
+
+</div>
+
+<div th:replace="partials/layout :: footer" />
+</body>
+</html>

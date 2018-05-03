@@ -31,7 +31,6 @@ public class UserDetailsLoader implements UserDetailsService {
             throw new UsernameNotFoundException("User could not be found for " + username);
         }
 
-        System.out.println("user info found:" + user.toString());
         return new UserWithRoles(user, roles.ofUserWith(username));
 
     }

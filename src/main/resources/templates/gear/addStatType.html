@@ -10,16 +10,14 @@
 <div th:replace="partials/layout :: navbar" />
 <div class="h-100 main-container  mx-auto w-100 text-center">
 
-    <form method="post" th:object="${type}" name="type-form">
-
+    <form method="post" th:object="${type}" name="type-form" th:fragment="statType-add">
         <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"   class="alert alert-danger" role="alert" />
-
-        <label th:for="*{name}">Job Type Name:</label>
+        <label th:for="*{name}">Gear Stat Type Name:</label>
         <input th:field="*{name}" class="form-control">
-        <input type="submit" name="submit-post" id="submit-post" class="btn btn-primary m-1 p-1"/>
+        <input type="submit" name="submit-stat-type" id="submit-stat-type" class="btn btn-primary m-1 p-1"/>
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-
     </form>
+
 </div>
 
 <div th:replace="partials/layout :: footer" />
