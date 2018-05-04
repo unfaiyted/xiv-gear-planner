@@ -10,23 +10,34 @@
 <div th:replace="partials/layout :: navbar" />
 <div class="h-100 main-container  mx-auto w-100 text-center">
 
-    <div th:object="${gear}" name="gear-add" th:fragment="gear-add">
+    <form class="form-inline">
+  <div class="form-group">
+      <input type="text" class="form-control" id="user-input">
+      <button class="btn btn-primary" id="search">Search</button>
+  </div>
+    </form>
 
-        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"   class="alert alert-danger" role="alert" />
-        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"   class="alert alert-danger" role="alert" />
-        <div th:if="${#fields.hasErrors('iLvl')}" th:errors="*{iLvl}"   class="alert alert-danger" role="alert" />
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col" class="d-none d-sm-table-cell">#</th>
+            <th scope="col">Picture</th>
+            <th scope="col">Name</th>
+            <th scope="col" class="d-none d-sm-table-cell">Server</th>
+            <th scope="col">Import</th>
+        </tr>
+        </thead>
+        <tbody id="search-results">
+        <tr>
+            <th scope="row">1</th>
+            <td><img src="https://img2.finalfantasyxiv.com/f/c451e179855bbcf305b83b5a65f3a9b5_0cdf051c93865faa15cbc5cd3d2b69fbfc0_96x96.jpg?t=201812313"/></td>
+            <td>Faiyt Lee</td>
+            <td>Exodus</td>
+            <td><button type="submit" class="btn btn-secondary" data-id="0">Import</button> </td>
+        </tr>
+        </tbody>
+    </table>
 
-        <label th:for="*{name}">Gear Name</label>
-        <input th:field="*{name}" class="form-control">
-        <label th:for="*{description}">Description</label>
-        <input th:field="*{description}" class="form-control">
-        <label th:for="*{iLvl}">iLvl</label>
-        <input th:field="*{iLvl}" class="form-control">
-
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-        <input type="submit" name="submit-gear-add" id="submit-gear-add" class="btn btn-primary m-1 p-1"/>
-
-    </div>
 
 </div>
 

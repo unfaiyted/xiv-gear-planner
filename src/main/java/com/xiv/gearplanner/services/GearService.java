@@ -17,17 +17,11 @@ import java.util.List;
 @Service
 public class GearService {
     private Gears gears;
-    private GearStats stats;
-    private GearStatTypes statTypes;
     private GearTypes types;
 
     @Autowired
-    public GearService(Gears gears, GearStats stats,
-                       GearStatTypes statTypes, GearTypes types) {
-
+    public GearService(Gears gears, GearTypes types) {
             this.gears = gears;
-            this.stats = stats;
-            this.statTypes = statTypes;
             this.types = types;
     }
 
@@ -35,13 +29,13 @@ public class GearService {
         return gears;
     }
 
-    public GearStatTypes getStatTypes() {
-        return statTypes;
-    }
-
-    public GearStats getStats() {
-        return stats;
-    }
+//    public GearStatTypes getStatTypes() {
+//        return statTypes;
+//    }
+//
+//    public GearStats getStats() {
+//        return stats;
+//    }
 
     public GearTypes getTypes() { return types; }
 
@@ -70,8 +64,5 @@ public class GearService {
         return gearStatList;
     }
 
-    public void saveStat(GearStat stat) { stats.save(stat); }
-
-    public void saveStatType(GearStatType statType) { statTypes.save(statType); }
 
 }

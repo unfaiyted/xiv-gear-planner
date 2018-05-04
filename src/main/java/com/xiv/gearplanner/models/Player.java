@@ -1,5 +1,7 @@
 package com.xiv.gearplanner.models;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -21,9 +23,17 @@ public class Player {
     @Column
     private boolean gender;
 
-    @ManyToMany
+    @Column
+    private String avatar;
+    @Column
+    private String portrait;
+
+    @Column
+    private Long loadstone_id;
+
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Job> jobs = new ArrayList<>();
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<GearSet> gearSets = new ArrayList<>();
 
     public Player(){}

@@ -18,7 +18,7 @@ public class Gear {
     @Column
     private String description;
 
-    @OneToMany(targetEntity = GearStat.class, mappedBy = "gear")
+    @OneToMany(targetEntity = GearStat.class, mappedBy = "gear", cascade = CascadeType.ALL)
     private List<GearStat> gearStats = new ArrayList<>();
 
     public Gear() {

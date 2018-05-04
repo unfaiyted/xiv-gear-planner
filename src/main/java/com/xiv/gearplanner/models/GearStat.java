@@ -12,10 +12,10 @@ public class GearStat {
     @Column(nullable = false)
     private Long value;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private GearStatType statType;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Gear gear;
 
     public GearStat() {
