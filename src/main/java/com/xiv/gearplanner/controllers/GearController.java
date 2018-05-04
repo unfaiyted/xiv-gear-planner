@@ -6,6 +6,7 @@ import com.xiv.gearplanner.models.GearStat;
 import com.xiv.gearplanner.models.GearStatType;
 import com.xiv.gearplanner.models.GearType;
 import com.xiv.gearplanner.services.GearService;
+import com.xiv.gearplanner.services.GearStatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,18 +20,19 @@ import java.util.List;
 @Controller
 public class GearController {
    private GearService gear;
+   private GearStatService stat;
 
     @Autowired
-    public GearController(GearService gear) {
+    public GearController(GearService gear, GearStatService stat) {
         this.gear = gear;
+        this.stat = stat;
     }
-
 
     @GetMapping("/gear")
     public String addMain(Model model) {
         model.addAttribute("gear", new Gear());
         model.addAttribute("stat", new GearStat());
-        model.addAttribute("types", gear.getStatTypes().findAll());
+        model.addAttribute("types", stat.getStats().findAll());
         return "gear/index";
     }
 
@@ -78,6 +80,12 @@ public class GearController {
         return "gear/addType";
     }
 
+
+    @PostMapping("/gear/add/type")
+    public String addTypeSubmit(@Valid GearType type, Model model) {
+
+        return "redirect:/gear";
+    }
 
 
 

@@ -3,8 +3,10 @@ package com.xiv.gearplanner.services;
 import com.xiv.gearplanner.models.Gear;
 import com.xiv.gearplanner.models.GearStat;
 import com.xiv.gearplanner.models.GearStatType;
+import com.xiv.gearplanner.models.GearType;
 import com.xiv.gearplanner.repositories.GearStatTypes;
 import com.xiv.gearplanner.repositories.GearStats;
+import com.xiv.gearplanner.repositories.GearTypes;
 import com.xiv.gearplanner.repositories.Gears;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +19,16 @@ public class GearService {
     private Gears gears;
     private GearStats stats;
     private GearStatTypes statTypes;
+    private GearTypes types;
 
     @Autowired
-    public GearService(Gears gears, GearStats stats, GearStatTypes statTypes) {
+    public GearService(Gears gears, GearStats stats,
+                       GearStatTypes statTypes, GearTypes types) {
+
             this.gears = gears;
             this.stats = stats;
             this.statTypes = statTypes;
+            this.types = types;
     }
 
     public Gears getGears() {
@@ -36,6 +42,8 @@ public class GearService {
     public GearStats getStats() {
         return stats;
     }
+
+    public GearTypes getTypes() { return types; }
 
     public void save(Gear gear) {
 
