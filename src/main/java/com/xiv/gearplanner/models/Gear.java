@@ -18,7 +18,8 @@ public class Gear {
     @Column
     private String description;
 
-    @OneToMany(targetEntity = GearStat.class, mappedBy = "gear", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "gear_id")
     private List<GearStat> gearStats = new ArrayList<>();
 
     public Gear() {
@@ -27,6 +28,13 @@ public class Gear {
     public Gear(String name, Integer iLvl) {
         this.name = name;
         this.iLvl = iLvl;
+    }
+
+    public Gear(Gear copy) {
+        this.name = copy.name;
+        this.iLvl = copy.iLvl;
+        this.description = copy.description;
+        this.gearStats = copy.gearStats;
     }
 
     public Long getId() {
@@ -76,7 +84,12 @@ public class Gear {
     }
 
     public void addGearStat(List<GearStat> stats) {
-        for(GearStat stat: stats) addGearStat(stat);
+
+        for (GearStat stat : stats) {
+            stat.setGear(this);
+            addGearStat(stat);
+         }
+
     }
 
     @Override

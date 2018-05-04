@@ -15,8 +15,8 @@
         <div th:if="${#fields.hasErrors('value')}" th:errors="*{value}"   class="alert alert-danger" role="alert" />
 
         <label for="stat-type">Type:</label>
-        <select th:object="${types}" name="stat-type" id="stat-type" class="stat-type">
-            <option  th:each="type : ${types}" th:value="${type.getId()}" th:text="${type.getName()}"></option>
+        <select th:object="${statTypes}" name="stat-type" id="stat-type" class="stat-type">
+            <option  th:each="type : ${statTypes}" th:value="${type.getId()}" th:text="${type.getName()}"></option>
         </select><span class="text-stat-type"></span>
 
         <label th:for="*{value}">Value:</label>

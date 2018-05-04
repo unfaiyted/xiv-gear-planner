@@ -14,7 +14,7 @@ public class GearSet {
 
     @OneToOne
     private Job job;
-    @OneToOne
+    @ManyToOne
     private Player player;
     @OneToMany
     private List<Gear> gears;

@@ -30,18 +30,19 @@ public class GearController {
     public String addMain(Model model) {
         model.addAttribute("gear", new Gear());
         model.addAttribute("stat", new GearStat());
-        model.addAttribute("statTypes", gear.getStatTypes().findAll());
-        model.addAttribute("types", gear.getTypes().findAll());
+        model.addAttribute("statTypes", gear.getGears().getStatTypes());
+        model.addAttribute("types", gear.getGears().getGearTypes());
 
         return "gear/index";
     }
 
     @PostMapping("/gear")
-    public String addGearSubmit(@RequestParam("stat-type") String type, @RequestParam("value") String value, @Valid Gear newGear, Model model) {
+    public String addGearSubmit(@RequestParam("stat-type") String type,
+                                @RequestParam("value") String value,
+                                @Valid Gear newGear, Model model) {
 
-        // Save gear
-        // Add stats to gear
-        newGear.addGearStat(gear.convertStatList(type, value));
+        newGear.addGearStat(gear.convertStatList(type,value));
+
         gear.save(newGear);
 
         return "redirect:/gear";
@@ -71,7 +72,6 @@ public class GearController {
         model.addAttribute("type",new GearType());
         return "gear/addType";
     }
-
 
     @PostMapping("/gear/add/type")
     public String addTypeSubmit(@Valid GearType type, Model model) {

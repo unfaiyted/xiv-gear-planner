@@ -1,5 +1,7 @@
 package com.xiv.gearplanner.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,10 +14,12 @@ public class GearStat {
     @Column(nullable = false)
     private Long value;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private GearStatType statType;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "gear_id", nullable = false)
+    @JsonIgnore
     private Gear gear;
 
     public GearStat() {
@@ -24,6 +28,12 @@ public class GearStat {
     public GearStat(GearStatType statType, Long value) {
         this.statType = statType;
         this.value = value;
+    }
+
+    public GearStat(GearStat copy) {
+        this.id = copy.id;
+        this.statType = copy.statType;
+        this.value = copy.value;
     }
 
     public Long getId() {

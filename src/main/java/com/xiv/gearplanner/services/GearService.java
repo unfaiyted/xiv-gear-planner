@@ -3,50 +3,31 @@ package com.xiv.gearplanner.services;
 import com.xiv.gearplanner.models.Gear;
 import com.xiv.gearplanner.models.GearStat;
 import com.xiv.gearplanner.models.GearStatType;
-import com.xiv.gearplanner.models.GearType;
-import com.xiv.gearplanner.repositories.GearStatTypes;
-import com.xiv.gearplanner.repositories.GearStats;
-import com.xiv.gearplanner.repositories.GearTypes;
 import com.xiv.gearplanner.repositories.Gears;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class GearService {
     private Gears gears;
-    private GearTypes types;
 
     @Autowired
-    public GearService(Gears gears, GearTypes types) {
+    public GearService(Gears gears) {
             this.gears = gears;
-            this.types = types;
     }
 
     public Gears getGears() {
         return gears;
     }
 
-//    public GearStatTypes getStatTypes() {
-//        return statTypes;
-//    }
-//
-//    public GearStats getStats() {
-//        return stats;
-//    }
-
-    public GearTypes getTypes() { return types; }
-
     public void save(Gear gear) {
-
         gears.save(gear);
-
-        for(GearStat stat : gear.getGearStats()) {
-                    stat.setGear(gear);
-                    saveStat(stat);
-                }
     }
 
     // Converts to user input list to gear stats object
@@ -57,11 +38,24 @@ public class GearService {
         String[] values = value.split(",");
 
         for(int i = 0; i < types.length; i++ ) {
-            GearStatType statType = statTypes.findById(Long.parseLong(types[i])).get();
+            GearStatType statType = gears.getStatTypeById(Long.parseLong(types[i]));
             gearStatList.add(new GearStat(statType, Long.parseLong(values[i])));
         }
 
         return gearStatList;
+    }
+
+    public Gear addStatsByString(Gear gear, String type, String value) {
+
+        String[] types = type.split(",");
+        String[] values = value.split(",");
+
+        for(int i = 0; i < types.length; i++ ) {
+            GearStatType statType = gears.getStatTypeById(Long.parseLong(types[i]));
+            gear.addGearStat(new GearStat(statType, Long.parseLong(values[i])));
+        }
+
+        return gear;
     }
 
 

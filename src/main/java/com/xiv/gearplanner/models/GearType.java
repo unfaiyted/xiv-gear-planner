@@ -9,9 +9,14 @@ public class GearType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String Name;
+    private String name;
 
     public GearType() {
+    }
+
+    public GearType(GearType copy) {
+        this.id = copy.id;
+        this.name = copy.name;
     }
 
     public Long getId() {
@@ -23,10 +28,10 @@ public class GearType {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setName(String input) {
+        name = input;
     }
 }

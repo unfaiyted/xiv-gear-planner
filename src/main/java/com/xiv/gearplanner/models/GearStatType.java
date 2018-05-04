@@ -18,6 +18,11 @@ public class GearStatType {
         this.name = name;
     }
 
+    public GearStatType(GearStatType copy) {
+        this.id = copy.id;
+        this.name = copy.name;
+    }
+
 
     public Long getId() {
         return id;

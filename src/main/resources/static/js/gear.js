@@ -57,7 +57,7 @@
 
     /* Clone STATS */
     // Add more stats to list, copy stat input
-    $('.add.html-more-stats').click(function(e) {
+    $('.add-more-stats').click(function(e) {
         e.preventDefault();
         let clone = $('#stat-form').clone();
         let count = $('#stat-count').attr("value");
