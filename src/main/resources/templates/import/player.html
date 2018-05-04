@@ -6,9 +6,19 @@
     <title>Index page</title>
 </head>
 <body>
-
 <div th:replace="partials/layout :: navbar" />
 <div class="h-100 main-container  mx-auto w-100 text-center">
+
+
+    <div id="alert" class="alert alert-dismissible fade show m-3" role="alert">
+        <strong>Oh!</strong>
+        <span id="alert-content">Default Alert Content!</span>
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
 
     <form class="form-inline">
   <div class="form-group">
@@ -37,7 +47,6 @@
         </tr>
         </tbody>
     </table>
-
 
 </div>
 

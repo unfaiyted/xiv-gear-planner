@@ -22,12 +22,12 @@ public class Player {
     private LocalDateTime dateAdded = LocalDateTime.now();
     @Column
     private boolean gender;
-
     @Column
     private String avatar;
     @Column
     private String portrait;
-
+    @Column
+    private String server;
     @Column
     private Long loadstone_id;
 
@@ -119,5 +119,41 @@ public class Player {
 
     public void setGearSets(List<GearSet> gearSets) {
         this.gearSets = gearSets;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
+    }
+
+    public Long getLoadstone_id() {
+        return loadstone_id;
+    }
+
+    public void setLoadstone_id(Long loadstone_id) {
+        this.loadstone_id = loadstone_id;
+    }
+
+    public String getServer() {
+        return server;
+    }
+
+    public void setServer(String server) {
+        this.server = server;
     }
 }
