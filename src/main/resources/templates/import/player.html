@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Index page</title>
+</head>
+<body>
+
+<div th:replace="partials/layout :: navbar" />
+<div class="h-100 main-container  mx-auto w-100 text-center">
+
+    <div th:object="${gear}" name="gear-add" th:fragment="gear-add">
+
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"   class="alert alert-danger" role="alert" />
+        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"   class="alert alert-danger" role="alert" />
+        <div th:if="${#fields.hasErrors('iLvl')}" th:errors="*{iLvl}"   class="alert alert-danger" role="alert" />
+
+        <label th:for="*{name}">Gear Name</label>
+        <input th:field="*{name}" class="form-control">
+        <label th:for="*{description}">Description</label>
+        <input th:field="*{description}" class="form-control">
+        <label th:for="*{iLvl}">iLvl</label>
+        <input th:field="*{iLvl}" class="form-control">
+
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input type="submit" name="submit-gear-add" id="submit-gear-add" class="btn btn-primary m-1 p-1"/>
+
+    </div>
+
+</div>
+
+<div th:replace="partials/layout :: footer" />
+<script th:src="@{~/js/import.js}"></script>
+</body>
+</html>

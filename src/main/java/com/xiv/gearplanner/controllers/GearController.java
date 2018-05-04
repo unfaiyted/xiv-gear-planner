@@ -6,7 +6,6 @@ import com.xiv.gearplanner.models.GearStat;
 import com.xiv.gearplanner.models.GearStatType;
 import com.xiv.gearplanner.models.GearType;
 import com.xiv.gearplanner.services.GearService;
-import com.xiv.gearplanner.services.GearStatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,22 +19,22 @@ import java.util.List;
 @Controller
 public class GearController {
    private GearService gear;
-   private GearStatService stat;
 
     @Autowired
-    public GearController(GearService gear, GearStatService stat) {
+    public GearController(GearService gear) {
         this.gear = gear;
-        this.stat = stat;
     }
+
 
     @GetMapping("/gear")
     public String addMain(Model model) {
         model.addAttribute("gear", new Gear());
         model.addAttribute("stat", new GearStat());
-        model.addAttribute("types", stat.getStats().findAll());
+        model.addAttribute("statTypes", gear.getStatTypes().findAll());
+        model.addAttribute("types", gear.getTypes().findAll());
+
         return "gear/index";
     }
-
 
     @PostMapping("/gear")
     public String addGearSubmit(@RequestParam("stat-type") String type, @RequestParam("value") String value, @Valid Gear newGear, Model model) {
@@ -60,19 +59,12 @@ public class GearController {
         return  "gear/add";
     }
 
-    @GetMapping("/gear/add/stats")
-    public String addStat(Model model) {
-        model.addAttribute("stat", new GearStat());
-        model.addAttribute("types", gear.getStatTypes().findAll());
-            return "gear/addStats";
-    }
 
     @GetMapping("/gear/add/stat-type")
     public String addStatType(Model model) {
-        model.addAttribute("type",new GearStatType());
+        model.addAttribute("statTypes",new GearStatType());
         return "gear/addStatType";
     }
-
 
     @GetMapping("/gear/add/type")
     public String addType(Model model) {

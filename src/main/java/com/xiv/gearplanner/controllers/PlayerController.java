@@ -45,7 +45,6 @@ public class PlayerController {
         }
 
         player.addJob(playerDao.getJobs().findById(Long.parseLong(jobId)).get());
-
         playerDao.save(player);
 
         return "redirect:/player";

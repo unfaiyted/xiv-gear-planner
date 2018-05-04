@@ -10,7 +10,7 @@
 <div th:replace="partials/layout :: navbar" />
 <div class="h-100 main-container  mx-auto w-100 text-center">
 
-    <form method="post" th:object="${type}" name="type-form" th:fragment="statType-add">
+    <form method="post" th:object="${statTypes}" name="type-form" th:fragment="statType-add">
         <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"   class="alert alert-danger" role="alert" />
         <label th:for="*{name}">Gear Stat Type Name:</label>
         <input th:field="*{name}" class="form-control">

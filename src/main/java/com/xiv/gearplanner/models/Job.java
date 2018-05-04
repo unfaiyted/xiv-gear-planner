@@ -11,7 +11,7 @@ public class Job {
     private Long id;
 
     @NotBlank(message = "Must contain a name")
-    @Size(min = 5, message = "Name is too short.")
+    @Size(min = 3, message = "Name is too short.")
     @Column(nullable = false)
     private String name;
 
