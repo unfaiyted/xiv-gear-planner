@@ -1,12 +1,7 @@
 (function($) {
+    // Default page
 
-
-
-    let query = "faiyt";
-
-    xiv.searchFor("characters",query).then(data => {
-        console.log(data);
-
-    });
+    //TODO: Create a global ALERT system that will be on every page and can be called
+    // at any time.
 
 })(jQuery);

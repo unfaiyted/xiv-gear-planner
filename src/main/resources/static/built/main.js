@@ -1272,12 +1272,11 @@ process.umask = function() { return 0; };
 
 
 (function ($) {
+    // Default page
 
-    var query = "faiyt";
+    //TODO: Create a global ALERT system that will be on every page and can be called
+    // at any time.
 
-    xiv.searchFor("characters", query).then(function (data) {
-        console.log(data);
-    });
 })(jQuery);
 
 /***/ })

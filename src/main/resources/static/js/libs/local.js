@@ -10,19 +10,16 @@ module.exports = {
 
     addData: (location, data) => {
         location = typeof location !== 'undefined' ? location : "";
-
-        return fetch("/api/player/add", {
+        return fetch(location, {
             method: "post",
             credentials: "same-origin",
             headers: {
-                "X-CSRFToken": this.settings.token,
+                "X-CSRF-Token": module.exports.settings.token,
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(data)
         }).then(response => response.json());
     }
-
-
 
 };

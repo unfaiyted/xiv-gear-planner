@@ -13,7 +13,7 @@ module.exports = {
         init: () => {
             $('#alert').hide();
 
-            this.initEvents();
+            module.exports.initEvents();
         },
 
         initEvents: () => {
@@ -25,13 +25,13 @@ module.exports = {
             // Search click submit
             $('#search').click(function (e) {
                 e.preventDefault();
-                let query = this.settings.userInput.val();
+                let query = module.exports.settings.userInput.val();
 
                 if (query.length > 3) {
-                    this.playerSearch(query).then(data =>{
-                        this.displaySearchData(data);
+                    module.exports.playerSearch(query).then(data =>{
+                        module.exports.displaySearchData(data);
                     }).catch(() => {
-                        this.displayAlert("Error pulling search data.","danger");
+                        module.exports.displayAlert("Error pulling search data.","danger");
                     });
                 }
             });
@@ -41,9 +41,9 @@ module.exports = {
                 e.preventDefault();
                 xiv.getPlayerdata($(this).data('id')).then(data => {
                     let Player = toPlayerObj(data);
-                    this.submitPlayerData(Player);
+                    module.exports.submitPlayerData(Player);
                 }).catch(() => {
-                    this.displayAlert("Error pulling player data.","danger");
+                    module.exports.displayAlert("Error with player data.","danger");
                 });
             });
 
@@ -51,7 +51,7 @@ module.exports = {
 
         // Returns search results with player data in JSON
         playerSearch: (query) => {
-            this.settings.results.empty();
+            module.exports.settings.results.empty();
             return xiv.searchFor("characters",query);
         },
 
@@ -60,7 +60,7 @@ module.exports = {
 
             $.each(json.characters.results, function (i, char) {
 
-                this.settings.results.append(
+                module.exports.settings.results.append(
                     $("<tr>").append(
                         $('<th scope="row" class="d-none d-sm-table-cell">').text(i + 1),
                         $('<td>').append(
@@ -77,19 +77,19 @@ module.exports = {
             });
 
             //init event handlers
-            this.initEvents();
+            module.exports.initEvents();
         },
 
         submitPlayerData: (playerObj) => {
             return addData("/api/player/add",playerObj).then(() => {
-                this.displayAlert("Player added.","success");
+                module.exports.displayAlert("Player added.","success");
             }).catch(() => {
-                this.displayAlert("Error saving player data.","danger");
+                module.exports.displayAlert("Error saving player data.","danger");
             });
         },
 
         displayAlert: (msg, type) => {
-            $('#alert-content').text(message);
+            $('#alert-content').text(msg);
             $('#alert').addClass("alert-"+type).show();
         }
 
