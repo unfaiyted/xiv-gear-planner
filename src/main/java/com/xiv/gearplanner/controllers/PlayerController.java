@@ -6,11 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class PlayerController {
@@ -26,6 +25,7 @@ public class PlayerController {
         model.addAttribute("players", playerDao.getPlayers().findAll());
         return "player/index";
     }
+
 
     @GetMapping("/player/add")
     private String addPlayer(Model model) {
@@ -48,6 +48,14 @@ public class PlayerController {
         playerDao.save(player);
 
         return "redirect:/player";
+    }
+
+
+    // Return JSON data
+    @GetMapping("/api/players/{search}")
+    private @ResponseBody List<Player> playersJson(@PathVariable String search) {
+        System.out.println(search);
+        return playerDao.getPlayers().findPlayersByNameContaining(search);
     }
 
 }

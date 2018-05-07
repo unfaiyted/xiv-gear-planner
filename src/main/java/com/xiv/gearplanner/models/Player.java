@@ -53,6 +53,20 @@ public class Player {
         jobs.add(job);
     }
 
+
+    public Player(Player copy) {
+        this.id = copy.id;
+        this.name = copy.name;
+        this.dateAdded = copy.dateAdded;
+        this.gender = copy.gender;
+        this.avatar = copy.avatar;
+        this.server = copy.server;
+        this.portrait = copy.portrait;
+        this.loadstone_id = copy.loadstone_id;
+        this.jobs = copy.jobs;
+        this.gearSets = copy.gearSets;
+    }
+
     public Long getId() {
         return id;
     }
@@ -65,12 +79,15 @@ public class Player {
         return dateAdded;
     }
 
-    public boolean getGender() {
-        return gender;
+    public String getGender() {  return (gender) ? "Female" : "Male";  }
+
+    // I should probably condense
+    public String displayGender() {
+        return getGender();
     }
 
-    public String displayGender() {
-        return (gender) ? "Female" : "Male";
+    public boolean getGenderAsBoolean() {
+        return gender;
     }
 
     public List<Job> getJobs() {
@@ -129,6 +146,7 @@ public class Player {
         return avatar;
     }
 
+
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
@@ -155,5 +173,21 @@ public class Player {
 
     public void setServer(String server) {
         this.server = server;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", dateAdded=" + dateAdded +
+                ", gender=" + gender +
+                ", avatar='" + avatar + '\'' +
+                ", portrait='" + portrait + '\'' +
+                ", server='" + server + '\'' +
+                ", loadstone_id=" + loadstone_id +
+                ", jobs=" + jobs +
+                ", gearSets=" + gearSets +
+                '}';
     }
 }

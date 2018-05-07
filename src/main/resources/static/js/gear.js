@@ -40,7 +40,6 @@
         });
 
 
-
         // delete stat from list
         $('.del-stat-type').click(function(e) {
             e.preventDefault();
@@ -49,7 +48,6 @@
             (cfrm) ?  $(this).parent().remove() : e.preventDefault();
 
         });
-
 
 
     }
