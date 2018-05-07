@@ -1,0 +1,61 @@
+{
+  "name": "gearplanner",
+  "version": "1.0.0",
+  "description": "A gear planning application for raiding in FFXIV",
+  "main": "index.js",
+  "dependencies": {
+    "grunt": "~1.0.2",
+    "grunt-cli": "~1.2.0",
+    "grunt-contrib-jshint": "~1.1.0",
+    "grunt-karma": "~2.0.0",
+    "jspm": "~0.16.53",
+    "karma": "~2.0.2",
+    "karma-jasmine": "~1.1.1",
+    "karma-phantomjs-launcher": "~1.0.4",
+    "jasmine-core": "^3.1.0",
+    "phantomjs-prebuilt": "^2.1.16",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.5.2",
+    "concurrently": "^3.5.0",
+    "jquery": "^3.3.1",
+    "promise-polyfill": "^6.0.2",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.0",
+    "whatwg-fetch": "^2.0.3"
+  },
+  "jspm": {
+    "dependencies": {
+      "jquery": "github:jquery/jquery@^3.3.1"
+    },
+    "devDependencies": {
+      "traceur": "github:jmcriffey/bower-traceur@0.0.111",
+      "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.111"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "npm install",
+    "dev": "webpack-dev-server --inline --hot",
+    "build": "webpack -p",
+    "watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unfaiyted/xiv-gear-planner.git"
+  },
+  "keywords": [
+    "xiv",
+    "ffxiv",
+    "final",
+    "fantasy",
+    "gear",
+    "raiding"
+  ],
+  "author": "Dane L Miller",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/unfaiyted/xiv-gear-planner/issues"
+  },
+  "homepage": "https://github.com/unfaiyted/xiv-gear-planner#readme"
+}
