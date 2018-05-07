@@ -34,8 +34,9 @@ public class PlayerImportController {
     }
 
 
+
     @RequestMapping(
-            value = "/import/player/data",
+            value = "/api/player/add",
             method= RequestMethod.POST,
             headers = "Accept=*/*",
             produces = "application/json",

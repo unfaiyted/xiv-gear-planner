@@ -9,7 +9,6 @@
         $('.save-stat-type').click(function (e) {
             e.preventDefault();
 
-
             let input = $(this).parent().find(".input-value");
             let type = $(this).parent().find(".stat-type option:selected");
 
@@ -52,7 +51,6 @@
 
     }
 
-
     /* Clone STATS */
     // Add more stats to list, copy stat input
     $('.add-more-stats').click(function(e) {
@@ -80,9 +78,6 @@
         eventInit();
 
     });
-
-
-
 
     eventInit();
 
