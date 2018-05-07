@@ -1,42 +1,62 @@
-(function($) {
+const xiv = require('./libs/xibdb.js');
+const {addData} = require('./libs/local.js');
+const {toPlayerObj} = require('./libs/objects');
 
-    const xiv = require('./libs/xibdb.js');
-    const {addData} = require('./libs/local.js');
-
-    module.exports = {
+module.exports = {
 
         settings: { //settings
             minLength: 3,
             userInput: $('#user-input'),
             results: $('#search-results')
+        },
 
+        init: () => {
+            $('#alert').hide();
+
+            this.initEvents();
         },
 
         initEvents: () => {
 
-            // Event Handlers
+            //turns off events
+            $('.import').off();
+            $('#search').off();
+
+            // Search click submit
             $('#search').click(function (e) {
                 e.preventDefault();
                 let query = this.settings.userInput.val();
 
                 if (query.length > 3) {
-                    this.playerSearch(encodeURI(query));
+                    this.playerSearch(query).then(data =>{
+                        this.displaySearchData(data);
+                    }).catch(() => {
+                        this.displayAlert("Error pulling search data.","danger");
+                    });
                 }
             });
 
+            // Import data button
+            $('.import').click(function (e) {
+                e.preventDefault();
+                xiv.getPlayerdata($(this).data('id')).then(data => {
+                    let Player = toPlayerObj(data);
+                    this.submitPlayerData(Player);
+                }).catch(() => {
+                    this.displayAlert("Error pulling player data.","danger");
+                });
+            });
 
         },
 
+        // Returns search results with player data in JSON
         playerSearch: (query) => {
             this.settings.results.empty();
-
-            xiv.searchFor("characters",query).then(data => {
-                    return data;
-            })
-
+            return xiv.searchFor("characters",query);
         },
 
-        searchList: (json) => {
+        // Prints display to results location
+        displaySearchData: (json) => {
 
             $.each(json.characters.results, function (i, char) {
 
@@ -60,86 +80,20 @@
             this.initEvents();
         },
 
-
-    }
-
-    // Returns object in JSON format as used in
-    // application
-
-
-
-    function submitPlayerData(Player) {
-
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-
-        // $(document).ajaxSend(function(e, xhr, options) {
-        //     xhr.setRequestHeader(header, token);
-        // });
-
-        $.ajax({
-            url : "/import/player/data",
-            contentType: "application/json",
-            type: 'POST',
-            async: false,
-            data: JSON.stringify(Player),
-            beforeSend: function(xhr) {
-                // here it is
-                xhr.setRequestHeader(header, token);
-            },
-            success: function (data) {
-                console.log(data);
-                pageAlert("Player was imported", "success");
-
-
-            },
-            error: function(result) {
-                console.log("error", result);
-                pageAlert("Error adding user", "danger");
-            }
-        });
-    }
-
-    function getPlayerInfo(id) {
-        return new Promise(function(resolve, reject) {
-
-            $.getJSON("http://api.xivdb.com/character/"+ id)
-                .done(function (json) {
-                    resolve(json);
-                })
-                .fail(function (jqxhr, textStatus, error) {
-                    pageAlert("Error pulling full character data", "danger");
-                    let err = textStatus + ", " + error;
-                    reject(Error(err));
-                });
+        submitPlayerData: (playerObj) => {
+            return addData("/api/player/add",playerObj).then(() => {
+                this.displayAlert("Player added.","success");
+            }).catch(() => {
+                this.displayAlert("Error saving player data.","danger");
             });
-    }
+        },
+
+        displayAlert: (msg, type) => {
+            $('#alert-content').text(message);
+            $('#alert').addClass("alert-"+type).show();
+        }
+
+};
 
 
-    function pageAlert(message, type) {
-        $('#alert-content').text(message);
-        $('#alert').addClass("alert-"+type).show();
-    }
-
-    //Setup event handlers on search completion
-    function initEventHandlers() {
-
-        //turns off events
-        $('.import').off();
-        $('.import').click(function (e) {
-            e.preventDefault();
-
-            getPlayerInfo($(this).data('id')).then(function(response) {
-                let Player = returnPlayerObject(response);
-                submitPlayerData(Player);
-
-            }, function(error) {
-                console.error("Failed!", error);
-            });
-
-        });
-
-    }
-
-$('#alert').hide();
-})(jQuery);
+module.exports.init();
