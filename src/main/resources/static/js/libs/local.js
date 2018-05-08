@@ -2,7 +2,7 @@
 module.exports = {
 
     settings: { //settings
-        url: "http://localhost:9090/",
+        url: "/api/",
         rateLimit: 5,
         token: $("meta[name='_csrf']").attr("content"),
         header: $("meta[name='_csrf_header']").attr("content")
@@ -20,6 +20,16 @@ module.exports = {
             },
             body: JSON.stringify(data)
         }).then(response => response.json());
-    }
+    },
 
+    // query for post data
+    // parameter for url info
+    // ex: players/Name+Last/?post=3 type/parameter/query
+    getData: (type, parameter, query) => {
+        parameter = typeof parameter !== 'undefined' ? parameter : "";
+        query = typeof query !== 'undefined' ? query : "";
+
+        return fetch(module.exports.settings.url + type +"/"+ parameter + query)
+            .then(response => response.json());
+    }
 };

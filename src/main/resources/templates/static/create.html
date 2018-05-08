@@ -11,7 +11,6 @@
 <div class="h-100 main-container  mx-auto w-100 text-center">
     <div sec:authorize="!isAuthenticated()">
 
-
         <div class="row">
 
             <div class="col-12 col-md-8">
@@ -23,17 +22,35 @@
             <div class="form-inline">
                 <input type="text" class="form-control col-8 p-1 m-2" id="member-find" name="member-find"
                        placeholder="Search for members...">
-                <span>Cant find your member?</span><a th:href="@{/import/player}">Import members</a>
+                <span>Missing people?</span><a th:href="@{/import/player}">Import members</a>
             </div>
         </form>
             </div>
 
             <div class="col-12 col-md-4">
-                <div id="member-list">List of current members</div>
+
+                <div>  <h5>List of current members</h5></div>
+
+                <div id="member-list" class="p-3">
+
+                <div class="row">
+                    <div class="col-3"><img class="img-fluid m-1 hover-members" src="https://img2.finalfantasyxiv.com/f/c451e179855bbcf305b83b5a65f3a9b5_0cdf051c93865faa15cbc5cd3d2b69fbfc0_96x96.jpg?t=201812313" title="Exodus"/>
+                        <span>Faiyt</span></div>
+                    <div class="col-3"><img class="img-fluid m-1" src="https://img2.finalfantasyxiv.com/f/c451e179855bbcf305b83b5a65f3a9b5_0cdf051c93865faa15cbc5cd3d2b69fbfc0_96x96.jpg?t=201812313"/> <span>Faiyt</span></div>
+                    <div class="col-3"><img class="img-fluid m-1" src="https://img2.finalfantasyxiv.com/f/c451e179855bbcf305b83b5a65f3a9b5_0cdf051c93865faa15cbc5cd3d2b69fbfc0_96x96.jpg?t=201812313"/> <span>Faiyt</span></div>
+                    <div class="col-3"><img class="img-fluid m-1" src="https://img2.finalfantasyxiv.com/f/c451e179855bbcf305b83b5a65f3a9b5_0cdf051c93865faa15cbc5cd3d2b69fbfc0_96x96.jpg?t=201812313"/> <span>Faiyt</span></div>
+                </div>
+                <div class="row">
+                    <div class="col-3"><img class="img-fluid m-1" src="https://img2.finalfantasyxiv.com/f/c451e179855bbcf305b83b5a65f3a9b5_0cdf051c93865faa15cbc5cd3d2b69fbfc0_96x96.jpg?t=201812313"/> <span>Faiyt</span></div>
+                    <div class="col-3"><img class="img-fluid m-1" src="https://img2.finalfantasyxiv.com/f/c451e179855bbcf305b83b5a65f3a9b5_0cdf051c93865faa15cbc5cd3d2b69fbfc0_96x96.jpg?t=201812313"/> <span>Faiyt</span></div>
+                    <div class="col-3"></div>
+                    <div class="col-3"></div>
+                </div>
+
+                </div>
             </div>
 
         </div>
-
 
         <div class="row">
 
@@ -61,8 +78,20 @@
             </div>
 
     </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Vertical Center Modal</h3>
+                    <a href="#alertModal" data-toggle="modal">Click to trigger modal</a>
+                </div>
+            </div>
+
+
+
+
 </div>
 <div th:replace="partials/layout :: footer" />
-<script th:src="@{~/built/main.js}"></script>
+<script th:src="@{~/built/static.js}"></script>
 </body>
 </html>
