@@ -22,8 +22,8 @@ Initial structure of website being created
 - Using MySQL database backend
 - Using ES6 compliant Javascript
 - JSON output api to be developed
-
+- WebPack backend for javascript module support
 
 #Known issues
 
-- Nothing works at all
+- Nothing works at all :D
