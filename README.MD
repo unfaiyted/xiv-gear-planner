@@ -5,7 +5,15 @@
 
 # Status
  
- Inital back end design is created to support the users and raid groups
+Initial structure of website being created
+
+- Static Creation Management (30%)
+    * Building the page to create and add static creation 
+- Import Players (50%)
+- View gear (20%)
+- Import gear sets (10%)
+- Design (10%)
+
 
 
 # Technologies
@@ -13,7 +21,7 @@
 - Java Spring Boot Web Application
 - Using MySQL database backend
 - Using ES6 compliant Javascript
-- JSON ouput api to be developed
+- JSON output api to be developed
 
 
 #Known issues
