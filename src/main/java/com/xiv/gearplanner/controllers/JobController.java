@@ -49,7 +49,7 @@ public class JobController {
 
     @GetMapping("/job/add")
     public String addJobType(Model model) {
-        model.addAttribute("types", jobs.getTypes().findAll());
+        model.addAttribute("types", jobs.getJobs().getTypes());
         model.addAttribute("job",  new Job());
         return "job/add";
     }
@@ -59,12 +59,12 @@ public class JobController {
 
         if(validation.hasErrors()) {
             model.addAttribute("job", job);
-            model.addAttribute("types", jobs.getTypes().findAll());
+            model.addAttribute("types", jobs.getJobs().getTypes());
             model.addAttribute("errors", validation);
             return "job/add";
         }
 
-        job.setType(jobs.getTypes().findById(Long.parseLong(type)).get());
+        job.setType(jobs.getJobs().findTypeById(Long.parseLong(type)));
         jobs.save(job);
         return "redirect:/job/add";
     }

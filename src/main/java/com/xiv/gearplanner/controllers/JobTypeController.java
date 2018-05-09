@@ -30,7 +30,7 @@ public class JobTypeController {
         List<JobType> types = new ArrayList<>();
 
         try {
-            jobs.getTypes().findAll().forEach(types::add);
+            jobs.getJobs().getTypes().forEach(types::add);
         } catch (NullPointerException e) {
             return new ArrayList<>();
             }
@@ -39,7 +39,7 @@ public class JobTypeController {
 
     @GetMapping("/job/viewType")
     public String viewJobTypes(Model model) {
-        model.addAttribute("types", jobs.getTypes().findAll());
+        model.addAttribute("types",  jobs.getJobs().getTypes());
         return "/job/viewType";
     }
 
@@ -58,7 +58,9 @@ public class JobTypeController {
                 return "job/addType";
         }
 
-        jobs.save(type);
+
+        //TODO: reimplement adding job types after refactor
+        //        jobs.save(type);
         return "job/addType";
     }
 
