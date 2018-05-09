@@ -1,6 +1,5 @@
 package com.xiv.gearplanner.controllers;
 
-
 import com.xiv.gearplanner.models.JobType;
 import com.xiv.gearplanner.services.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +56,6 @@ public class JobTypeController {
             model.addAttribute("errors", validation);
                 return "job/addType";
         }
-
 
         //TODO: reimplement adding job types after refactor
         //        jobs.save(type);

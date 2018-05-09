@@ -18,9 +18,17 @@ public class Gear {
     @Column
     private String description;
 
+    @Column
+    private Long xivdbId;
+    @Column
+    private String lodestoneId;
+
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "gear_id")
     private List<GearStat> gearStats = new ArrayList<>();
+
+    @OneToMany
+    private List<Job> jobs = new ArrayList<>();
 
     public Gear() {
     }

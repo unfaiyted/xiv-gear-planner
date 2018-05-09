@@ -1,4 +1,4 @@
-package com.xiv.gearplanner.controllers;
+package com.xiv.gearplanner.controllers.Importers;
 
 
 import com.xiv.gearplanner.models.Player;

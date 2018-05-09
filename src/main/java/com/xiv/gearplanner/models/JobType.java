@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table
 public class JobType {
+
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
@@ -19,32 +20,30 @@ public class JobType {
         public JobType() {
         }
 
+        public JobType(JobType copy) {
+            this.id = copy.id;
+            this.name= copy.name;
+        }
+
         public JobType(String name) {
             this.name = name;
         }
 
-            public Long getId() {
+        public Long getId() {
                 return id;
             }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-            return this.name;
-
-
-
-
-
+        public void setId(Long id) {
+            this.id = id;
         }
 
+        public void setName(String name) {
+            this.name = name;
+        }
 
+        public String getName() {
+                return this.name;
 
+        }
 
 }

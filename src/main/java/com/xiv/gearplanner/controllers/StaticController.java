@@ -66,6 +66,17 @@ public class StaticController {
     }
 
 
+    @GetMapping("/static/view/{id}")
+    public String viewStaticMember(@PathVariable Long id, Model model) {
+
+        StaticMember member =  staticDao.getStatics().getMember(id);
+
+        model.addAttribute("member", member);
+        return "static/viewMember";
+
+    }
+
+
     @RequestMapping(
             value = "/api/static/job/update",
             method= RequestMethod.POST,

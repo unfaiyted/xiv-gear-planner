@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Index page</title>
+</head>
+<body>
+
+<div th:replace="partials/layout :: navbar" />
+<div class="h-100 main-container  mx-auto w-100 text-center">
+    <div class="container">
+        <!-- Static Header -->
+
+        <div class="col-12 p-2 m-2">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 44%"></div>
+            </div>
+        </div>
+
+
+        <div class="row">
+
+
+                <!--Member Preview -->
+                <div class="col-12 col-md-6 col-lg-3 mb-5">
+                    <div class="card player-card">
+                        <img class="card-img-top img-fluid"  th:src="${member.getPlayer().getPortrait()}" th:alt="${member.getPlayer().getName()}">
+
+                        <div class="card-img-overlay">
+                            <img th:src="${member.getAssignedJob().getIcon()}" class="job-img" th:data-id="${member.getId()}">
+                            <div class="text-left name" th:text="${member.getPlayer().getName()}">Faiyt Lee</div>
+                        </div>
+                        <div class="card-body text-left">
+                            <div class="progress prog-bar">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 44%"></div>
+                            </div>
+                            <ul class="list-group">
+                                <li class="list-group-item">Job:
+                                    <div class="job-display">
+                                        <span th:text="${member.getAssignedJob().getName()}"></span>
+                                    </div>
+                                    (<a href="#" th:data-id="${member.getId()}" class="edit-toggle">edit</a>)</li>
+                                <li class="list-group-item">BIS: War DH/Crit (<a href="#">edit</a>)</li>
+                            </ul>
+
+                        </div>
+                        <div class="card-footer text-muted">
+                            <a href="#" class="btn btn-sm btn-secondary">Loadstone</a>
+                            <a href="#" class="btn btn-sm btn-danger">Remove</a>
+                        </div>
+                    </div>
+                </div>
+
+
+            <h2>Gear Planning</h2>
+
+            <div class="left-gear ">
+                <div class="row">
+                <h4>Left Side</h4>
+                </div>
+
+                <div class="row">
+                    <div class="current">
+                        <div class="icon">
+                            <img class="gear-item" src="https://img.finalfantasyxiv.com/lds/pc/global/images/itemicon/24/24c6714ba1e32e6bf9115c7450ca56ff8b02e4fb.png?20171121"/>
+                        </div>
+                        <div class="info">
+                            <span class="gear-type">Main Hand</span>
+                            <span class="gear-lvl">340</span> <span> <a href="https://xivdb.com/item/19281/Augmented-Lost-Allagan-Saber">Name</a></span>
+                        </div>
+
+
+                    </div>
+                    <div> to </div>
+                    <div class="planned">
+                        <img class="gear-item" src="https://img.finalfantasyxiv.com/lds/pc/global/images/itemicon/24/24c6714ba1e32e6bf9115c7450ca56ff8b02e4fb.png?20171121"/>
+                        <a href="https://xivdb.com/item/19281/Augmented-Lost-Allagan-Saber">Yes Gear!</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        </div>
+</div>
+
+
+
+
+    </div>
+    <div th:replace="partials/layout :: footer" />
+    <script src="https://secure.xivdb.com/tooltips.js"></script>
+    <script th:src="@{~/built/static.js}"></script>
+</body>
+</html>
