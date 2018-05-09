@@ -22,7 +22,7 @@ public class Static {
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<StaticMember> members = new ArrayList<>();
 
     public Static () {}
@@ -78,6 +78,16 @@ public class Static {
 
     public void setMembers(List<StaticMember> members) {
         this.members = members;
+    }
+
+    public void addMembers(List<StaticMember> members) {
+        for(StaticMember member: members) {
+            this.addMember(member);
+        }
+    }
+    public void addMember(StaticMember member) {
+        member.setOneStatic(this);
+        members.add(member);
     }
 
     @Override

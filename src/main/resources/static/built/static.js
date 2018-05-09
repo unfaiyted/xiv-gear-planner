@@ -104,7 +104,7 @@ module.exports = {
         parameter = typeof parameter !== 'undefined' ? parameter : "";
         query = typeof query !== 'undefined' ? query : "";
 
-        return fetch(module.exports.settings.url + type + "/" + parameter + query).then(function (response) {
+        return fetch(module.exports.settings.url + type + "" + parameter + query).then(function (response) {
             return response.json();
         });
     }
@@ -120,6 +120,7 @@ module.exports = {
 
 var lib = __webpack_require__(10);
 var member = __webpack_require__(18);
+var job = __webpack_require__(20);
 
 module.exports = {
 
@@ -141,7 +142,7 @@ module.exports = {
         $('#member-find').off();
 
         // Press Enter or Type Submit
-        $('#member-find').keydown(function () {
+        $('#member-find').keydown(function (e) {
             var name = $(this).val();
 
             if (name.length > 2 && module.exports.settings.rateMax === false) {
@@ -177,6 +178,7 @@ module.exports = {
 };
 
 module.exports.init();
+job.init();
 
 /***/ }),
 
@@ -185,6 +187,8 @@ module.exports.init();
 
 "use strict";
 
+
+var alert = __webpack_require__(19);
 
 // Module for adding members to static list
 module.exports = {
@@ -213,7 +217,8 @@ module.exports = {
         $(addClass).off();$(deleteClass).off();
 
         //add member handler
-        $(addClass).click(function () {
+        $(addClass).click(function (e) {
+            e.preventDefault();
 
             var id = $(this).data("id");
             var name = $(this).parent().parent().find(".char-name").text();
@@ -226,7 +231,7 @@ module.exports = {
 
         // delete member handler
         $(deleteClass).click(function () {
-
+            e.preventDefault();
             // get id of member clicked
             var id = $(this).data("id");
 
@@ -237,10 +242,15 @@ module.exports = {
 
     addMember: function addMember(player) {
 
-        //add member to list
-        module.exports.settings.list.push(player);
-        // render new member list
-        module.exports.renderList();
+        if (module.exports.settings.count < 8) {
+            //add member to list
+            module.exports.settings.list.push(player);
+            // render new member list
+            module.exports.renderList();
+            module.exports.settings.count++;
+            return true;
+        }
+        return alert.displayPopUpAlert("You can't add any more members.", "warning");
     },
 
     // delete by id
@@ -253,6 +263,7 @@ module.exports = {
                 break;
             }
         } //render new member list
+        module.exports.settings.count--;
         module.exports.renderList();
     },
 
@@ -281,8 +292,156 @@ module.exports = {
     },
 
     createSingleMember: function createSingleMember(member) {
-        return '<div class="col-3">\n                \n                <img class="img-fluid m-1 hover-members" src="' + member.img + '" title="Exodus" />\n                    <span class="deleteMember" data-id="' + member.id + '">&times;</span> \n                    <span>' + member.name + '</span>\n                  </div>';
+        var deleteClass = module.exports.settings.deleteClass;
+        return '<div class="col-3">\n                <img class="img-fluid m-1 hover-members" src="' + member.img + '" title="Exodus" />\n                    <span class="' + deleteClass + '" data-id="' + member.id + '">&times;</span> \n                    <span>' + member.name + '</span>\n                    <input type="hidden" name="member[]" value="' + member.id + '">\n                  </div>';
     }
+};
+
+/***/ }),
+
+/***/ 19:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// site wide alert system code
+module.exports = {
+
+    settings: {
+        alertId: "alert",
+        alertFiller: $('#alert'), // site wide alertID
+        alertType: "popup",
+        createdPopUpAlert: false
+    },
+
+    displayPopUpAlert: function displayPopUpAlert(message, type) {
+        // check if alert modal exists
+        if (module.exports.settings.createdPopUpAlert === false) module.exports.createPopupAlert();
+
+        module.exports.settings.createdPopUpAlert = true;
+
+        $('.alert').addClass("alert-" + type);
+        $('#alert-message').text(message);
+
+        $("#alertModal").modal('show');
+    },
+
+    createInlineAlert: function createInlineAlert() {
+
+        alertFiller.append($(" <div class=\"alert alert-dismissible fade show\" role=\"alert\">").append($("<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">").append($(" <span aria-hidden=\"true\">").text("&times;")), $("<span id=\"alert-message\">").text("Alert Message")));
+    },
+
+    createPopupAlert: function createPopupAlert() {
+
+        //TODO: check if alert exists
+
+        //create new alert if not...
+        $('body').append($("<div class=\"modal fade\" id=\"alertModal\">").append($("<div class=\"modal-dialog\" role=\"document\">").append($(" <div class=\"modal-content\">").append($(" <div class=\"modal-content\">").append($(" <div class=\"alert alert-dismissible fade show\" role=\"alert\">").append($("<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">").append($(" <span aria-hidden=\"true\">").html("&times;")), $("<span id=\"alert-message\">").text("Alert Message")))))));
+    }
+
+};
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var api = __webpack_require__(10);
+
+// Module for adding members to static list
+module.exports = {
+
+    settings: {
+        jobsList: [],
+        editToggle: $('.edit-toggle'),
+        jobDisplayClass: "job-display"
+    },
+
+    init: function init() {
+
+        module.exports.initHandlers();
+    },
+
+    initHandlers: function initHandlers() {
+
+        //toggle edit and save
+        $('.edit-toggle').click(function (e) {
+            e.preventDefault();
+
+            if ($(this).text().includes("edit")) {
+                module.exports.editJob($(this).parent());
+                $(this).text('save');
+            } else {
+                module.exports.saveJob($(this).parent());
+                $(this).text('edit');
+            }
+        });
+    },
+
+    //Populates JobsList if empty.
+    getJobsList: function getJobsList() {
+        if (module.exports.settings.jobsList.length === 0) {
+            module.exports.settings.jobsList = api.getData('jobs');
+            return api.getData('jobs');
+        }
+        return module.exports.settings.jobsList;
+    },
+
+    saveJob: function saveJob(parent) {
+        var jobDisplay = "." + module.exports.settings.jobDisplayClass;
+        //save action, return to edit
+
+
+        var jobId = parent.find(".job-display select option:selected").val();
+        var jobName = parent.find(".job-display select option:selected").text();
+        var memberId = parent.find(".edit-toggle").data("id");
+
+        parent.find(jobDisplay).empty();
+        parent.find(jobDisplay).append(jobName);
+
+        var arr = {
+            memberId: memberId,
+            jobId: jobId
+        };
+
+        api.addData("/api/static/job/update", JSON.stringify(arr));
+    },
+
+    editJob: function editJob(parent) {
+        var jobDisplay = "." + module.exports.settings.jobDisplayClass;
+        //empty data
+        parent.find(jobDisplay).empty();
+        //add editor
+
+        module.exports.createJobEditor().then(function (data) {
+            parent.find(jobDisplay).append(data);
+        });
+    },
+
+    createJobEditor: function createJobEditor() {
+        return new Promise(function (resolve, reject) {
+
+            var JobEditorHTML = '<select class="job-list-select" name="jobSelector">';
+
+            //Populates job list if empty.
+            module.exports.getJobsList().then(function (data) {
+
+                $.each(data, function (i, job) {
+                    JobEditorHTML += '<option value="' + job.id + '">' + job.name + '</option>';
+                });
+
+                JobEditorHTML += '</select>';
+
+                resolve(JobEditorHTML);
+            });
+        });
+    },
+
+    refreshJobInfo: function refreshJobInfo() {}
 };
 
 /***/ })

@@ -1,5 +1,6 @@
 const lib = require('./libs/local.js');
 const member = require('./module/static/memberAdd');
+const job = require('./module/static/editJob.js');
 
 
 module.exports = {
@@ -13,6 +14,7 @@ module.exports = {
     // Constructor more or less? ish
     init: () => {
         module.exports.initEvents();
+
     },
 
     // Declares event handlers
@@ -22,7 +24,7 @@ module.exports = {
             $('#member-find').off();
 
             // Press Enter or Type Submit
-            $('#member-find').keydown(function () {
+            $('#member-find').keydown(function (e) {
                 let name = $(this).val();
 
                 if (name.length > 2 &&  module.exports.settings.rateMax === false) {
@@ -71,3 +73,4 @@ module.exports = {
 };
 
 module.exports.init();
+job.init();

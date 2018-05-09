@@ -20,15 +20,19 @@ public class Job {
     @Column(nullable = false)
     private String abbr;
 
+    @Column(nullable = false)
+    private String icon;
+
     @OneToOne(cascade = {CascadeType.ALL})
     private JobType type;
 
     public Job() {
     }
 
-    public Job(String name, String abbr, JobType type) {
+    public Job(String name, String abbr, String icon,  JobType type) {
         this.name = name;
         this.abbr = abbr;
+        this.icon = icon;
         this.type = type;
     }
 
@@ -64,12 +68,21 @@ public class Job {
         this.type = type;
     }
 
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
     @Override
     public String toString() {
         return "Job{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", abbr='" + abbr + '\'' +
+                ", icon='" + icon + '\'' +
                 ", type=" + type +
                 '}';
     }

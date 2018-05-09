@@ -29,7 +29,7 @@ module.exports = {
         parameter = typeof parameter !== 'undefined' ? parameter : "";
         query = typeof query !== 'undefined' ? query : "";
 
-        return fetch(module.exports.settings.url + type +"/"+ parameter + query)
+        return fetch(module.exports.settings.url + type +""+ parameter + query)
             .then(response => response.json());
     }
 };

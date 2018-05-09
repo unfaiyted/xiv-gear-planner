@@ -18,11 +18,14 @@
 
         <div th:if="${#fields.hasErrors('abbr')}" th:errors="*{abbr}"   class="alert alert-danger" role="alert" />
 
+        <div th:if="${#fields.hasErrors('icon')}" th:errors="*{icon}"   class="alert alert-danger" role="alert" />
 
         <label th:for="*{name}">Job Name</label>
         <input th:field="*{name}" class="form-control">
         <label th:for="*{abbr}">Job Abbr</label>
         <input th:field="*{abbr}" class="form-control">
+        <label th:for="*{icon}">Icon Link</label>
+        <input th:field="*{icon}" class="form-control">
 
 
         <label for="job-type">Job Type</label>

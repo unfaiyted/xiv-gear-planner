@@ -28,7 +28,10 @@ public class StaticMember {
         this.player = player;
         this.assignedJob = assignedJob;
         this.oneStatic = oneStatic;
+    }
 
+    public StaticMember(Player player) {
+        this.player = player;
     }
 
     public StaticMember(StaticMember copy) {

@@ -12,6 +12,8 @@ public class AdditionalResourceWebConfiguration implements WebMvcConfigurer {
     @Value("${file-upload-path}")
     String imgLocation;
 
+
+
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/**").addResourceLocations("file:"+ imgLocation);

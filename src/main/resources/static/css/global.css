@@ -18,3 +18,50 @@
 #alertModal .alert {
     margin:0;
 }
+
+
+
+.footer-spacer {
+
+    height: 85px;
+}
+
+
+/*
+STATIC VIEW PAGE
+*/
+
+
+.player-card .job-img {
+    position: relative;
+    top: -40px;
+    left: calc(-50% - 20px);
+    z-index: 1;
+}
+
+.player-card .name {
+    color: #fff;
+    background-color: rgba(0,0,0,0.5);
+    position: relative;
+    left: 0px;
+    border-radius: 3px;
+    top: -84px;
+    z-index: 0;
+    padding: 5px;
+    padding-left: 20px;
+    width: calc(100% + 20px);
+    margin: 0;
+}
+
+.card-body .prog-bar {
+    position: relative;
+    top: -44px;
+    left: -10px;
+    width: calc(100% + 20px);
+    padding: 0;
+    margin: 0;
+}
+
+.player-card .card-footer {
+    z-index: 3;
+}

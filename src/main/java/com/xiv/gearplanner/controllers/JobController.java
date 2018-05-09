@@ -27,7 +27,7 @@ public class JobController {
     }
 
     // List of Job Types in JSON format.
-    @GetMapping("/jobs.json")
+    @GetMapping("/api/jobs")
     public @ResponseBody
     List<Job> viewJobTypeInJson() {
         List<Job> jobList = new ArrayList<>();

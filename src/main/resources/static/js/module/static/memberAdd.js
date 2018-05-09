@@ -1,3 +1,4 @@
+const alert = require('./../../libs/alert.js');
 
 // Module for adding members to static list
 module.exports = {
@@ -26,7 +27,8 @@ module.exports = {
         $(addClass).off();  $(deleteClass).off();
 
         //add member handler
-        $(addClass).click(function () {
+        $(addClass).click(function (e) {
+            e.preventDefault();
 
             let id = $(this).data("id");
             let name = $(this).parent().parent().find(".char-name").text();
@@ -40,7 +42,7 @@ module.exports = {
 
         // delete member handler
         $(deleteClass).click(function () {
-
+            e.preventDefault();
             // get id of member clicked
             let id = $(this).data("id");
 
@@ -49,16 +51,19 @@ module.exports = {
 
         });
 
-
     },
-
 
     addMember: (player) => {
 
-        //add member to list
-        module.exports.settings.list.push(player);
-        // render new member list
-        module.exports.renderList();
+        if(module.exports.settings.count < 8) {
+            //add member to list
+            module.exports.settings.list.push(player);
+            // render new member list
+            module.exports.renderList();
+            module.exports.settings.count++;
+            return true;
+        }
+        return alert.displayPopUpAlert("You can't add any more members.","warning");
 
     },
 
@@ -72,6 +77,7 @@ module.exports = {
                 break;
             }
         //render new member list
+        module.exports.settings.count--;
         module.exports.renderList();
 
     },
@@ -103,11 +109,12 @@ module.exports = {
     },
 
     createSingleMember: (member) => {
+        let deleteClass =   module.exports.settings.deleteClass;
         return `<div class="col-3">
-                
                 <img class="img-fluid m-1 hover-members" src="${member.img}" title="Exodus" />
-                    <span class="deleteMember" data-id="${member.id}">&times;</span> 
+                    <span class="${deleteClass}" data-id="${member.id}">&times;</span> 
                     <span>${member.name}</span>
+                    <input type="hidden" name="member[]" value="${member.id}">
                   </div>`;
 
     }

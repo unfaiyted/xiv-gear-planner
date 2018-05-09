@@ -17,4 +17,7 @@ public interface Players extends CrudRepository<Player,Long> {
             "LIKE CONCAT('%',UPPER(:name),'%')")
     List<Player> findPlayersByNameContaining(@Param("name") String name);
 
+    @Query("select new Player(p) from Player p where p.id = ?1")
+    Player getPlayerById(Long id);
+
 }
