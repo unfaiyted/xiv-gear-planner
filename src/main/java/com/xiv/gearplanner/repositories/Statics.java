@@ -3,9 +3,13 @@ package com.xiv.gearplanner.repositories;
 import com.xiv.gearplanner.models.Static;
 import com.xiv.gearplanner.models.StaticMember;
 import com.xiv.gearplanner.models.User;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,6 +36,12 @@ public interface Statics extends CrudRepository<Static,Long> {
 
     @Query("select new StaticMember(sm) from StaticMember sm where sm.oneStatic.owner.id = ?1")
     List<StaticMember> getMembersByOwnerId(Long ownerId);
+
+
+    @Modifying
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Query("update StaticMember sm set sm.assignedJob.id =:jobId where sm.id =:memberId")
+    void updateMemberJob(@Param("memberId") Long memberId, @Param("jobId") Long jobId);
 
 
 }

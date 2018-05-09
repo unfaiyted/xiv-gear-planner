@@ -60,7 +60,7 @@
                             <img class="card-img-top img-fluid"  th:src="${member.getPlayer().getPortrait()}" th:alt="${member.getPlayer().getName()}">
 
                             <div class="card-img-overlay">
-                                <img src="https://img.finalfantasyxiv.com/lds/promo/h/w/i0Qqk20XpSpIH_5Aevv1Pi86G4.png" class="job-img">
+                                <img th:src="${member.getAssignedJob().getIcon()}" class="job-img" th:data-id="${member.getId()}">
                                 <div class="text-left name" th:text="${member.getPlayer().getName()}">Faiyt Lee</div>
                             </div>
                             <div class="card-body text-left">
@@ -70,7 +70,7 @@
                                 <ul class="list-group">
                                     <li class="list-group-item">Job:
                                             <div class="job-display">
-                                                <span th:text="${member.getAssignedJob()}"></span>
+                                                <span th:text="${member.getAssignedJob().getName()}"></span>
                                             </div>
                                         (<a href="#" th:data-id="${member.getId()}" class="edit-toggle">edit</a>)</li>
                                     <li class="list-group-item">BIS: War DH/Crit (<a href="#">edit</a>)</li>

@@ -1,6 +1,8 @@
 package com.xiv.gearplanner.models;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,12 +16,15 @@ public class StaticMember {
     private String nickname;
 
     @OneToOne
+    @JsonManagedReference
     private Player player;
 
     @OneToOne
+    @JsonManagedReference
     private Job assignedJob;
 
     @ManyToOne
+    @JsonManagedReference
     private Static oneStatic;
 
     public StaticMember() { }
@@ -83,4 +88,6 @@ public class StaticMember {
     public void setOneStatic(Static oneStatic) {
         this.oneStatic = oneStatic;
     }
+
+
 }

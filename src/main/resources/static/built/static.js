@@ -362,7 +362,6 @@ module.exports = {
     },
 
     init: function init() {
-
         module.exports.initHandlers();
     },
 
@@ -395,7 +394,6 @@ module.exports = {
         var jobDisplay = "." + module.exports.settings.jobDisplayClass;
         //save action, return to edit
 
-
         var jobId = parent.find(".job-display select option:selected").val();
         var jobName = parent.find(".job-display select option:selected").text();
         var memberId = parent.find(".edit-toggle").data("id");
@@ -408,7 +406,12 @@ module.exports = {
             jobId: jobId
         };
 
-        api.addData("/api/static/job/update", JSON.stringify(arr));
+        api.addData("/api/static/job/update", JSON.stringify(arr)).then(function (data) {
+            console.log(data.assignedJob.icon);
+
+            console.log(parent.find('img .job-img').attr("src"));
+            $('.job-img[data-id="' + memberId + '"]').attr("src", data.assignedJob.icon);
+        });
     },
 
     editJob: function editJob(parent) {
@@ -439,9 +442,8 @@ module.exports = {
                 resolve(JobEditorHTML);
             });
         });
-    },
+    }
 
-    refreshJobInfo: function refreshJobInfo() {}
 };
 
 /***/ })

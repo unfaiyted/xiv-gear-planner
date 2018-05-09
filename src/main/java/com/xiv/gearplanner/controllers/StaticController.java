@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xiv.gearplanner.models.Job;
 import com.xiv.gearplanner.models.Static;
 import com.xiv.gearplanner.models.StaticMember;
 import com.xiv.gearplanner.models.User;
@@ -83,13 +84,12 @@ public class StaticController {
         JsonNode jobIdNode = actualObj.path("jobId");
 
         Long memberId = idNode.asLong();
+        Long jobId = jobIdNode.asLong();
 
-        System.out.println(memberId);
+        // Updates member job
+        staticDao.getStatics().updateMemberJob(memberId, jobId);
 
-        StaticMember member = staticDao.getStatics().getMember(memberId);
-            //StaticMember member = new StaticMember();
-
-        return member;
+        return  staticDao.getStatics().getMember(memberId);
     }
 
 

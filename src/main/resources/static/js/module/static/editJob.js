@@ -10,7 +10,6 @@ module.exports = {
     },
 
     init: () => {
-
         module.exports.initHandlers();
     },
 
@@ -44,8 +43,6 @@ module.exports = {
         let jobDisplay = "." + module.exports.settings.jobDisplayClass;
         //save action, return to edit
 
-
-
         let jobId = parent.find(".job-display select option:selected").val();
         let jobName = parent.find(".job-display select option:selected").text();
         let memberId = parent.find(".edit-toggle").data("id");
@@ -59,7 +56,13 @@ module.exports = {
             jobId: jobId
             };
 
-        api.addData("/api/static/job/update", JSON.stringify(arr));
+        api.addData("/api/static/job/update", JSON.stringify(arr)).then((data) => {
+            console.log(data.assignedJob.icon);
+
+            console.log(parent.find('img .job-img').attr("src"));
+            $(`.job-img[data-id="${memberId}"]`).attr("src", data.assignedJob.icon);
+            }
+        );
     },
 
     editJob: (parent) => {
@@ -94,7 +97,4 @@ module.exports = {
         });
     },
 
-    refreshJobInfo: () => {
-
-    }
 };

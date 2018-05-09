@@ -1,6 +1,8 @@
 package com.xiv.gearplanner.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class Static {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<StaticMember> members = new ArrayList<>();
 
     public Static () {}

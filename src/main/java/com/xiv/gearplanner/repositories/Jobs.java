@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface Jobs extends CrudRepository<Job, Long> {
 
+
 }

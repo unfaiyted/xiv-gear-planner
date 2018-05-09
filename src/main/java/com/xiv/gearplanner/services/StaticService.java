@@ -33,7 +33,7 @@ public class StaticService {
     public void save(Static newStatic) {
         statics.save(newStatic);
     }
-
+    
     public List<StaticMember> createStaticMembersbyPlayerId(Long[] ids) {
         List<StaticMember> staticMembers = new ArrayList<>();
 
