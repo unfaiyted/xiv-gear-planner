@@ -14,6 +14,9 @@ public class Item {
     private String name;
 
     @Column
+    private String icon;
+
+    @Column
     private Integer iLvl;
 
     @Column
@@ -25,14 +28,20 @@ public class Item {
     @Column
     private String lodestoneId;
 
-    @OneToOne
-    private Patch patch;
-
-    @OneToOne
-    private GearSlot slot;
-
+//    @OneToOne
+//    private Patch patch;
 
     public Item() {
+
+    }
+
+    public Item(String name, String icon, Integer iLvl, Integer equipLevel, Long xivdbID, String lodestoneId) {
+        this.name = name;
+        this.icon = icon;
+        this.iLvl = iLvl;
+        this.equipLevel = equipLevel;
+        this.xivdbID = xivdbID;
+        this.lodestoneId = lodestoneId;;
     }
 
     public Item(String name, Integer iLvl) {
@@ -89,21 +98,19 @@ public class Item {
         this.lodestoneId = lodestoneId;
     }
 
-    public Patch getPatch() {
-        return patch;
+//    public Patch getPatch() {
+//        return patch;
+//    }
+//
+//    public void setPatch(Patch patch) {
+//        this.patch = patch;
+//    }
+
+    public String getIcon() {
+        return icon;
     }
 
-    public void setPatch(Patch patch) {
-        this.patch = patch;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
-
-    public GearSlot getSlot() {
-        return slot;
-    }
-
-    public void setSlot(GearSlot slot) {
-        this.slot = slot;
-    }
-
-
 }

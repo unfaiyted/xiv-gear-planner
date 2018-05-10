@@ -8,29 +8,49 @@
 <body>
 
 <div th:replace="partials/layout :: navbar" />
-<div class="h-100 main-container  mx-auto w-100 text-center">
+<div class="h-100 main-container  mx-auto  text-center p-2 m-2">
 
-    <div sec:authorize="isAuthenticated()">
-        This content is only shown to authenticated users.
 
-        User ID: <span th:text="${#authentication.principal.id}"/>
-        Username: <span th:text="${#authentication.principal.username}"/>
-        Email: <span th:text="${#authentication.principal.email}"/>
+
+
+
+    <div class="row">
+
+        <div class="col-12 col-md-9 col-sm-8 text-left">
+
+            <div sec:authorize="isAuthenticated()">
+                Welcome <span th:text="${#authentication.principal.username}"/>!
+            </div>
+
+
+            <div>
+                <div>
+                    What is this site all about?
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-3 col-sm-4">
+            <h3>Menu thing</h3>
+            <div class="list-group">
+            <a th:href="@{/player}" class="list-group-item">Players</a>
+            <a th:href="@{/static/view}" class="list-group-item">Static View</a>
+            <a th:href="@{/static/create}" class="list-group-item">Static Create</a>
+            <a th:href="@{/gear}" class="list-group-item">Gear</a>
+            <a th:href="@{/jobs}" class="list-group-item">Jobs</a>
+            <a th:href="@{/login}" class="list-group-item">Login</a>
+            <a th:href="@{/logout}"class="list-group-item" >Logout</a>
+            <a href="http://xivdb.com/item/13770/Falconer's+Boots" class="list-group-item">
+                Falconer's Boots</a><br>
+
+        </div>
+        </div>
+
     </div>
 
 
-    <h3>Menu thing</h3>
-
-    <a th:href="@{/player}">Players</a>
-    <a th:href="@{/static/view}">Static View</a>
-    <a th:href="@{/static/create}">Static Create</a>
-    <a th:href="@{/gear}">Gear</a>
-    <a th:href="@{/jobs}">Jobs</a>
-    <a th:href="@{/login}">Login</a>
-    <a th:href="@{/logout}">Logout</a>
-
-    <a href="http://xivdb.com/item/13770/Falconer's+Boots">
-        Falconer's Boots</a><br>
 
 
 </div>

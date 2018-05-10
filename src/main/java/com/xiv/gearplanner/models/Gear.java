@@ -6,17 +6,16 @@ import java.util.List;
 
 @Entity
 @Table
-public class Gear extends Item {
+public class Gear {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
-    @Column(nullable = false)
-    private Integer iLvl;
-    @Column
-    private String description;
+    @OneToOne
+    private Item item;
+
+    @OneToOne
+    private GearSlot slot;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "gear_id")
@@ -25,18 +24,15 @@ public class Gear extends Item {
     @OneToMany
     private List<Job> jobs = new ArrayList<>();
 
-    public Gear() {
-    }
+    public Gear() { }
 
-    public Gear(String name, Integer iLvl) {
-        this.name = name;
-        this.iLvl = iLvl;
+    public Gear(Item item, GearSlot slot) {
+        this.item = item;
+        this.slot = slot;
     }
 
     public Gear(Gear copy) {
-        this.name = copy.name;
-        this.iLvl = copy.iLvl;
-        this.description = copy.description;
+        this.item = copy.item;
         this.gearStats = copy.gearStats;
     }
 
@@ -46,30 +42,6 @@ public class Gear extends Item {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getiLvl() {
-        return iLvl;
-    }
-
-    public void setiLvl(Integer iLvl) {
-        this.iLvl = iLvl;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public List<GearStat> getGearStats() {
@@ -99,9 +71,6 @@ public class Gear extends Item {
     public String toString() {
         return "Gear{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", iLvl=" + iLvl +
-                ", description='" + description + '\'' +
                 ", gearStats=" + gearStats +
                 '}';
     }
