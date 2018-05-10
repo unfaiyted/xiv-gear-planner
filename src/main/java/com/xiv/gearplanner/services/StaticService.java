@@ -30,6 +30,11 @@ public class StaticService {
         return statics;
     }
 
+
+    public boolean isOwner(Long userId) {
+        return (getStatics().getStaticIdByOwner(userId) != null);
+    }
+
     public void save(Static newStatic) {
         statics.save(newStatic);
     }

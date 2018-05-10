@@ -18,11 +18,6 @@ public class Gear extends Item {
     @Column
     private String description;
 
-    @Column
-    private Long xivdbId;
-    @Column
-    private String lodestoneId;
-
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "gear_id")
     private List<GearStat> gearStats = new ArrayList<>();

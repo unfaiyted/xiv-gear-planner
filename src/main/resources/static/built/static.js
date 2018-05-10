@@ -137,6 +137,7 @@ var lib = __webpack_require__(10);
 var member = __webpack_require__(18);
 var job = __webpack_require__(20);
 var deleteMember = __webpack_require__(21);
+var loader = __webpack_require__(22);
 
 module.exports = {
 
@@ -157,11 +158,22 @@ module.exports = {
         // Turn all off.
         $('#member-find').off();
 
+        // Prevent Enter from submitting the form and doing things
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+
         // Press Enter or Type Submit
-        $('#member-find').keydown(function (e) {
+        $('#member-find').keydown(function () {
             var name = $(this).val();
 
             if (name.length > 2 && module.exports.settings.rateMax === false) {
+
+                //full page loader
+                loader.display(0);
 
                 module.exports.settings.rateMax = true;
                 // Set backl to false, after timeout.
@@ -183,17 +195,25 @@ module.exports = {
         // Prints display to results location
         $.each(json, function (i, char) {
 
-            module.exports.settings.results.append($("<tr>").append($('<th scope="row" class="d-none d-sm-table-cell">').text(i + 1), $('<td>').append($('<img src=' + char.avatar + ' class="char-img">')), $('<td class="char-name">').text(char.name), $('<td class="d-none d-sm-table-cell char-server">').text(char.server), $('<td>').append($('<button class="btn btn-secondary import addMember" data-id="' + char.id + '">').text('Add'))));
+            module.exports.settings.results.append($("<tr>").append($('<th scope="row" class="d-none d-sm-table-cell">').text(i + 1), $('<td>').append($('<img src=' + char.avatar + ' class="char-img">')), $('<td class="char-name">').text(char.name), $('<td class="d-none d-sm-table-cell char-server">').text(char.server), $('<td>').append($('<button class="btn btn-secondary import add-member" data-id="' + char.id + '">').text('Add'))));
         });
 
         //init event handlers
         module.exports.initEvents();
         member.initModule();
+
+        setTimeout(function () {
+            //full page loader hide. finished
+            loader.hide(0);
+        }, 1000);
     }
 
 };
 
 module.exports.init();
+
+// Generates a page loader, hidden on creation
+loader.injectFullPageLoader();
 
 // Init the job functionality to edit job inline.
 job.init();
@@ -225,8 +245,8 @@ module.exports = {
     settings: {
         count: 0,
         list: [],
-        addClass: 'addMember',
-        deleteClass: 'deleteMember',
+        addClass: 'add-member',
+        deleteClass: 'delete-member',
         memberList: $('#member-list')
 
     },
@@ -259,7 +279,7 @@ module.exports = {
         });
 
         // delete member handler
-        $(deleteClass).click(function () {
+        $(deleteClass).click(function (e) {
             e.preventDefault();
             // get id of member clicked
             var id = $(this).data("id");
@@ -322,7 +342,7 @@ module.exports = {
 
     createSingleMember: function createSingleMember(member) {
         var deleteClass = module.exports.settings.deleteClass;
-        return '<div class="col-3">\n                <img class="img-fluid m-1 hover-members" src="' + member.img + '" title="Exodus" />\n                    <span class="' + deleteClass + '" data-id="' + member.id + '">&times;</span> \n                    <span>' + member.name + '</span>\n                    <input type="hidden" name="member[]" value="' + member.id + '">\n                  </div>';
+        return '<div class="col-3">\n                <img class="img-fluid m-1 hover-members" src="' + member.img + '" title="Exodus" />\n                    <span class="' + deleteClass + '" data-id="' + member.id + '">&times;</span> \n                    <span class="member-name">' + member.name + '</span>\n                    <input type="hidden" name="member[]" value="' + member.id + '">\n                  </div>';
     }
 };
 
@@ -536,6 +556,64 @@ module.exports = {
     updateServer: function updateServer(id) {
         var json = { memberId: id };
         return api.deleteData(module.exports.settings.dataSet, JSON.stringify(json));
+    }
+
+};
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// display loading module spinner thingy
+module.exports = {
+
+    settings: {
+        img: "../img/loader.svg",
+        // Where to inject loader within the page
+        // class or ID
+        injectOn: '#loader',
+        pageLoader: false
+
+    },
+
+    create: function create(id, injectOn) {
+        // checkif its overwrote and a class, not an ID
+        if (injectOn != null && injectOn.contains("#") != true) {
+            module.exports.settings.injectOn = injectOn + "[data-id=" + id + "]";
+        }
+        module.exports.inject(id);
+    },
+
+    // creates a loader that is over the whole page
+    injectFullPageLoader: function injectFullPageLoader() {
+        if (!module.exports.settings.pageLoader) {
+            module.exports.settings.pageLoader = true;
+            module.exports.settings.injectOn = "body";
+            module.exports.inject(0);
+        }
+    },
+
+
+    display: function display(id) {
+        $(".loader-img[data-id=\"" + id + "\"]").show();
+    },
+
+    hide: function hide(id) {
+        $(".loader-img[data-id=\"" + id + "\"]").hide();
+    },
+
+    toggle: function toggle(id) {
+        $(".loader-img[data-id=\"" + id + "\"]").toggle();
+    },
+
+    inject: function inject(id) {
+        // clean loader
+        //$(module.exports.settings.injectOn).empty();
+        // adding loader to injection site
+        $(module.exports.settings.injectOn).append($("<div class=\"loader-img\" data-id=\"" + id + "\" style=\"display: none\">").append($("<img src=\"" + module.exports.settings.img + "\" >")));
     }
 
 };

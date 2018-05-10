@@ -63,15 +63,17 @@ public class StaticController {
     // View Static
     @GetMapping("/static/view")
     public String viewStatic(Model model){
+        User loggedIn = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        User loggedin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (staticDao.isOwner(loggedIn.getId())) {
+            List<StaticMember> staticMembers = staticDao.getStatics().getMembersByOwnerId(loggedIn.getId());
+            Static myStatic = staticDao.getStatics().getStaticByOwner(loggedIn.getId());
 
-        List<StaticMember> staticMembers =  staticDao.getStatics().getMembersByOwnerId(loggedin.getId());
-        Static myStatic = staticDao.getStatics().getStaticByOwner(loggedin.getId());
-
-        model.addAttribute("static", myStatic);
-        model.addAttribute("members", staticMembers);
-        return "static/view";
+            model.addAttribute("static", myStatic);
+            model.addAttribute("members", staticMembers);
+            return "static/view";
+        }
+        return("redirect:/static/create");
     }
 
 

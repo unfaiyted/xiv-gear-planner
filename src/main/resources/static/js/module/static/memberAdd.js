@@ -6,8 +6,8 @@ module.exports = {
     settings: {
         count: 0,
         list: [],
-        addClass: 'addMember',
-        deleteClass: 'deleteMember',
+        addClass: 'add-member',
+        deleteClass: 'delete-member',
         memberList: $('#member-list')
 
     },
@@ -41,7 +41,7 @@ module.exports = {
         });
 
         // delete member handler
-        $(deleteClass).click(function () {
+        $(deleteClass).click(function (e) {
             e.preventDefault();
             // get id of member clicked
             let id = $(this).data("id");
@@ -113,7 +113,7 @@ module.exports = {
         return `<div class="col-3">
                 <img class="img-fluid m-1 hover-members" src="${member.img}" title="Exodus" />
                     <span class="${deleteClass}" data-id="${member.id}">&times;</span> 
-                    <span>${member.name}</span>
+                    <span class="member-name">${member.name}</span>
                     <input type="hidden" name="member[]" value="${member.id}">
                   </div>`;
 

@@ -45,7 +45,7 @@
                             <a class="dropdown-item" href="#">Another action</a>
                             <a class="dropdown-item" href="#">Something else here</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Delete Static</a>
+                            <a class="dropdown-item" th:href="@{/static/delete}">Delete Static</a>
                           </div>
                         </div>
                 </span>
@@ -75,7 +75,7 @@
                             <div class="card-img-overlay">
                                 <!--<img th:src="${member?.getAssignedJob()?.getIcon()}"  class="job-img" th:data-id="${member?.getId()}">-->
 
-                                <img th:src="${(member.getAssignedJob().getIcon() != null && !#strings.isEmpty(member.getAssignedJob().getIcon())) ? member.getAssignedJob().getIcon() :
+                                <img th:src="${(member?.getAssignedJob()?.getIcon() != null && !#strings.isEmpty(member?.getAssignedJob()?.getIcon())) ? member.getAssignedJob().getIcon() :
                                  'https://img.finalfantasyxiv.com/lds/promo/h/R/laSrEkvlK_7NNbNZ3JErTqzaR8.png'}" class="job-img" th:data-id="${member?.getId()}"/>
 
                                 <div class="text-left name" th:text="${member?.getPlayer()?.getName()}">Faiyt Lee</div>
@@ -101,12 +101,22 @@
 
                             </div>
                             <div class="card-footer text-muted">
+                                <a th:href="@{/static/view/} + ${member?.getId()}" class="btn btn-sm btn-primary">View Gear</a>
                                 <a href="#" class="btn btn-sm btn-secondary">Sync Gear</a>
                             </div>
                         </div>
                     </div>
 
                 </th:block>
+
+                <th:block th:if="${#lists.size(members)} &lt; 8">
+
+                    <div class="col-12 col-md-6 col-lg-3 mb-5 static-member mx-auto mv-auto">
+                         <button class="btn btn-primary">Add more members? </button>
+                    </div>
+
+                </th:block>
+
         </div>
 
     </div>
