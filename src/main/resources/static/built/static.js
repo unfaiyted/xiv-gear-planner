@@ -63,9 +63,18 @@
 /******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 10:
+/******/ ([
+/* 0 */,
+/* 1 */,
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -81,6 +90,7 @@ module.exports = {
         header: $("meta[name='_csrf_header']").attr("content")
     },
 
+    //Inserts data into server
     addData: function addData(location, data) {
         location = typeof location !== 'undefined' ? location : "";
         return fetch(location, {
@@ -97,6 +107,10 @@ module.exports = {
         });
     },
 
+    deleteData: function deleteData(location, data) {
+        return module.exports.addData(location, data);
+    },
+
     // query for post data
     // parameter for url info
     // ex: players/Name+Last/?post=3 type/parameter/query
@@ -104,15 +118,16 @@ module.exports = {
         parameter = typeof parameter !== 'undefined' ? parameter : "";
         query = typeof query !== 'undefined' ? query : "";
 
-        return fetch(module.exports.settings.url + type + "" + parameter + query).then(function (response) {
+        return fetch(module.exports.settings.url + type + "/" + parameter + query).then(function (response) {
             return response.json();
         });
     }
 };
 
 /***/ }),
-
-/***/ 13:
+/* 11 */,
+/* 12 */,
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -121,6 +136,7 @@ module.exports = {
 var lib = __webpack_require__(10);
 var member = __webpack_require__(18);
 var job = __webpack_require__(20);
+var deleteMember = __webpack_require__(21);
 
 module.exports = {
 
@@ -178,11 +194,24 @@ module.exports = {
 };
 
 module.exports.init();
+
+// Init the job functionality to edit job inline.
 job.init();
 
-/***/ }),
+// Initilized functionality to delete an object form data/display.
+deleteMember.init({
+    dataSet: "../api/static/member/delete",
+    triggerClass: "delete-btn",
+    displayClass: "static-member",
+    deleteMsg: "Are you sure you want to delete this static member?"
+});
 
-/***/ 18:
+/***/ }),
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -298,8 +327,7 @@ module.exports = {
 };
 
 /***/ }),
-
-/***/ 19:
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -343,8 +371,7 @@ module.exports = {
 };
 
 /***/ }),
-
-/***/ 20:
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -446,7 +473,73 @@ module.exports = {
 
 };
 
-/***/ })
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/******/ });
+"use strict";
+
+
+var api = __webpack_require__(10);
+var alert = __webpack_require__(19);
+
+// Trigger on page to remove entries from page, settings need to be setup to delete
+// both visual and database data from user.
+module.exports = {
+
+    settings: {
+        triggerClass: "delete-btn",
+        displayClass: "object-display",
+        dataSet: null,
+        deleteMsg: "Are you sure you'd like to delete this?"
+    },
+
+    init: function init(_ref) {
+        var dataSet = _ref.dataSet,
+            triggerClass = _ref.triggerClass,
+            displayClass = _ref.displayClass,
+            deleteMsg = _ref.deleteMsg;
+
+        module.exports.settings.dataSet = typeof dataSet !== 'undefined' ? dataSet : module.exports.settings.dataSet;
+        module.exports.settings.triggerClass = typeof triggerClass !== 'undefined' ? triggerClass : module.exports.settings.triggerClass;
+        module.exports.settings.displayClass = typeof displayClass !== 'undefined' ? displayClass : module.exports.settings.displayClass;
+        module.exports.settings.deleteMsg = typeof deleteMsg !== 'undefined' ? deleteMsg : module.exports.settings.deleteMsg;
+
+        if (module.exports.settings.dataSet != null) {
+            return module.exports.initHandlers();
+        }
+
+        console.log("Error: Init must contain a dataSet for deletion or be false");
+    },
+
+    initHandlers: function initHandlers() {
+
+        $('.' + module.exports.settings.triggerClass).click(function () {
+            var id = $(this).data("id");
+            module.exports.confirmRemove(id);
+        });
+    },
+
+    confirmRemove: function confirmRemove(id) {
+        var cfrm = confirm(module.exports.settings.deleteMsg);
+        if (cfrm) module.exports.updateServer(id).then(module.exports.removeVisual(id)).catch(function (data) {
+            console.log(data);
+            alert.displayPopUpAlert("Error removing item", "danger");
+        });
+    },
+
+    removeVisual: function removeVisual(id) {
+        console.log("remov...in theory" + id);
+        $('.' + module.exports.settings.displayClass + '[data-id="' + id + '"]').remove();
+    },
+
+    updateServer: function updateServer(id) {
+        var json = { memberId: id };
+        return api.deleteData(module.exports.settings.dataSet, JSON.stringify(json));
+    }
+
+};
+
+/***/ })
+/******/ ]);
 //# sourceMappingURL=static.js.map

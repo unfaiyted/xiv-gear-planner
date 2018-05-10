@@ -1,6 +1,7 @@
 const lib = require('./libs/local.js');
 const member = require('./module/static/memberAdd');
 const job = require('./module/static/editJob.js');
+const deleteMember = require('./libs/remove.js');
 
 
 module.exports = {
@@ -73,4 +74,14 @@ module.exports = {
 };
 
 module.exports.init();
+
+// Init the job functionality to edit job inline.
 job.init();
+
+// Initilized functionality to delete an object form data/display.
+deleteMember.init({
+    dataSet: "../api/static/member/delete",
+    triggerClass: "delete-btn",
+    displayClass: "static-member",
+    deleteMsg: "Are you sure you want to delete this static member?"
+});

@@ -5,10 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xiv.gearplanner.models.Job;
-import com.xiv.gearplanner.models.Static;
-import com.xiv.gearplanner.models.StaticMember;
-import com.xiv.gearplanner.models.User;
+import com.xiv.gearplanner.models.*;
 import com.xiv.gearplanner.services.StaticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,8 +40,8 @@ public class StaticController {
     public String action(@RequestParam(value = "member[]") Long[] playerIds,
                        @RequestParam(value = "static-name") String name){
 
-        User loggedin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Static newStatic = new Static(name, loggedin);
+        User loggedIn = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Static newStatic = new Static(name, loggedIn);
         // add members
         newStatic.addMembers(staticDao.createStaticMembersbyPlayerId(playerIds));
         staticDao.save(newStatic);
@@ -52,9 +49,21 @@ public class StaticController {
         return "redirect:/static/view";
     }
 
+    @GetMapping("/static/delete")
+    public String deleteStatic(Model model) {
+
+        User loggedIn = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Static userStatic = staticDao.getStatics().getStaticByOwner(loggedIn.getId());
+
+        staticDao.getStatics().delete(userStatic);
+
+        return "static/delete";
+    }
+
     // View Static
     @GetMapping("/static/view")
     public String viewStatic(Model model){
+
         User loggedin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         List<StaticMember> staticMembers =  staticDao.getStatics().getMembersByOwnerId(loggedin.getId());
@@ -87,10 +96,9 @@ public class StaticController {
     public StaticMember editMemberAssignedJob (@RequestBody String jsonStr) throws IOException {
 
        jsonStr = jsonStr.replaceAll("^\"|\"$|\\\\", "");
-
         ObjectMapper mapper = new ObjectMapper();
-
         JsonNode actualObj = mapper.readTree(jsonStr);
+
         JsonNode idNode = actualObj.path("memberId");
         JsonNode jobIdNode = actualObj.path("jobId");
 
@@ -103,5 +111,36 @@ public class StaticController {
         return  staticDao.getStatics().getMember(memberId);
     }
 
+
+    @RequestMapping(
+            value = "/api/static/member/delete",
+            method= RequestMethod.POST,
+            headers = "Accept=*/*",
+            produces = "application/json",
+            consumes="application/json")
+    @ResponseBody
+    public Response deleteMember (@RequestBody String jsonStr) throws IOException {
+        try {
+
+            jsonStr = jsonStr.replaceAll("^\"|\"$|\\\\", "");
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode actualObj = mapper.readTree(jsonStr);
+
+            JsonNode idNode = actualObj.path("memberId");
+
+            Long memberId = idNode.asLong();
+            staticDao.getStatics().deleteMember(memberId);
+
+        } catch(IOException err) {
+
+            ResponseError error = new ResponseError();
+            // fill map with errors here
+            return error;
+        }
+
+        Response res = new Response();
+        res.setSuccess(true);
+        return res;
+    }
 
 }

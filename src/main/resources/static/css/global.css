@@ -34,9 +34,11 @@ STATIC VIEW PAGE
 
 .player-card .job-img {
     position: relative;
-    top: -40px;
+    top: -30px;
     left: calc(-50% - 20px);
     z-index: 1;
+    width: 50px;
+    height: 50px;
 }
 
 .player-card .name {
@@ -45,7 +47,7 @@ STATIC VIEW PAGE
     position: relative;
     left: 0px;
     border-radius: 3px;
-    top: -84px;
+    top: -70px;
     z-index: 0;
     padding: 5px;
     padding-left: 20px;
@@ -64,6 +66,43 @@ STATIC VIEW PAGE
 
 .player-card .card-footer {
     z-index: 3;
+}
+
+.edit-toggle {
+    position: relative;
+    color: grey;
+    cursor: pointer;
+    float: right;
+    left: 18px;
+    font-size: 20px;
+    top: -10px;
+}
+
+.delete-btn {
+    position: relative;
+    color: #fff;
+    top: -100px;
+    cursor: pointer;
+    width: 20px;
+    left: calc(100% - 5px);
+
+}
+
+.job-display {
+    position: relative;
+float: left;
+    left: -30px;
+    top: 5px;
+
+}
+
+.job-text {
+    position: relative;
+    float: left;
+    font-size: 12px;
+    padding-right: 5px;
+    left: -10px;
+    top: -10px;
 }
 
 

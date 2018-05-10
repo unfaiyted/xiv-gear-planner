@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Index page</title>
+</head>
+<body>
+<div th:replace="partials/layout :: navbar" />
+<div class="h-100 main-container  mx-auto w-100 text-center">
+
+
+    <div id="alert" class="alert alert-dismissible fade show m-3" role="alert">
+        <strong>Oh!</strong>
+        <span id="alert-content">Default Alert Content!</span>
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+    <form class="form-inline">
+        <div class="form-group">
+            <input type="text" class="form-control" id="user-input">
+            <button class="btn btn-primary" id="search">Search</button>
+        </div>
+    </form>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col" class="d-none d-sm-table-cell">#</th>
+            <th scope="col">Picture</th>
+            <th scope="col">Name</th>
+            <th scope="col" class="d-none d-sm-table-cell">Server</th>
+            <th scope="col">Import</th>
+        </tr>
+        </thead>
+        <tbody id="search-results">
+        <tr>
+            <th scope="row">1</th>
+            <td><img src="https://img2.finalfantasyxiv.com/f/c451e179855bbcf305b83b5a65f3a9b5_0cdf051c93865faa15cbc5cd3d2b69fbfc0_96x96.jpg?t=201812313"/></td>
+            <td>Faiyt Lee</td>
+            <td>Exodus</td>
+            <td><button type="submit" class="btn btn-secondary" data-id="0">Import</button> </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<div th:replace="partials/layout :: footer" />
+<script th:src="@{~/built/importer.js}"></script>
+</body>
+</html>

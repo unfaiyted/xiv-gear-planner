@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table
-public class Gear {
+public class Gear extends Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

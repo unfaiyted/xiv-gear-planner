@@ -60,7 +60,6 @@ public class GearController {
         return  "gear/add";
     }
 
-
     @GetMapping("/gear/add/stat-type")
     public String addStatType(Model model) {
         model.addAttribute("statTypes",new GearStatType());

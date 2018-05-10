@@ -224,6 +224,7 @@ module.exports = {
         header: $("meta[name='_csrf_header']").attr("content")
     },
 
+    //Inserts data into server
     addData: function addData(location, data) {
         location = typeof location !== 'undefined' ? location : "";
         return fetch(location, {
@@ -240,6 +241,10 @@ module.exports = {
         });
     },
 
+    deleteData: function deleteData(location, data) {
+        return module.exports.addData(location, data);
+    },
+
     // query for post data
     // parameter for url info
     // ex: players/Name+Last/?post=3 type/parameter/query
@@ -247,7 +252,7 @@ module.exports = {
         parameter = typeof parameter !== 'undefined' ? parameter : "";
         query = typeof query !== 'undefined' ? query : "";
 
-        return fetch(module.exports.settings.url + type + "" + parameter + query).then(function (response) {
+        return fetch(module.exports.settings.url + type + "/" + parameter + query).then(function (response) {
             return response.json();
         });
     }

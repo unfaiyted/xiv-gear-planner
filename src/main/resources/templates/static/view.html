@@ -13,7 +13,7 @@
         <!-- Static Header -->
         <div class="row">
 
-           <div class="col-12"> <h4 th:text="${static.name}"></h4></div>
+           <div class="col-12"> <h4 th:text="${static?.name}"></h4></div>
 
             <div class="col-12">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -34,7 +34,20 @@
                         </li>
                     </ul>
                     <span class="navbar-text">
-                  Settings
+
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-secondary">Settings</button>
+                          <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Delete Static</a>
+                          </div>
+                        </div>
                 </span>
                             </div>
                         </nav>
@@ -54,32 +67,41 @@
 
                 <th:block th:each="member : ${members}">
 
-                    <div class="col-12 col-md-6 col-lg-3 mb-5">
+                    <div class="col-12 col-md-6 col-lg-3 mb-5 static-member" th:data-id="${member?.getId()}">
 
-                        <div class="card player-card">
-                            <img class="card-img-top img-fluid"  th:src="${member.getPlayer().getPortrait()}" th:alt="${member.getPlayer().getName()}">
+                        <div class="card player-card ml-3">
+                            <img class="card-img-top img-fluid" th:src="${member?.getPlayer()?.getPortrait()}" th:alt="${member?.getPlayer()?.getName()}">
 
                             <div class="card-img-overlay">
-                                <img th:src="${member.getAssignedJob().getIcon()}" class="job-img" th:data-id="${member.getId()}">
-                                <div class="text-left name" th:text="${member.getPlayer().getName()}">Faiyt Lee</div>
+                                <!--<img th:src="${member?.getAssignedJob()?.getIcon()}"  class="job-img" th:data-id="${member?.getId()}">-->
+
+                                <img th:src="${(member.getAssignedJob().getIcon() != null && !#strings.isEmpty(member.getAssignedJob().getIcon())) ? member.getAssignedJob().getIcon() :
+                                 'https://img.finalfantasyxiv.com/lds/promo/h/R/laSrEkvlK_7NNbNZ3JErTqzaR8.png'}" class="job-img" th:data-id="${member?.getId()}"/>
+
+                                <div class="text-left name" th:text="${member?.getPlayer()?.getName()}">Faiyt Lee</div>
+                                <div class="delete-btn" th:data-id="${member?.getId()}">&times;</div>
+
                             </div>
                             <div class="card-body text-left">
                                 <div class="progress prog-bar">
                                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 44%"></div>
                                 </div>
                                 <ul class="list-group">
-                                    <li class="list-group-item">Job:
+                                    <li class="list-group-item">
+                                        <span class="text-muted job-text">Job:</span>
                                             <div class="job-display">
-                                                <span th:text="${member.getAssignedJob().getName()}"></span>
+                                                <span th:text="${member?.assignedJob?.name}"></span>
                                             </div>
-                                        (<a href="#" th:data-id="${member.getId()}" class="edit-toggle">edit</a>)</li>
+                                        <i th:data-id="${member?.getId()}" class="edit-toggle material-icons">
+                                            edit
+                                        </i>
+                                    </li>
                                     <li class="list-group-item">BIS: War DH/Crit (<a href="#">edit</a>)</li>
                                 </ul>
 
                             </div>
                             <div class="card-footer text-muted">
-                                <a href="#" class="btn btn-sm btn-secondary">Update Gear</a>
-                                <a href="#" class="btn btn-sm btn-danger">Remove</a>
+                                <a href="#" class="btn btn-sm btn-secondary">Sync Gear</a>
                             </div>
                         </div>
                     </div>
