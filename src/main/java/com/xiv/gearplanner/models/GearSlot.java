@@ -16,6 +16,10 @@ public class GearSlot {
     public GearSlot() {
     }
 
+    public GearSlot(String name) {
+        this.name = name;
+    }
+
     public GearSlot(GearSlot copy) {
         this.id = copy.id;
         this.name = copy.name;

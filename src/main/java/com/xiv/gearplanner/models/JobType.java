@@ -11,7 +11,6 @@ public class JobType {
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-
         @NotBlank(message = "Must contain a name")
         @Size(min = 5, message = "Name is too short.")
         @Column(nullable = false)

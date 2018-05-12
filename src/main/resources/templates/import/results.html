@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Index page</title>
+</head>
+<body>
+<div th:replace="partials/layout :: navbar" />
+<div class="h-100 main-container  mx-auto w-100 text-center">
+
+    Imported items....total.
+    <span th:text="${results}"></span>
+
+</div>
+
+<div th:replace="partials/layout :: footer" />
+<script th:src="@{~/built/importer.js}"></script>
+</body>
+</html>

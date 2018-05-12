@@ -3,12 +3,15 @@ package com.xiv.gearplanner.models;
 import javax.persistence.*;
 
 @Entity
-@Table
-public class Item {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Item {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
+
+    @Column /* Imported Id */
+    private Long originalId;
 
     @Column
     private String name;
@@ -26,6 +29,12 @@ public class Item {
     private Long xivdbID;
 
     @Column
+    private boolean canBeHQ;
+
+    @Column
+    private String description;
+
+    @Column
     private String lodestoneId;
 
 //    @OneToOne
@@ -35,12 +44,11 @@ public class Item {
 
     }
 
-    public Item(String name, String icon, Integer iLvl, Integer equipLevel, Long xivdbID, String lodestoneId) {
+    public Item(String name, String icon, Integer iLvl, Integer equipLevel, String lodestoneId) {
         this.name = name;
         this.icon = icon;
         this.iLvl = iLvl;
         this.equipLevel = equipLevel;
-        this.xivdbID = xivdbID;
         this.lodestoneId = lodestoneId;;
     }
 

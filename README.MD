@@ -27,3 +27,7 @@ Initial structure of website being created
 #Known issues
 
 - Nothing works at all :D
+
+#Resources used for data 
+https://github.com/viion/ffxiv-datamining
+http://xivdb.com

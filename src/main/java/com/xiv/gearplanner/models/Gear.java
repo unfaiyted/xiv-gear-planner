@@ -4,15 +4,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table
-public class Gear {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @OneToOne
-    private Item item;
+@Entity(name="gear")
+public class Gear extends Item {
 
     @OneToOne
     private GearSlot slot;
@@ -26,22 +19,12 @@ public class Gear {
 
     public Gear() { }
 
-    public Gear(Item item, GearSlot slot) {
-        this.item = item;
+    public Gear(GearSlot slot) {
         this.slot = slot;
     }
 
     public Gear(Gear copy) {
-        this.item = copy.item;
         this.gearStats = copy.gearStats;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public List<GearStat> getGearStats() {
@@ -52,6 +35,21 @@ public class Gear {
         this.gearStats = gearStats;
     }
 
+    public GearSlot getSlot() {
+        return slot;
+    }
+
+    public void setSlot(GearSlot slot) {
+        this.slot = slot;
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
 
     // TODO: Does a stat already exist, replace stat of the same type.
     public void addGearStat(GearStat stat) {
@@ -70,8 +68,9 @@ public class Gear {
     @Override
     public String toString() {
         return "Gear{" +
-                "id=" + id +
+                "slot=" + slot +
                 ", gearStats=" + gearStats +
+                ", jobs=" + jobs +
                 '}';
     }
 }

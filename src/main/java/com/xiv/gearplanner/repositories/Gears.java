@@ -31,6 +31,6 @@ public interface Gears extends JpaRepository<Gear, Long> {
     List<GearType> getGearTypes();
 
 
-
+    
 
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Index page</title>
+</head>
+<body>
+
+<div th:replace="partials/layout :: navbar" />
+<div class="h-100 main-container  mx-auto w-100 text-center">
+
+    <input type="text" placeholder="Search..."> <button type="submit">Search</button>
+<h1>VIEW THE Items</h1>
+
+    <th:block th:each="item : ${items}">
+        <div class="list-group-item">
+
+            <a th:href="@{http://xivdb.com/item/} + ${item.xivdbID} + @{/}" th:text="${item.name}">Name </a>f
+            <span th:text="${item.iLvl}"></span>
+            <span th:text="${item.equipLevel}"></span>
+            <span th:text="${item.lodestoneId}"></span>
+            <span th:text="${item.xivdbID}"></span>
+            <span th:text="${item.icon}"></span>
+            <img th:src="|https://secure.xivdb.com/img/game/${item.xivdbID}/${item.xivdbID}.png|" />
+        </div>
+
+    </th:block>
+</div>
+
+<div th:replace="partials/layout :: footer" />
+<script th:src="@{~/built/main.js}"></script>
+<script src="https://secure.xivdb.com/tooltips.js"></script>
+</body>
+</html>
