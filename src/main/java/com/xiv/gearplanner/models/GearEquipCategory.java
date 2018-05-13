@@ -19,7 +19,7 @@ public class GearEquipCategory {
     @Column
     private Integer originalId;
 
-    @OneToMany
+    @ManyToMany
     private List<Job> equippableJobs = new ArrayList<>();
 
     public GearEquipCategory() {

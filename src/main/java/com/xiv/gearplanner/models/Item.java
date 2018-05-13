@@ -37,6 +37,9 @@ public abstract class Item {
     @Column
     private String lodestoneId;
 
+    @ManyToOne
+    ItemCategory category;
+
 //    @OneToOne
 //    private Patch patch;
 

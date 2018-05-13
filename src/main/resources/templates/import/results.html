@@ -9,8 +9,14 @@
 <div th:replace="partials/layout :: navbar" />
 <div class="h-100 main-container  mx-auto w-100 text-center">
 
-    Imported items....total.
-    <span th:text="${results}"></span>
+    <h2>List of Imported Items</h2>
+
+    <th:block th:each="result : ${results}">
+        <div class="col-12 text-left">
+        <span th:text="${result.name}"></span> : <span th:text="${result.value}"></span>
+        </div>
+    </th:block>
+
 
 </div>
 
