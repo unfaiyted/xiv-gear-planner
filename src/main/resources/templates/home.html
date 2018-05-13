@@ -8,45 +8,59 @@
 <body>
 
 <div th:replace="partials/layout :: navbar" />
-<div class="h-100 main-container  mx-auto  text-center p-2 m-2">
 
 
+<div class="content-container">
+    <div class="blur"></div>
+</div>
 
 
+<div class="h-100 main-container  mx-auto  text-center p-2 m-2 ">
 
     <div class="row">
 
+        <div class="col-12 col-md-3 col-sm-4">
+            <h3>Menu thing</h3>
+            <div class="list-group m-3">
+                <a th:href="@{/player}" class="list-group-item">Players</a>
+                <a th:href="@{/static/view}" class="list-group-item">Static View</a>
+                <a th:href="@{/static/create}" class="list-group-item">Static Create</a>
+                <a th:href="@{/gear}" class="list-group-item">Gear</a>
+                <a th:href="@{/jobs}" class="list-group-item">Jobs</a>
+                <div sec:authorize="isAuthenticated()">
+                    <a th:href="@{/logout}"class="list-group-item" >Logout</a>
+                </div>
+                <div sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/login}" class="list-group-item">Login</a>
+                </div>
+
+                <a href="http://xivdb.com/item/13770/Falconer's+Boots" class="list-group-item">
+                    Falconer's Boots</a><br>
+
+            </div>
+        </div>
+
         <div class="col-12 col-md-9 col-sm-8 text-left">
+
+            <div id="header-img">
+            </div>
+            <div class="jumbotron mr-3">
+                <h1 class="display-3">Hello, Gamer!</h1>
+                <p class="lead">This website will allow you to track gear progression and recommed weekly gear upgrades for Statics.</p>
+                <hr class="my-4">
+                <p>Combining multiple strategies you can figure out the gearing that works best for your static. </p>
+                <p class="lead">
+                    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                </p>
+            </div>
 
             <div sec:authorize="isAuthenticated()">
                 Welcome <span th:text="${#authentication.principal.username}"/>!
             </div>
 
-
-            <div>
-                <div>
-                    What is this site all about?
-
-                </div>
-            </div>
-
         </div>
 
-        <div class="col-12 col-md-3 col-sm-4">
-            <h3>Menu thing</h3>
-            <div class="list-group">
-            <a th:href="@{/player}" class="list-group-item">Players</a>
-            <a th:href="@{/static/view}" class="list-group-item">Static View</a>
-            <a th:href="@{/static/create}" class="list-group-item">Static Create</a>
-            <a th:href="@{/gear}" class="list-group-item">Gear</a>
-            <a th:href="@{/jobs}" class="list-group-item">Jobs</a>
-            <a th:href="@{/login}" class="list-group-item">Login</a>
-            <a th:href="@{/logout}"class="list-group-item" >Logout</a>
-            <a href="http://xivdb.com/item/13770/Falconer's+Boots" class="list-group-item">
-                Falconer's Boots</a><br>
 
-        </div>
-        </div>
 
     </div>
 

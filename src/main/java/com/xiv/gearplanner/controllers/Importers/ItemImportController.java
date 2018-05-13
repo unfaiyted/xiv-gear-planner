@@ -41,6 +41,7 @@ public class ItemImportController {
     List<GearEquipCategory> gearList = new ArrayList<>();
     List<GearStatType> StatTypelist = new ArrayList<>();
     List<ItemCategory> itemCatList = new ArrayList<>();
+    List<GearSlot> gearSlotList = new ArrayList<>();
 
     private String directory = "src/main/resources/static/data/";
 
@@ -98,6 +99,7 @@ public class ItemImportController {
         data.put("Job", getFileAsJson(directory +"other/ClassJob.json"));
         data.put("GearEquipCategory", getFileAsJson(directory +"other/ClassJobCategory.json"));
         data.put("StatType", getFileAsJson(directory +"other/BaseParam.json"));
+        data.put("EquipSlotCategory", getFileAsJson(directory +"other/EquipSlotCategory.json"));
 
         // Item Data
         data.put("ItemCategory", getFileAsJson(directory +"item/ItemSearchCategory.json"));
@@ -161,6 +163,46 @@ public class ItemImportController {
 
         }
 
+
+        i = 0; // Import Gear Equip Category
+        for (JsonNode record : data.get("EquipSlotCategory")) {
+            //Add to array
+            Integer importId = record.get("#").asInt();
+
+
+                Iterator<Map.Entry<String, JsonNode>> fields = record.fields();
+                while (fields.hasNext()) {
+                    Map.Entry<String, JsonNode> entry = fields.next();
+
+                    String slotName = entry.getKey();
+                    if (i == 0) {
+                        // add key to gearSlot list
+                        if(gearDao.getGears().getGearSlotByName(slotName) == null) {
+                            gearDao.getGears().addGearSlot(slotName);
+                        }
+                    }
+
+                    if (i >= 1) {
+
+                        if(gearDao.getGears().getGearSlotCategoryByOriginalId(importId) == null) {
+                            // Create Slot Category
+                            System.out.println(entry.getKey() + ":" + entry.getValue());
+                            if (entry.getValue().asInt() == 1) {
+                                // add gear slot
+                                GearSlot slot = gearDao.getGears().getGearSlotByName(slotName);
+                                gearDao.getGears().addGearSlotCategory(slot.getId(), importId);
+                            }
+                            if (entry.getValue().asInt() == -1) {
+                                // disabled slots if any
+                               // TODO: add this caclulation. Needs to be after creation possibly
+                            }
+                        }
+                    }
+                }
+            i++;
+        }
+
+
         i = 0; // Import Gear Stat Types
         for (JsonNode record : data.get("StatType")) {
                 //Add to array
@@ -195,20 +237,20 @@ public class ItemImportController {
                 Integer parentOriginalId = record.get("Category").asInt();
                 Integer jobOriginalId = record.get("ClassJob").asInt();
 
-                if(itemDao.getItems().findCategoryByOriginalId((long) importId) == null) {
+                if(itemDao.getItems().findCategoryByOriginalId(importId) == null) {
 
                     Job job = jobDao.getJobs().findFirstByOriginalId(jobOriginalId);
                     // Get Job
-                    ItemCategory cat = new ItemCategory(name, (long) importId, icon, order, job);
+                    ItemCategory cat = new ItemCategory(name, importId, icon, order, job);
 
                     Long parentId = null;
                     // Get subcategory
                     if (parentOriginalId != 0) {
-                        ItemCategory parent = itemDao.getItems().findCategoryByOriginalId((long) parentOriginalId);
+                        ItemCategory parent = itemDao.getItems().findCategoryByOriginalId(parentOriginalId);
                         parentId = parent.getId();
                     }
 
-                    itemDao.getItems().addCategory(name, order, icon, (long) importId, job.getId(), parentId);
+                    itemDao.getItems().addCategory(name, order, icon, importId, job.getId(), parentId);
                     itemCatList.add(cat);
                 }
 
@@ -217,34 +259,58 @@ public class ItemImportController {
 
         }
 
-
-        ////////////////////////////////////
-        ////2  1,"Primary Arms",60102,0,0,0
-        ////3  2,"Primary Tools",60113,0,0,0
-        ////4  3,"Primary Tools",60120,0,0,0
-        ////5  4,"Armor",60126,0,0,0
-        ////6  5,"Accessories",60135,0,0,0
-        //// ID or Category IN (1,5)
-        ////  6,"Medicines",60136,0,0,0
-        ////  7,"Materials",60137,0,0,0
-        ////  8,"Other",60159,0,0,0
-
-        i = 0; // Import Item Categories
+        i = 0; // Import Items
         for (JsonNode record : data.get("Item")) {
             //Add to array
             if (i >= 1) {
 
-                Long categoryId = record.get("ItemSearchCategory").asLong();
+                Integer importId    = record.get("#").asInt();
 
+                // Check if in categorys we want to import as "GEAR"
+                Integer categoryId = record.get("ItemSearchCategory").asInt();
                 ItemCategory cat = itemDao.getItems().findCategoryByOriginalId(categoryId);
+                Long parentCatId = (cat.getParent() != null) ? cat.getParent().getId() : null;
 
-                Long parentCatId = cat.getParent().getId();
-
-                if(parentCatId == null || parentCatId == 2L ||
+                if((parentCatId == null || parentCatId == 2L ||
                         parentCatId == 3L || parentCatId == 4L ||
-                        parentCatId == 5L || parentCatId == 6L
+                        parentCatId == 5L || parentCatId == 6L) &&
+                        itemDao.getItems().findByOriginalId(importId) == null
                         )
                 {
+
+
+                    String  name        = record.get("Name").asText();
+                    String  desc        = record.get("Description").asText();
+                    Integer icon        = record.get("Icon").asInt();
+                    Integer itemLevel  = record.get("Level{Item}").asInt();
+                    Integer equipLevel = record.get("Level{Equip}").asInt();
+                    Integer slotCategoryOriginalId = record.get("EquipSlotCategory").asInt();
+                    Integer jobUseOriginalId = record.get("ClassJob{Use}").asInt();
+                    String advancedMelding  = record.get("IsAdvancedMeldingPermitted").asText();
+
+                    Boolean advMeldingAsBoolean = (advancedMelding.equals("True"));
+
+                    Integer materiaSlotCount = record.get("MateriaSlotCount").asInt();
+                   // Integer equipRestriction = record.get("EquipRestriction").asInt();
+                    Integer jobCatOriginalId = record.get("ClassJobCategory").asInt();
+
+                    // Create a new
+                    GearSlotCategory slot = gearDao.getGears().getGearSlotCategoryByOriginalId(slotCategoryOriginalId);
+                   // GearEquipCategory equipCategory = gearDao.getEquipCategories().findFirstByOriginalId(equipRestriction);
+
+                    if (slot != null) {
+
+                        Job useJob = jobDao.getJobs().findFirstByOriginalId(jobUseOriginalId);
+                        GearEquipCategory equipCategory = gearDao.getEquipCategories().findFirstByOriginalId(jobCatOriginalId);
+
+                        Item gear = new Gear(
+                                name, importId, desc, itemLevel, equipLevel, icon,
+                                advMeldingAsBoolean, materiaSlotCount,
+                                slot, equipCategory, useJob, cat);
+
+                        itemDao.getItems().save(gear);
+
+                    }
 
                 //{"#":"354","Singular":"dated steel hatchet","field3":"0",
                 // "Plural":"dated steel hatchets","StartsWithVowel":"0",
@@ -252,9 +318,7 @@ public class ItemImportController {
                 // "Name":"Dated Steel Hatchet","Icon":"38102","Level{Item}":"37",
                 // "Rarity":"1","FilterGroup":"1","ItemUICategory":"30",
                 // "ItemSearchCategory":"0","EquipSlotCategory":"1",
-                // "StackSize":"1","IsUnique":"False","IsUntradable":"True","IsIndisposable":"False"
-                // ,"Price{Mid}":"4357","Price{Low}":"66","CanBeHq":"True",
-                // "IsDyeable":"False","IsCrestWorthy":"False","ItemAction":"0",,
+                // "IsDyeable":"False","IsCrestWorthy":"False","ItemAction":"0",
                 // "Cooldown<s>":"0"
                 // "Item{Glamour}":"21800","Salvage":"0","IsCollectable":"False",
                 // "Level{Equip}":"37",
@@ -310,21 +374,6 @@ public class ItemImportController {
                     // "BaseParam{Special}[5]":"0"
                 // ,"BaseParamValue{Special}[5]":"0","MaterializeType":"11","MateriaSlotCount":"0",
                 // "IsAdvancedMeldingPermitted":"False","IsPvP":"False"},
-
-                    Integer importId    = record.get("#").asInt();
-                    String  name        = record.get("Name").asText();
-                    String  desc        = record.get("Description").asText();
-                    Integer icon        = record.get("Icon").asInt();
-                    Integer order       = record.get("Order").asInt();
-                    Integer item_level  = record.get("Level{Item}").asInt();
-                    Integer equip_level = record.get("Level{Equip}").asInt();
-                    Integer slotCategoryOriginalId = record.get("EquipSlotCategory").asInt();
-                    Integer jobCatOriginalId = record.get("ClassJob Category").asInt();
-                    Integer jobUseOriginalId = record.get("ClassJob{Use}").asInt();
-                    Boolean advancedMelding  = record.get("IsAdvancedMeldingPermitted").asBoolean();
-                    Integer materiaSlotCount = record.get("MateriaSlotCount").asInt();
-
-
 
 
                 }

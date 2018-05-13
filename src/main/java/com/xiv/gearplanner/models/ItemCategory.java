@@ -11,7 +11,7 @@ public class ItemCategory {
     private Long id;
 
     @Column
-    private Long originalId;
+    private Integer originalId;
     @Column
     private String name;
     @Column
@@ -34,7 +34,7 @@ public class ItemCategory {
 
     }
 
-    public ItemCategory(String name, Long originalId, Integer icon, Integer order, Job job) {
+    public ItemCategory(String name, Integer originalId, Integer icon, Integer order, Job job) {
         this.originalId = originalId;
         this.name = name;
         this.icon = icon;
@@ -50,11 +50,11 @@ public class ItemCategory {
         this.id = id;
     }
 
-    public Long getOriginalId() {
+    public Integer getOriginalId() {
         return originalId;
     }
 
-    public void setOriginalId(Long originalId) {
+    public void setOriginalId(Integer originalId) {
         this.originalId = originalId;
     }
 

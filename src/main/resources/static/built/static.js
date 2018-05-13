@@ -60,21 +60,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 13);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */,
-/* 1 */,
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -125,19 +115,73 @@ module.exports = {
 };
 
 /***/ }),
-/* 11 */,
-/* 12 */,
-/* 13 */
+/* 1 */,
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var lib = __webpack_require__(10);
-var member = __webpack_require__(18);
-var job = __webpack_require__(20);
-var deleteMember = __webpack_require__(21);
-var loader = __webpack_require__(22);
+// site wide alert system code
+module.exports = {
+
+    settings: {
+        alertId: "alert",
+        alertFiller: $('#alert'), // site wide alertID
+        alertType: "popup",
+        createdPopUpAlert: false
+    },
+
+    displayPopUpAlert: function displayPopUpAlert(message, type) {
+        // check if alert modal exists
+        if (module.exports.settings.createdPopUpAlert === false) module.exports.createPopupAlert();
+
+        module.exports.settings.createdPopUpAlert = true;
+
+        $('.alert').addClass("alert-" + type);
+        $('#alert-message').text(message);
+
+        $("#alertModal").modal('show');
+    },
+
+    createInlineAlert: function createInlineAlert() {
+
+        alertFiller.append($(" <div class=\"alert alert-dismissible fade show\" role=\"alert\">").append($("<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">").append($(" <span aria-hidden=\"true\">").text("&times;")), $("<span id=\"alert-message\">").text("Alert Message")));
+    },
+
+    createPopupAlert: function createPopupAlert() {
+
+        //TODO: check if alert exists
+
+        //create new alert if not...
+        $('body').append($("<div class=\"modal fade\" id=\"alertModal\">").append($("<div class=\"modal-dialog\" role=\"document\">").append($(" <div class=\"modal-content\">").append($(" <div class=\"modal-content\">").append($(" <div class=\"alert alert-dismissible fade show\" role=\"alert\">").append($("<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">").append($(" <span aria-hidden=\"true\">").html("&times;")), $("<span id=\"alert-message\">").text("Alert Message")))))));
+    }
+
+};
+
+/***/ }),
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var lib = __webpack_require__(0);
+var member = __webpack_require__(15);
+var job = __webpack_require__(16);
+var deleteMember = __webpack_require__(17);
+var loader = __webpack_require__(18);
 
 module.exports = {
 
@@ -226,18 +270,28 @@ deleteMember.init({
     deleteMsg: "Are you sure you want to delete this static member?"
 });
 
+$(document).scroll(function () {
+    var y = $(this).scrollTop();
+    console.log(y);
+    if (y > 100) {
+        $('#member-list-container').css("position", "fixed");
+        $('#member-list-container').css("display", "absolute");
+        $('#member-list-container').css("width", "400px");
+    }
+
+    if (y < 100) {
+        $('#member-list-container').removeAttr("style");
+    }
+});
+
 /***/ }),
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var alert = __webpack_require__(19);
+var alert = __webpack_require__(2);
 
 // Module for adding members to static list
 module.exports = {
@@ -347,57 +401,13 @@ module.exports = {
 };
 
 /***/ }),
-/* 19 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-// site wide alert system code
-module.exports = {
-
-    settings: {
-        alertId: "alert",
-        alertFiller: $('#alert'), // site wide alertID
-        alertType: "popup",
-        createdPopUpAlert: false
-    },
-
-    displayPopUpAlert: function displayPopUpAlert(message, type) {
-        // check if alert modal exists
-        if (module.exports.settings.createdPopUpAlert === false) module.exports.createPopupAlert();
-
-        module.exports.settings.createdPopUpAlert = true;
-
-        $('.alert').addClass("alert-" + type);
-        $('#alert-message').text(message);
-
-        $("#alertModal").modal('show');
-    },
-
-    createInlineAlert: function createInlineAlert() {
-
-        alertFiller.append($(" <div class=\"alert alert-dismissible fade show\" role=\"alert\">").append($("<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">").append($(" <span aria-hidden=\"true\">").text("&times;")), $("<span id=\"alert-message\">").text("Alert Message")));
-    },
-
-    createPopupAlert: function createPopupAlert() {
-
-        //TODO: check if alert exists
-
-        //create new alert if not...
-        $('body').append($("<div class=\"modal fade\" id=\"alertModal\">").append($("<div class=\"modal-dialog\" role=\"document\">").append($(" <div class=\"modal-content\">").append($(" <div class=\"modal-content\">").append($(" <div class=\"alert alert-dismissible fade show\" role=\"alert\">").append($("<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">").append($(" <span aria-hidden=\"true\">").html("&times;")), $("<span id=\"alert-message\">").text("Alert Message")))))));
-    }
-
-};
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var api = __webpack_require__(10);
+var api = __webpack_require__(0);
 
 // Module for adding members to static list
 module.exports = {
@@ -494,14 +504,14 @@ module.exports = {
 };
 
 /***/ }),
-/* 21 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var api = __webpack_require__(10);
-var alert = __webpack_require__(19);
+var api = __webpack_require__(0);
+var alert = __webpack_require__(2);
 
 // Trigger on page to remove entries from page, settings need to be setup to delete
 // both visual and database data from user.
@@ -561,7 +571,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 22 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

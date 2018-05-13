@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Index page</title>
 </head>
 <body>
+<div th:replace="partials/layout :: navbar" />
+<div class="h-100 main-container  mx-auto w-100 text-center">
 
+
+    <th:block th:each="item :${gear}">
+
+
+        <div class="d-flex flex-row" th:data-id="${item.id}">
+           <div>
+           <img src="https://secure.xivdb.com/img/game_local/2/21399.jpg" class="img-float" />
+           </div>
+            <div>
+                <a th:href="@{https://xivdb.com/item/} + ${item.originalId}" th:text="${item.name}"></a>
+                <span th:text="${item.iLvl}" class="badge badge-secondary"></span>
+            </div>
+
+           Equip Level:
+           <span th:text="${item.equipLevel}"></span>
+           Equip Slot:
+           <span th:text="${item.getSlot().slot.name}"></span>
+           Equippable by:
+           <span th:text="${item.equipCategory.name}"></span>
+           Job Name:
+           <span th:text="${item.useJob.getName()}"></span>
+           Materia Slots:
+           <span th:text="${item.materiaSlotCount}"></span>
+            Overmelding Possible:
+           <span th:text="${item.advancedMelding}"></span>
+
+
+       </div>
+    </div>
+
+    </th:block>
+
+
+
+
+</div>
+
+<div th:replace="partials/layout :: footer" />
+<script th:src="@{~/built/importer.js}"></script>
+<script src="https://secure.xivdb.com/tooltips.js"></script>
 </body>
 </html>
+

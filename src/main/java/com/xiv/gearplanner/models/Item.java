@@ -11,27 +11,21 @@ public abstract class Item {
     private Long id;
 
     @Column /* Imported Id */
-    private Long originalId;
+    private Integer originalId;
 
     @Column
     private String name;
 
     @Column
-    private String icon;
+    private Integer icon;
 
     @Column
     private Integer iLvl;
 
     @Column
-    private Integer equipLevel;
-
-    @Column
     private Long xivdbID;
 
-    @Column
-    private boolean canBeHQ;
-
-    @Column
+    @Column(columnDefinition = "text")
     private String description;
 
     @Column
@@ -43,16 +37,24 @@ public abstract class Item {
 //    @OneToOne
 //    private Patch patch;
 
-    public Item() {
+    public Item() { }
+
+
+    public Item(String name, String description, Integer iLvl, Integer icon, Integer originalId, ItemCategory category) {
+        this.name = name;
+        this.description = description;
+        this.icon = icon;
+        this.iLvl = iLvl;
+        this.originalId = originalId;
+        this.category = category;
 
     }
 
-    public Item(String name, String icon, Integer iLvl, Integer equipLevel, String lodestoneId) {
+    public Item(String name, Integer icon, Integer iLvl, Integer equipLevel, String lodestoneId) {
         this.name = name;
         this.icon = icon;
         this.iLvl = iLvl;
-        this.equipLevel = equipLevel;
-        this.lodestoneId = lodestoneId;;
+        this.lodestoneId = lodestoneId;
     }
 
     public Item(String name, Integer iLvl) {
@@ -85,14 +87,6 @@ public abstract class Item {
         this.iLvl = iLvl;
     }
 
-    public Integer getEquipLevel() {
-        return equipLevel;
-    }
-
-    public void setEquipLevel(Integer equipLevel) {
-        this.equipLevel = equipLevel;
-    }
-
     public Long getXivdbID() {
         return xivdbID;
     }
@@ -117,11 +111,35 @@ public abstract class Item {
 //        this.patch = patch;
 //    }
 
-    public String getIcon() {
+    public Integer getIcon() {
         return icon;
     }
 
-    public void setIcon(String icon) {
+    public void setIcon(Integer icon) {
         this.icon = icon;
+    }
+
+    public Integer getOriginalId() {
+        return originalId;
+    }
+
+    public void setOriginalId(Integer originalId) {
+        this.originalId = originalId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public ItemCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(ItemCategory category) {
+        this.category = category;
     }
 }

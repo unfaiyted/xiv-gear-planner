@@ -7,6 +7,8 @@ import com.xiv.gearplanner.models.GearStatType;
 import com.xiv.gearplanner.models.GearType;
 import com.xiv.gearplanner.services.GearService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,8 +51,8 @@ public class GearController {
     }
 
     @GetMapping("/gear/view")
-    public String viewGear(Model model) {
-        model.addAttribute("gear", gear.getGears().findAll());
+    public String viewGear(Model model,  @PageableDefault(value=25) Pageable pageable ) {
+        model.addAttribute("gear", gear.getGears().findAll(pageable));
         return "gear/view";
     }
 
@@ -79,5 +81,10 @@ public class GearController {
     }
 
 
+
+    @GetMapping("/api/gear")
+    public String jsonGear() {
+        return "";
+    }
 
 }

@@ -7,21 +7,47 @@ import java.util.List;
 @Entity(name="gear")
 public class Gear extends Item {
 
+
+    @Column
+    private boolean advancedMelding;
+
+    @Column
+    private Integer materiaSlotCount;
+
+    @Column
+    private Integer equipLevel;
+
+    @ManyToOne
+    private Job useJob;
+
     @OneToOne
-    private GearSlot slot;
+    private GearSlotCategory slot;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "gear_id")
     private List<GearStat> gearStats = new ArrayList<>();
 
-    @OneToMany
-    private List<Job> jobs = new ArrayList<>();
+    @ManyToOne
+    private GearEquipCategory equipCategory;
 
     public Gear() { }
 
-    public Gear(GearSlot slot) {
+    public Gear(GearSlotCategory slot) {
         this.slot = slot;
     }
+
+    public Gear(String name, Integer originalId, String description, Integer iLvl,
+                Integer equipLevel, Integer icon, Boolean advancedMelding, Integer materiaSlotCount,
+                GearSlotCategory slot, GearEquipCategory equipCategory, Job useJob, ItemCategory category) {
+        super(name, description, iLvl, icon, originalId, category);
+        this.slot = slot;
+        this.advancedMelding = advancedMelding;
+        this.materiaSlotCount = materiaSlotCount;
+        this.equipCategory = equipCategory;
+        this.equipLevel = equipLevel;
+        this.useJob = useJob;
+    }
+
 
     public Gear(Gear copy) {
         this.gearStats = copy.gearStats;
@@ -35,20 +61,53 @@ public class Gear extends Item {
         this.gearStats = gearStats;
     }
 
-    public GearSlot getSlot() {
+    public GearSlotCategory getSlot() {
         return slot;
     }
 
-    public void setSlot(GearSlot slot) {
+    public void setSlot(GearSlotCategory slot) {
         this.slot = slot;
     }
 
-    public List<Job> getJobs() {
-        return jobs;
+
+    public boolean isAdvancedMelding() {
+        return advancedMelding;
     }
 
-    public void setJobs(List<Job> jobs) {
-        this.jobs = jobs;
+    public void setAdvancedMelding(boolean advancedMelding) {
+        this.advancedMelding = advancedMelding;
+    }
+
+    public Integer getMateriaSlotCount() {
+        return materiaSlotCount;
+    }
+
+    public void setMateriaSlotCount(Integer materiaSlotCount) {
+        this.materiaSlotCount = materiaSlotCount;
+    }
+
+    public Integer getEquipLevel() {
+        return equipLevel;
+    }
+
+    public void setEquipLevel(Integer equipLevel) {
+        this.equipLevel = equipLevel;
+    }
+
+    public Job getUseJob() {
+        return useJob;
+    }
+
+    public void setUseJob(Job useJob) {
+        this.useJob = useJob;
+    }
+
+    public GearEquipCategory getEquipCategory() {
+        return equipCategory;
+    }
+
+    public void setEquipCategory(GearEquipCategory equipCategory) {
+        this.equipCategory = equipCategory;
     }
 
     // TODO: Does a stat already exist, replace stat of the same type.
@@ -70,7 +129,8 @@ public class Gear extends Item {
         return "Gear{" +
                 "slot=" + slot +
                 ", gearStats=" + gearStats +
-                ", jobs=" + jobs +
+                ", equipCategory=" + equipCategory +
+                ", category=" + category +
                 '}';
     }
 }

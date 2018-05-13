@@ -60,11 +60,61 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */,
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// Functions for local json file interactions
+module.exports = {
+
+    settings: { //settings
+        url: "/api/",
+        rateLimit: 5,
+        token: $("meta[name='_csrf']").attr("content"),
+        header: $("meta[name='_csrf_header']").attr("content")
+    },
+
+    //Inserts data into server
+    addData: function addData(location, data) {
+        location = typeof location !== 'undefined' ? location : "";
+        return fetch(location, {
+            method: "post",
+            credentials: "same-origin",
+            headers: {
+                "X-CSRF-Token": module.exports.settings.token,
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(function (response) {
+            return response.json();
+        });
+    },
+
+    deleteData: function deleteData(location, data) {
+        return module.exports.addData(location, data);
+    },
+
+    // query for post data
+    // parameter for url info
+    // ex: players/Name+Last/?post=3 type/parameter/query
+    getData: function getData(type, parameter, query) {
+        parameter = typeof parameter !== 'undefined' ? parameter : "";
+        query = typeof query !== 'undefined' ? query : "";
+
+        return fetch(module.exports.settings.url + type + "/" + parameter + query).then(function (response) {
+            return response.json();
+        });
+    }
+};
+
+/***/ }),
 /* 1 */,
 /* 2 */,
 /* 3 */,
@@ -72,18 +122,20 @@
 /* 5 */,
 /* 6 */,
 /* 7 */,
-/* 8 */
+/* 8 */,
+/* 9 */,
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var xiv = __webpack_require__(9);
+var xiv = __webpack_require__(11);
 
-var _require = __webpack_require__(10),
+var _require = __webpack_require__(0),
     addData = _require.addData;
 
-var _require2 = __webpack_require__(11),
+var _require2 = __webpack_require__(12),
     toPlayerObj = _require2.toPlayerObj;
 
 module.exports = {
@@ -168,7 +220,7 @@ module.exports = {
 module.exports.init();
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -208,58 +260,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// Functions for local json file interactions
-module.exports = {
-
-    settings: { //settings
-        url: "/api/",
-        rateLimit: 5,
-        token: $("meta[name='_csrf']").attr("content"),
-        header: $("meta[name='_csrf_header']").attr("content")
-    },
-
-    //Inserts data into server
-    addData: function addData(location, data) {
-        location = typeof location !== 'undefined' ? location : "";
-        return fetch(location, {
-            method: "post",
-            credentials: "same-origin",
-            headers: {
-                "X-CSRF-Token": module.exports.settings.token,
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        }).then(function (response) {
-            return response.json();
-        });
-    },
-
-    deleteData: function deleteData(location, data) {
-        return module.exports.addData(location, data);
-    },
-
-    // query for post data
-    // parameter for url info
-    // ex: players/Name+Last/?post=3 type/parameter/query
-    getData: function getData(type, parameter, query) {
-        parameter = typeof parameter !== 'undefined' ? parameter : "";
-        query = typeof query !== 'undefined' ? query : "";
-
-        return fetch(module.exports.settings.url + type + "/" + parameter + query).then(function (response) {
-            return response.json();
-        });
-    }
-};
-
-/***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

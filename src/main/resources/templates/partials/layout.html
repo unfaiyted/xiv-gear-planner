@@ -9,7 +9,7 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>XIV Gear Planner</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{~/css/bootstrap.min.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.0-beta/css/bootstrap-select.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -19,9 +19,22 @@
 
 <nav th:fragment="navbar" class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="/">
+            <img th:src="@{~/img/quest/Mob8_Icon.png}"/>
+          
             <img src="#" width="30" height="30" class="d-inline-block align-top" alt="">
             XIV Gear Planner
         </a>
+
+     <div sec:authorize="isAuthenticated()">
+                    <img th:src="@{~/img/online.png}"> <span th:text="${#authentication.principal.username}"/>!
+     </div>
+
+    <div sec:authorize="!isAuthenticated()">
+           <a th:href="@{/login}">
+                <img th:src="@{~/img/disconnect.png}">       
+           </a>
+    </div>
+
 </nav>
 
 <!-- Footer -->

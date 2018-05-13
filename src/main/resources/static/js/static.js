@@ -107,3 +107,19 @@ deleteMember.init({
     displayClass: "static-member",
     deleteMsg: "Are you sure you want to delete this static member?"
 });
+
+
+$(document).scroll(function() {
+    var y = $(this).scrollTop();
+    console.log(y);
+    if (y > 100) {
+        $('#member-list-container').css("position","fixed");
+        $('#member-list-container').css("display","absolute");
+        $('#member-list-container').css("width","400px");
+    }
+
+    if (y < 100) {
+        $('#member-list-container').removeAttr("style");
+    }
+
+});

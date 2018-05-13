@@ -1,9 +1,8 @@
 package com.xiv.gearplanner.repositories;
 
-import com.xiv.gearplanner.models.Gear;
-import com.xiv.gearplanner.models.GearStat;
-import com.xiv.gearplanner.models.GearStatType;
-import com.xiv.gearplanner.models.GearType;
+import com.xiv.gearplanner.models.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +14,8 @@ import java.util.List;
 
 @Repository
 public interface Gears extends JpaRepository<Gear, Long> {
+
+    Page<Gear> findAll(Pageable pageable);
 
     // Stats for a specific piece of gear
     @Query("select new GearStat(gs) from GearStat gs WHERE  gs.gear.id = ?1")
@@ -32,6 +33,22 @@ public interface Gears extends JpaRepository<Gear, Long> {
     @Query("select new GearType(gt) from GearType gt")
     List<GearType> getGearTypes();
 
+
+    @Query("select gs from GearSlot gs where gs.name = ?1")
+    GearSlot getGearSlotByName(String name);
+
+    @Query("select gsc from GearSlotCategory gsc where gsc.originalId = ?1")
+    GearSlotCategory getGearSlotCategoryByOriginalId(Integer originalId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into gear_slot_category(slot_id, original_id) VALUES (?1, ?2)", nativeQuery = true)
+    void addGearSlotCategory(Long slotId, Integer originalId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into gear_slot(name) VALUES (?1)", nativeQuery = true)
+    void addGearSlot(String name);
 
     @Modifying
     @Transactional
