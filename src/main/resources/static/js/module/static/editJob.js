@@ -28,6 +28,8 @@ module.exports = {
            }
         });
 
+
+
     },
 
     //Populates JobsList if empty.
@@ -73,6 +75,14 @@ module.exports = {
 
         module.exports.createJobEditor().then((data) => {
             parent.find(jobDisplay).append(data);
+            // creates special picker
+            $('.job-list-select').selectpicker({
+                style: 'btn-info',
+                size: 3
+            });
+
+           $('.job-list-select').selectpicker('setStyle', 'btn-sm', 'add');
+
         });
     },
 
@@ -80,7 +90,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
 
             let JobEditorHTML =
-                `<select class="job-list-select" name="jobSelector">`;
+                `<div class="col-12"><select class="job-list-select" data-width="100%" name="jobSelector">`;
 
             //Populates job list if empty.
             module.exports.getJobsList().then(function(data) {
@@ -89,7 +99,7 @@ module.exports = {
                     JobEditorHTML += `<option value="${job.id}">${job.name}</option>`
                 });
 
-                JobEditorHTML += `</select>`;
+                JobEditorHTML += `</select></div>`;
 
                 resolve(JobEditorHTML);
             });

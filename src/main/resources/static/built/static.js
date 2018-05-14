@@ -272,7 +272,6 @@ deleteMember.init({
 
 $(document).scroll(function () {
     var y = $(this).scrollTop();
-    console.log(y);
     if (y > 100) {
         $('#member-list-container').css("position", "fixed");
         $('#member-list-container').css("display", "absolute");
@@ -396,7 +395,7 @@ module.exports = {
 
     createSingleMember: function createSingleMember(member) {
         var deleteClass = module.exports.settings.deleteClass;
-        return '<div class="col-3">\n                <img class="img-fluid m-1 hover-members" src="' + member.img + '" title="Exodus" />\n                    <span class="' + deleteClass + '" data-id="' + member.id + '">&times;</span> \n                    <span class="member-name">' + member.name + '</span>\n                    <input type="hidden" name="member[]" value="' + member.id + '">\n                  </div>';
+        return '<div class="col-3">\n                <img class="img-fluid hover-members" src="' + member.img + '" title="Exodus" />\n                    <span class="' + deleteClass + '" data-id="' + member.id + '">&times;</span> \n                    <span class="member-name">' + member.name + '</span>\n                    <input type="hidden" name="member[]" value="' + member.id + '">\n                  </div>';
     }
 };
 
@@ -479,13 +478,20 @@ module.exports = {
 
         module.exports.createJobEditor().then(function (data) {
             parent.find(jobDisplay).append(data);
+            // creates special picker
+            $('.job-list-select').selectpicker({
+                style: 'btn-info',
+                size: 3
+            });
+
+            $('.job-list-select').selectpicker('setStyle', 'btn-sm', 'add');
         });
     },
 
     createJobEditor: function createJobEditor() {
         return new Promise(function (resolve, reject) {
 
-            var JobEditorHTML = '<select class="job-list-select" name="jobSelector">';
+            var JobEditorHTML = '<div class="col-12"><select class="job-list-select" data-width="100%" name="jobSelector">';
 
             //Populates job list if empty.
             module.exports.getJobsList().then(function (data) {
@@ -494,7 +500,7 @@ module.exports = {
                     JobEditorHTML += '<option value="' + job.id + '">' + job.name + '</option>';
                 });
 
-                JobEditorHTML += '</select>';
+                JobEditorHTML += '</select></div>';
 
                 resolve(JobEditorHTML);
             });

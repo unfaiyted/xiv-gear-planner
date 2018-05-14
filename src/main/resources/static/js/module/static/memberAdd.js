@@ -111,7 +111,7 @@ module.exports = {
     createSingleMember: (member) => {
         let deleteClass =   module.exports.settings.deleteClass;
         return `<div class="col-3">
-                <img class="img-fluid m-1 hover-members" src="${member.img}" title="Exodus" />
+                <img class="img-fluid hover-members" src="${member.img}" title="Exodus" />
                     <span class="${deleteClass}" data-id="${member.id}">&times;</span> 
                     <span class="member-name">${member.name}</span>
                     <input type="hidden" name="member[]" value="${member.id}">

@@ -25,7 +25,7 @@
                 <a th:href="@{/player}" class="list-group-item">Players</a>
                 <a th:href="@{/static/view}" class="list-group-item">Static View</a>
                 <a th:href="@{/static/create}" class="list-group-item">Static Create</a>
-                <a th:href="@{/gear}" class="list-group-item">Gear</a>
+                <a th:href="@{/gear/view}" class="list-group-item">Search Gear</a>
                 <a th:href="@{/jobs}" class="list-group-item">Jobs</a>
                 <div sec:authorize="isAuthenticated()">
                     <a th:href="@{/logout}"class="list-group-item" >Logout</a>
@@ -33,9 +33,6 @@
                 <div sec:authorize="!isAuthenticated()">
                     <a th:href="@{/login}" class="list-group-item">Login</a>
                 </div>
-
-                <a href="http://xivdb.com/item/13770/Falconer's+Boots" class="list-group-item">
-                    Falconer's Boots</a><br>
 
             </div>
         </div>
@@ -70,6 +67,5 @@
 </div>
 
 <div th:replace="partials/layout :: footer" />
-<script src="https://secure.xivdb.com/tooltips.js"></script>
 </body>
 </html>

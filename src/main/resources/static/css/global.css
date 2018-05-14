@@ -14,7 +14,7 @@ body {
     border: none;
     background-color: rgba(103, 103, 103, 0.45);
     border-radius: 2px;
-    font-size: 12px;
+    font-size: 14px;
     color: #fff;
 }
 
@@ -64,6 +64,12 @@ body {
 
 }
 
+.card-container-light {
+    background: #481e1ed6;
+    color:  #fff;
+    border-radius: 3px;
+
+}
 
 .card-container input
 {
@@ -146,7 +152,7 @@ STATIC VIEW PAGE
     float: right;
     left: 18px;
     font-size: 20px;
-    top: -10px;
+    top: -35px;
 }
 
 .delete-btn {
@@ -161,18 +167,20 @@ STATIC VIEW PAGE
 
 .job-display {
     position: relative;
-float: left;
-    left: -30px;
-    top: 5px;
+    float: left;
+    left: -10px;
+    top: -10px;
+    width: 100%;
 
 }
 
 .job-text {
     position: relative;
     float: left;
-    font-size: 12px;
-    padding-right: 5px;
-    left: -10px;
+    font-size: 10px;
+    padding: 0;
+    margin: 0;
+    left: -14px;
     top: -10px;
 }
 
@@ -212,9 +220,12 @@ HOME PAGE
     overflow: hidden;
     text-overflow: ellipsis;
 
-
 }
 
+.img-control-center {
+    width: 35px;
+    height: 40px;
+}
 
 /* STATIC MEMBER VIEW PAGE*/
 
@@ -225,6 +236,47 @@ HOME PAGE
     border: 1px solid #000;
 
 }
+
+
+
+.table {
+ background-color: rgba(0,0,0,0.45);
+    border-collapse:collapse;
+    border-radius:6px;
+    -moz-border-radius:6px;
+    border: 0;
+
+}
+
+
+
+.table thead {
+    border-bottom: 1px solid #404040;
+
+}
+
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 0px solid #444;
+}
+
+.table tbody tr:nth-child(even) {background: rgba(0,0,0,0.35);}
+.table tbody tr:nth-child(odd) {background: rgba(0,0,0,0.55);}
+
+.table th {
+    border:0;
+}
+
+.table tr {
+    border:0;
+}
+.table td {
+    border: 0;
+    vertical-align: center;
+}
+
+
 
 /* LOADER CSS STYLINGs */
 
@@ -246,4 +298,20 @@ HOME PAGE
     top:        0;
     left:       0;
     position:   fixed;
+}
+
+
+/*
+SEARCH GEAR PAGES
+*/
+
+
+.img-icon-small {
+    height: 30px;
+    width: 30px;
+}
+
+
+.modal-content {
+    background-color: #303030f0;
 }

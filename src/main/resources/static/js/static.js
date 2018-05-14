@@ -111,7 +111,6 @@ deleteMember.init({
 
 $(document).scroll(function() {
     var y = $(this).scrollTop();
-    console.log(y);
     if (y > 100) {
         $('#member-list-container').css("position","fixed");
         $('#member-list-container').css("display","absolute");
@@ -123,3 +122,5 @@ $(document).scroll(function() {
     }
 
 });
+
+

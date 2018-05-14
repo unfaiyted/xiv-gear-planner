@@ -25,15 +25,35 @@
             XIV Gear Planner
         </a>
 
-     <div sec:authorize="isAuthenticated()">
-                    <img th:src="@{~/img/online.png}"> <span th:text="${#authentication.principal.username}"/>!
-     </div>
+    <div class="btn-group text-right">
+        <button class="btn btn-secondary btn-sm" type="button">
+            <div sec:authorize="isAuthenticated()">
+                <img th:src="@{~/img/online.png}"> <span th:text="${#authentication.principal.username}"/>!
+            </div>
 
-    <div sec:authorize="!isAuthenticated()">
-           <a th:href="@{/login}">
-                <img th:src="@{~/img/disconnect.png}">       
-           </a>
+            <div sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}">
+                    <img th:src="@{~/img/disconnect.png}">
+                </a>
+            </div>
+
+        </button>
+        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="#">Profile</a>
+            <a class="dropdown-item" th:href="@{~/static/view}">My Static</a>
+            <a class="dropdown-item" th:href="@{~/static/view}">Something else here</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" th:href="@{~/logout}">Logout</a>
+        </div>
     </div>
+
+
+
+
+
 
 </nav>
 

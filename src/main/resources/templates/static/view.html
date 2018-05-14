@@ -13,11 +13,17 @@
         <!-- Static Header -->
         <div class="row">
 
-           <div class="col-12"> <h4 th:text="${static?.name}"></h4></div>
+           <div class="col-12">
+
+                   <h2 th:text="${static?.name}" class="text-left p-2 m-2"></h2>
+
+               </div>
 
             <div class="col-12">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">Static Control Center</a>
+                <a class="navbar-brand" href="#">
+                    <img th:src="@{~/img/quest/second-quest.png}" class="mr-2 img-control-center"/>
+                    Static Control Center</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -120,6 +126,9 @@
         </div>
 
     </div>
+
+
+        <div th:replace="partials/static/quickAdd :: add"/>
 
 </div>
 <div th:replace="partials/layout :: footer" />

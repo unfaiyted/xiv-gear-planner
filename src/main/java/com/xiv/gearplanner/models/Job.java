@@ -1,5 +1,7 @@
 package com.xiv.gearplanner.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -27,6 +29,7 @@ public class Job {
     private String icon;
 
     @OneToOne
+    @JsonIgnore
     private Job parentJob;
 
     @OneToOne(cascade = {CascadeType.ALL})

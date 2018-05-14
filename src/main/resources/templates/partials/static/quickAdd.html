@@ -1,0 +1,54 @@
+<!-- Button trigger modal -->
+<div th:fragment="add">
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="text-left text-muted pl-2 pt-2 p-1">
+                <span>Quick add...</span>
+            </div>
+
+
+            <div class="p-2">
+                <div class="card-container-light col-12 pt-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for members..." aria-label="Search for gear..." aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">Search</button>
+                        </div>
+                    </div>
+                    <div class="text-right p-1">
+
+                    </div>
+                </div>
+
+                <div>
+                    <table class="table table-hover mt-2">
+                        <thead>
+                        <tr class="text-left">
+                            <th scope="col">Icon</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Server</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td colspan="5" class="text-right">Can't find your members? <button class="ml-2 btn btn-sm btn-primary">Import</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</div>
