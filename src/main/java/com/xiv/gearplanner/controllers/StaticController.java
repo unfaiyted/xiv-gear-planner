@@ -97,9 +97,7 @@ public class StaticController {
     @ResponseBody
     public StaticMember editMemberAssignedJob (@RequestBody String jsonStr) throws IOException {
 
-       jsonStr = jsonStr.replaceAll("^\"|\"$|\\\\", "");
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode actualObj = mapper.readTree(jsonStr);
+        JsonNode actualObj = strToJsonNode(jsonStr);
 
         JsonNode idNode = actualObj.path("memberId");
         JsonNode jobIdNode = actualObj.path("jobId");
@@ -124,12 +122,8 @@ public class StaticController {
     public Response deleteMember (@RequestBody String jsonStr) throws IOException {
         try {
 
-            jsonStr = jsonStr.replaceAll("^\"|\"$|\\\\", "");
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode actualObj = mapper.readTree(jsonStr);
-
+            JsonNode actualObj = strToJsonNode(jsonStr);
             JsonNode idNode = actualObj.path("memberId");
-
             Long memberId = idNode.asLong();
             staticDao.getStatics().deleteMember(memberId);
 
@@ -144,5 +138,52 @@ public class StaticController {
         res.setSuccess(true);
         return res;
     }
+
+
+    @RequestMapping(
+            value = "/api/static/member/add",
+            method= RequestMethod.POST,
+            headers = "Accept=*/*",
+            produces = "application/json",
+            consumes="application/json")
+    @ResponseBody
+    public Response addMember (@RequestBody String jsonStr) throws IOException {
+        try {
+            User loggedIn = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            JsonNode actualObj = strToJsonNode(jsonStr);
+            Long staticId = staticDao.getStatics().getStaticIdByOwner(loggedIn.getId());
+
+
+            System.out.println(actualObj);
+
+            for(JsonNode member : actualObj) {
+                Long playerId =  member.path("id").asLong();
+                staticDao.getStatics().addMember(staticId, playerId);
+            }
+
+        } catch(IOException err) {
+
+            ResponseError error = new ResponseError();
+            // fill map with errors here
+            return error;
+        }
+
+        Response res = new Response();
+        res.setSuccess(true);
+        return res;
+    }
+
+
+
+    // package json node mapping from string
+    private JsonNode strToJsonNode(String jsonStr)  throws IOException {
+
+        jsonStr = jsonStr.replaceAll("^\"|\"$|\\\\", "");
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode actualNode = mapper.readTree(jsonStr);
+
+        return actualNode;
+    }
+
 
 }

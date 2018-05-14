@@ -81,7 +81,7 @@
                             <div class="card-img-overlay">
                                 <!--<img th:src="${member?.getAssignedJob()?.getIcon()}"  class="job-img" th:data-id="${member?.getId()}">-->
 
-                                <img th:src="${(member?.getAssignedJob()?.getIcon() != null && !#strings.isEmpty(member?.getAssignedJob()?.getIcon())) ? member.getAssignedJob().getIcon() :
+                                <img th:src="${(member?.getAssignedJob()?.getImg() != null && !#strings.isEmpty(member?.getAssignedJob()?.getImg())) ?  member.getAssignedJob().getImg() :
                                  'https://img.finalfantasyxiv.com/lds/promo/h/R/laSrEkvlK_7NNbNZ3JErTqzaR8.png'}" class="job-img" th:data-id="${member?.getId()}"/>
 
                                 <div class="text-left name" th:text="${member?.getPlayer()?.getName()}">Faiyt Lee</div>
@@ -115,20 +115,16 @@
 
                 </th:block>
 
+                <input type="hidden" name="member-count" id="member-count" th:value="${#lists.size(members)}">
                 <th:block th:if="${#lists.size(members)} &lt; 8">
 
                     <div class="col-12 col-md-6 col-lg-3 mb-5 static-member mx-auto mv-auto">
-                         <button class="btn btn-primary">Add more members? </button>
+                        <div th:replace="partials/static/quickAdd :: add"/>
                     </div>
 
                 </th:block>
-
         </div>
-
     </div>
-
-
-        <div th:replace="partials/static/quickAdd :: add"/>
 
 </div>
 <div th:replace="partials/layout :: footer" />

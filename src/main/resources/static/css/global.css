@@ -315,3 +315,40 @@ SEARCH GEAR PAGES
 .modal-content {
     background-color: #303030f0;
 }
+
+.table-modal {
+    margin-top: 10px;
+    height: 50vh;
+    overflow-y: scroll;
+    padding-right: 5px; /* Increase/decrease this value for cross-browser compatibility */
+    box-sizing: content-box; /* So the width will be 100% + 17px */
+}
+
+
+.table-modal::-webkit-scrollbar {
+    width: 6px;  /* remove scrollbar space */
+    /*background: transparent;  !* optional: just make scrollbar invisible *!*/
+}
+
+.table-modal::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.table-modal::-webkit-scrollbar-thumb        {
+
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 5px;
+    padding-top: 5px;
+    /* 5 */
+
+}
+
+#add-member-modal #member-list-main {
+    position: relative;
+    top: -100%;
+
+}
+
+#add-member-modal #member-list img {
+    display: none;
+}

@@ -28,8 +28,6 @@ module.exports = {
            }
         });
 
-
-
     },
 
     //Populates JobsList if empty.
@@ -59,10 +57,7 @@ module.exports = {
             };
 
         api.addData("/api/static/job/update", JSON.stringify(arr)).then((data) => {
-            console.log(data.assignedJob.icon);
-
-            console.log(parent.find('img .job-img').attr("src"));
-            $(`.job-img[data-id="${memberId}"]`).attr("src", data.assignedJob.icon);
+            $(`.job-img[data-id="${memberId}"]`).attr("src", "../img/jobs/" + data.assignedJob.abbr + ".png");
             }
         );
     },

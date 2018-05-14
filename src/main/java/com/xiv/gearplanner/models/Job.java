@@ -87,6 +87,10 @@ public class Job {
         return icon;
     }
 
+    public String getImg() {
+        return  "/img/jobs/" + abbr + ".png";
+    }
+
     public void setIcon(String icon) {
         this.icon = icon;
     }

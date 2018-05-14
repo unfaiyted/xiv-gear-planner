@@ -49,5 +49,11 @@ public interface Statics extends CrudRepository<Static,Long> {
     void deleteMember(@Param("memberId") Long memberId);
 
 
+    @Modifying
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Query(value = "insert into static_member(one_static_id, player_id) VALUE(?1, ?2)", nativeQuery = true)
+    void addMember(Long staticId, Long playerId);
+
+
 
 }

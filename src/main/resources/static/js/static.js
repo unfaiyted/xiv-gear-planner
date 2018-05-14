@@ -32,10 +32,11 @@ module.exports = {
                 }
             });
 
-            // Press Enter or Type Submit
-            $('#member-find').keydown(function () {
-                let name = $(this).val();
 
+            let callback = function (e) {
+                e.preventDefault();
+                // takes search btn or input value
+                let name = ($(this).val() !== "") ? $(this).val() : $('#member-search').val() ;
 
                 if (name.length > 2 &&  module.exports.settings.rateMax === false) {
 
@@ -53,7 +54,13 @@ module.exports = {
                         module.exports.displaySearch(data);
                     });
                 }
-            });
+            };
+
+
+            // Press Enter or Type Submit
+            $('#member-find').keydown(callback);
+            $('#member-find').click(callback);
+
     },
 
     displaySearch: (json) => {

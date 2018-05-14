@@ -8,9 +8,11 @@
 <body>
 
 <div th:replace="partials/layout :: navbar" />
-<div class="h-100 main-container  mx-auto w-100 text-center">
+<div class="h-100 main-container  mx-auto w-100 text-center p-4">
 
-   Page not found! or some other 400ish error...
+    <div class="text-center"> <img th:src="@{~/img/error2.png}"/> </div>
+
+    Page not found! or some other 400ish error...
 
 </div>
 

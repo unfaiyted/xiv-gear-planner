@@ -1,4 +1,5 @@
 const alert = require('./../../libs/alert.js');
+const api = require('../../libs/local.js');
 
 // Module for adding members to static list
 module.exports = {
@@ -9,7 +10,6 @@ module.exports = {
         addClass: 'add-member',
         deleteClass: 'delete-member',
         memberList: $('#member-list')
-
     },
 
     initModule: (addClass, deleteClass) => {
@@ -24,7 +24,7 @@ module.exports = {
         let deleteClass = "." + module.exports.settings.deleteClass;
 
         //Resets any exisint handlers for same name.
-        $(addClass).off();  $(deleteClass).off();
+        $(addClass).off();  $(deleteClass).off();  $("#save-member-add").off();
 
         //add member handler
         $(addClass).click(function (e) {
@@ -51,11 +51,22 @@ module.exports = {
 
         });
 
+        $("#save-member-add").click(function (e) {
+            e.preventDefault();
+            if(module.exports.settings.list.length <= 0) {
+                return alert.displayPopUpAlert("You need to add members first.","warning");
+            }
+            module.exports.saveMembers();
+
+        });
+
     },
 
     addMember: (player) => {
+       let curr = typeof $("#member-count").val() !== 'undefined' ? $("#member-count").val() : 0;
+       let total = parseInt(curr) + module.exports.settings.count;
 
-        if(module.exports.settings.count < 8) {
+        if(total < 8) {
             //add member to list
             module.exports.settings.list.push(player);
             // render new member list
@@ -82,6 +93,14 @@ module.exports = {
 
     },
 
+    saveMembers: () => {
+        return api.addData("/api/static/member/add", JSON.stringify(module.exports.settings.list))
+            .then(function () {
+                location.reload();
+            }).catch(alert.displayPopUpAlert("Adding members failed","danger"));
+
+    },
+
     renderList: () => {
 
         let i = 0;
@@ -97,7 +116,7 @@ module.exports = {
                                 <div class="row">`
             }
 
-            memberList += module.exports.createSingleMember(member);
+            memberList += module.exports.renderSingleMember(member);
             i++;
         });
 
@@ -108,7 +127,7 @@ module.exports = {
 
     },
 
-    createSingleMember: (member) => {
+    renderSingleMember: (member) => {
         let deleteClass =   module.exports.settings.deleteClass;
         return `<div class="col-3">
                 <img class="img-fluid hover-members" src="${member.img}" title="Exodus" />
