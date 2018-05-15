@@ -24,6 +24,9 @@ public class StaticMember {
     private Job assignedJob;
 
     @ManyToOne
+    private GearSet assignedGear;
+
+    @ManyToOne
     @JsonManagedReference
     private Static oneStatic;
 
@@ -89,5 +92,11 @@ public class StaticMember {
         this.oneStatic = oneStatic;
     }
 
+    public GearSet getAssignedGear() {
+        return assignedGear;
+    }
 
+    public void setAssignedGear(GearSet assignedGear) {
+        this.assignedGear = assignedGear;
+    }
 }

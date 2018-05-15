@@ -29,14 +29,23 @@ public class JobController {
     // List of Job Types in JSON format.
     @GetMapping("/api/jobs")
     public @ResponseBody
-    List<Job> viewJobTypeInJson() {
+    List<Job> viewJobTypeInJson(@RequestParam(name="job", defaultValue = "true") boolean job) {
+
+        System.out.println(job);
+
         List<Job> jobList = new ArrayList<>();
 
         try {
-            jobs.getJobs().findAll().forEach(jobList::add);
+            jobs.getJobs().findAll().forEach((value) -> {
+                System.out.println(value);
+
+                if (value.isJob() == job) jobList.add(value);
+
+            });
         } catch (NullPointerException e) {
             return new ArrayList<>();
         }
+
         return jobList;
     }
 

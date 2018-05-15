@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Index page</title>
+</head>
+<body>
+<div th:replace="partials/layout :: navbar" />
+<div class="h-100 main-container  mx-auto w-100 text-center">
+
+IMPORT A PLAYER!!!!!
+
+    <span th:text="${character.name}"></span>
+    <span th:text="${character.getClassOrJob()}"></span>
+
+    <div class="col-12">
+        <span th:text="${character.weapon.name}"></span>
+    </div>
+
+<div class="row">
+    <div class="col-6">
+    <th:block th:each="item : ${character.gearSet}">
+        <div class="col-12">
+        <span th:text="${item.name}"></span>
+        <span th:text="${item.level}"></span>
+        <span th:text="${item.id}"></span>
+    </div>
+    </th:block>
+    </div>
+
+    <div class="col-6">
+        <th:block th:each="gear : ${gearMatches}">
+           <div class="col-12">
+               <a th:href="@{https://xivdb.com/item/} + ${gear.originalId}" th:text="${gear.name}"></a>
+            <span th:text="${gear.iLvl}"></span>
+            <span th:text="${gear.id}"></span>
+           </div>
+        </th:block>
+    </div>
+</div>
+
+</div>
+
+<hr>
+
+<span th:text="${player.name}"></span>
+
+<hr>
+
+
+<div th:replace="partials/layout :: footer" />
+<script th:src="@{~/built/importer.js}"></script>
+<script src="https://secure.xivdb.com/tooltips.js"></script>
+</body>
+</html>

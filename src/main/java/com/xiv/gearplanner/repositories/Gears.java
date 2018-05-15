@@ -17,6 +17,9 @@ public interface Gears extends JpaRepository<Gear, Long> {
 
     Page<Gear> findAll(Pageable pageable);
 
+
+    Gear findGearByName(String name);
+
     // Stats for a specific piece of gear
     @Query("select new GearStat(gs) from GearStat gs WHERE  gs.gear.id = ?1")
     List<GearStat> getGearStats(Long gearId);

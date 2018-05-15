@@ -29,10 +29,11 @@ public class Player {
     @Column
     private String server;
     @Column
-    private Long loadstone_id;
+    private Long loadstoneId;
 
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Job> jobs = new ArrayList<>();
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<GearSet> gearSets = new ArrayList<>();
 
@@ -62,7 +63,7 @@ public class Player {
         this.avatar = copy.avatar;
         this.server = copy.server;
         this.portrait = copy.portrait;
-        this.loadstone_id = copy.loadstone_id;
+        this.loadstoneId = copy.loadstoneId;
         this.jobs = copy.jobs;
         this.gearSets = copy.gearSets;
     }
@@ -160,11 +161,11 @@ public class Player {
     }
 
     public Long getLoadstone_id() {
-        return loadstone_id;
+        return loadstoneId;
     }
 
     public void setLoadstone_id(Long loadstone_id) {
-        this.loadstone_id = loadstone_id;
+        this.loadstoneId = loadstone_id;
     }
 
     public String getServer() {
@@ -185,7 +186,7 @@ public class Player {
                 ", avatar='" + avatar + '\'' +
                 ", portrait='" + portrait + '\'' +
                 ", server='" + server + '\'' +
-                ", loadstone_id=" + loadstone_id +
+                ", loadstone_id=" + loadstoneId +
                 ", jobs=" + jobs +
                 ", gearSets=" + gearSets +
                 '}';

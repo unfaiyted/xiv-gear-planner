@@ -92,23 +92,30 @@
                                 <div class="progress prog-bar">
                                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 44%"></div>
                                 </div>
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <span class="text-muted job-text">Job:</span>
+
+                                       <div class="col-12">
+                                           <div class="row">
+                                            <span class="text-muted job-text">Job:</span>
                                             <div class="job-display">
                                                 <span th:text="${member?.assignedJob?.name}"></span>
                                             </div>
-                                        <i th:data-id="${member?.getId()}" class="edit-toggle material-icons">
-                                            edit
-                                        </i>
-                                    </li>
-                                    <li class="list-group-item">BIS: War DH/Crit (<a href="#">edit</a>)</li>
-                                </ul>
+                                            <i th:data-id="${member?.getId()}" class="edit-toggle material-icons">
+                                                edit
+                                            </i>
+                                           </div>
+                                           <div class="row w-100">
+
+                                            <ul class="list-group">
+                                                <li class="list-group-item">BIS: War DH/Crit (<a href="#">edit</a>)</li>
+                                            </ul>
+
+                                           </div>
+                                       </div>
 
                             </div>
                             <div class="card-footer text-muted">
                                 <a th:href="@{/static/view/} + ${member?.getId()}" class="btn btn-sm btn-primary">View Gear</a>
-                                <a href="#" class="btn btn-sm btn-secondary">Sync Gear</a>
+                                <a href="#" class="btn btn-sm btn-secondary member-gear-sync" th:data-id="${member.getId()}">Sync Gear</a>
                             </div>
                         </div>
                     </div>

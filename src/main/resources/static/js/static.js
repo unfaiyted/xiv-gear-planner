@@ -3,6 +3,7 @@ const member = require('./module/static/memberAdd');
 const job = require('./module/static/editJob.js');
 const deleteMember = require('./libs/remove.js');
 const loader = require('./libs/loader.js');
+const syncGear = require('./module/static/gearSync.js');
 
 module.exports = {
 
@@ -99,6 +100,8 @@ module.exports = {
 
 };
 
+
+// init main function
 module.exports.init();
 
 // Generates a page loader, hidden on creation
@@ -115,6 +118,8 @@ deleteMember.init({
     deleteMsg: "Are you sure you want to delete this static member?"
 });
 
+
+syncGear.init();
 
 $(document).scroll(function() {
     var y = $(this).scrollTop();

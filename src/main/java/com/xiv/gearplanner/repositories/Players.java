@@ -20,5 +20,7 @@ public interface Players extends CrudRepository<Player,Long> {
     @Query("select new Player(p) from Player p where p.id = ?1")
     Player getPlayerById(Long id);
 
+    Player findFirstPlayerByLoadstoneId(Long LodestoneId);
+
 
 }

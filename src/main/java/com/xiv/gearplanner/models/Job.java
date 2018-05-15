@@ -1,6 +1,9 @@
 package com.xiv.gearplanner.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -89,6 +92,16 @@ public class Job {
 
     public String getImg() {
         return  "/img/jobs/" + abbr + ".png";
+    }
+
+    public Long getParentJobId() {
+        return parentJob.getId();
+    }
+
+    // ids great than 30 are always post expansion
+    // not really the best way to do this probably...
+    public boolean isJob() {
+        return (this.id != parentJob.getId() || this.id > 30)? true : false;
     }
 
     public void setIcon(String icon) {
