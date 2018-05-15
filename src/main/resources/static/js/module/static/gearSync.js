@@ -35,7 +35,7 @@ module.exports = {
 
     getLodestoneData: () => {
            return api.addData('/lodestone/import/',memberId).then(function () {
-
+               
            }).catch(alert.displayPopUpAlert("Error importing gear","danger"));
     }
 
