@@ -1,5 +1,6 @@
 const validate = require("./libs/validate.js");
 const alert = require("./libs/alert.js");
+const loader = require('./libs/loader.js');
 
 module.exports = {
 
@@ -27,6 +28,9 @@ module.exports = {
                 return false;
             }
 
+
+            //full page loader
+            loader.display(0);
             return true;
            // $('#form-import-bis').submit();
         });
@@ -54,10 +58,9 @@ module.exports = {
 };
 
 
-
-
-
-
-
-
 module.exports.init();
+
+// TODO: add some sort of dynamic location for image folder....
+// Change the way loader works so it is created inline. less confusing
+loader.settings.img ="../../img/loader.svg";
+loader.injectFullPageLoader();

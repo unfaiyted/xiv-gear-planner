@@ -175,6 +175,65 @@ module.exports = {
 
 /***/ }),
 
+/***/ 18:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// display loading module spinner thingy
+module.exports = {
+
+    settings: {
+        img: "../img/loader.svg",
+        // Where to inject loader within the page
+        // class or ID
+        injectOn: '#loader',
+        pageLoader: false
+
+    },
+
+    create: function create(id, injectOn) {
+        // checkif its overwrote and a class, not an ID
+        if (injectOn != null && injectOn.contains("#") != true) {
+            module.exports.settings.injectOn = injectOn + "[data-id=" + id + "]";
+        }
+        module.exports.inject(id);
+    },
+
+    // creates a loader that is over the whole page
+    injectFullPageLoader: function injectFullPageLoader() {
+        if (!module.exports.settings.pageLoader) {
+            module.exports.settings.pageLoader = true;
+            module.exports.settings.injectOn = "body";
+            module.exports.inject(0);
+        }
+    },
+
+
+    display: function display(id) {
+        $(".loader-img[data-id=\"" + id + "\"]").show();
+    },
+
+    hide: function hide(id) {
+        $(".loader-img[data-id=\"" + id + "\"]").hide();
+    },
+
+    toggle: function toggle(id) {
+        $(".loader-img[data-id=\"" + id + "\"]").toggle();
+    },
+
+    inject: function inject(id) {
+        // clean loader
+        //$(module.exports.settings.injectOn).empty();
+        // adding loader to injection site
+        $(module.exports.settings.injectOn).append($("<div class=\"loader-img\" data-id=\"" + id + "\" style=\"display: none\">").append($("<img src=\"" + module.exports.settings.img + "\" >")));
+    }
+
+};
+
+/***/ }),
+
 /***/ 20:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -183,6 +242,7 @@ module.exports = {
 
 var validate = __webpack_require__(22);
 var alert = __webpack_require__(1);
+var loader = __webpack_require__(18);
 
 module.exports = {
 
@@ -210,6 +270,8 @@ module.exports = {
                 return false;
             }
 
+            //full page loader
+            loader.display(0);
             return true;
             // $('#form-import-bis').submit();
         });
@@ -234,6 +296,11 @@ module.exports = {
 };
 
 module.exports.init();
+
+// TODO: add some sort of dynamic location for image folder....
+// Change the way loader works so it is created inline. less confusing
+loader.settings.img = "../../img/loader.svg";
+loader.injectFullPageLoader();
 
 /***/ }),
 
