@@ -15,10 +15,61 @@ module.exports = {
 
         module.exports.settings.createdPopUpAlert = true;
 
+        //cleans alerts coloring
+        module.exports.removeAlertTypes();
+
         $('.alert').addClass("alert-"+type);
         $('#alert-message').text(message);
 
         $(`#alertModal`).modal('show');
+    },
+
+    displayInlineAlert: (appendLocation, message, type) => {
+
+        //empty append location
+        appendLocation.empty();
+
+        module.exports.createInlineAlert(appendLocation);
+
+        // Message String
+        if (typeof message === "string") {
+            $('#inline-alert-message').text(message);
+        }
+
+
+        // Message Array
+        if (typeof message === "object") {
+
+            let errors = `<div class="row">`;
+
+            message.forEach(function (m) {
+                errors += `<div class="col-12">${m}</div>`;
+            });
+
+            errors += `</div>`;
+
+            $('#inline-alert-message').html(errors);
+
+        }
+
+        $('.alert').addClass("alert-"+type);
+
+
+    },
+
+
+    removeAlertTypes: () => {
+        $('.alert').removeClass("alert-danger")
+            .removeClass("alert-warning")
+            .removeClass("alert-success")
+            .removeClass("alert-warning")
+            .removeClass("alert-primary")
+            .removeClass("alert-secondary")
+            .removeClass("alert-light")
+            .removeClass("alert-dark")
+
+        ;
+
     },
 
 
@@ -58,14 +109,14 @@ module.exports = {
 
     },
 
-    createInlineAlert: () => {
+    createInlineAlert: (location) => {
 
-        alertFiller.append(
+        location.append(
             $(` <div class="alert alert-dismissible fade show" role="alert">`).append(
-                $(`<button type="button" class="close" data-dismiss="modal" aria-label="Close">`).append(
-                    $(` <span aria-hidden="true">`).text("&times;")
+                $(`<button type="button" class="close" data-dismiss="alert" aria-label="Close">`).append(
+                    $(` <span aria-hidden="true">`).html("&times;")
                 ),
-                $(`<span id="alert-message">`).text("Alert Message")
+                $(`<span id="inline-alert-message">`).text("Alert Message")
         ));
 
     },

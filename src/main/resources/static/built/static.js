@@ -121,6 +121,8 @@ module.exports = {
 "use strict";
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 // site wide alert system code
 module.exports = {
 
@@ -138,10 +140,46 @@ module.exports = {
 
         module.exports.settings.createdPopUpAlert = true;
 
+        //cleans alerts coloring
+        module.exports.removeAlertTypes();
+
         $('.alert').addClass("alert-" + type);
         $('#alert-message').text(message);
 
         $("#alertModal").modal('show');
+    },
+
+    displayInlineAlert: function displayInlineAlert(appendLocation, message, type) {
+
+        //empty append location
+        appendLocation.empty();
+
+        module.exports.createInlineAlert(appendLocation);
+
+        // Message String
+        if (typeof message === "string") {
+            $('#inline-alert-message').text(message);
+        }
+
+        // Message Array
+        if ((typeof message === "undefined" ? "undefined" : _typeof(message)) === "object") {
+
+            var errors = "<div class=\"row\">";
+
+            message.forEach(function (m) {
+                errors += "<div class=\"col-12\">" + m + "</div>";
+            });
+
+            errors += "</div>";
+
+            $('#inline-alert-message').html(errors);
+        }
+
+        $('.alert').addClass("alert-" + type);
+    },
+
+    removeAlertTypes: function removeAlertTypes() {
+        $('.alert').removeClass("alert-danger").removeClass("alert-warning").removeClass("alert-success").removeClass("alert-warning").removeClass("alert-primary").removeClass("alert-secondary").removeClass("alert-light").removeClass("alert-dark");
     },
 
     confirmPopUp: function confirmPopUp(message) {
@@ -172,9 +210,9 @@ module.exports = {
         $('body').append($("<div class=\"modal p-2 fade\" id=\"confirmModal\">").append($("<div class=\"modal-dialog modal-dialog-centered modal-sm\" role=\"document\">").append($(" <div class=\"modal-content p-2\">").append($(" <div class=\"fade show\" role=\"alert\">").append($("<span id=\"confirm-message\" class=\"p-1\">").text("Confirm Message"), $("<div class=\"text-right\">").append($("<button class=\"btn btn-sm btn-primary p-1 m-1\" id=\"ok\">").text("Ok"), $("<button class=\"btn btn-sm btn-secondary p-1 m-1\" id=\"cancel\">").text("Cancel")))))));
     },
 
-    createInlineAlert: function createInlineAlert() {
+    createInlineAlert: function createInlineAlert(location) {
 
-        alertFiller.append($(" <div class=\"alert alert-dismissible fade show\" role=\"alert\">").append($("<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">").append($(" <span aria-hidden=\"true\">").text("&times;")), $("<span id=\"alert-message\">").text("Alert Message")));
+        location.append($(" <div class=\"alert alert-dismissible fade show\" role=\"alert\">").append($("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">").append($(" <span aria-hidden=\"true\">").html("&times;")), $("<span id=\"inline-alert-message\">").text("Alert Message")));
     },
 
     createPopupAlert: function createPopupAlert() {
