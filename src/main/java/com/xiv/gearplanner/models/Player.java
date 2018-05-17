@@ -1,10 +1,9 @@
 package com.xiv.gearplanner.models;
 
-import org.hibernate.annotations.Cascade;
+import com.xiv.gearplanner.models.inventory.GearSet;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -160,11 +159,11 @@ public class Player {
         this.portrait = portrait;
     }
 
-    public Long getLoadstone_id() {
+    public Long getLoadstoneId() {
         return loadstoneId;
     }
 
-    public void setLoadstone_id(Long loadstone_id) {
+    public void setLoadstoneId(Long loadstone_id) {
         this.loadstoneId = loadstone_id;
     }
 

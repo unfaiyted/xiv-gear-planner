@@ -115,8 +115,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 1 */,
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -187,6 +186,7 @@ module.exports = {
 };
 
 /***/ }),
+/* 2 */,
 /* 3 */,
 /* 4 */,
 /* 5 */,
@@ -209,7 +209,7 @@ var member = __webpack_require__(15);
 var job = __webpack_require__(16);
 var deleteMember = __webpack_require__(17);
 var loader = __webpack_require__(18);
-var syncGear = __webpack_require__(20);
+var syncGear = __webpack_require__(19);
 
 module.exports = {
 
@@ -326,7 +326,7 @@ $(document).scroll(function () {
 "use strict";
 
 
-var alert = __webpack_require__(2);
+var alert = __webpack_require__(1);
 var api = __webpack_require__(0);
 
 // Module for adding members to static list
@@ -566,7 +566,7 @@ module.exports = {
 
 
 var api = __webpack_require__(0);
-var alert = __webpack_require__(2);
+var alert = __webpack_require__(1);
 
 // Trigger on page to remove entries from page, settings need to be setup to delete
 // both visual and database data from user.
@@ -684,14 +684,13 @@ module.exports = {
 };
 
 /***/ }),
-/* 19 */,
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var alert = __webpack_require__(2);
+var alert = __webpack_require__(1);
 var api = __webpack_require__(0);
 
 module.exports = {
@@ -715,7 +714,7 @@ module.exports = {
 
     syncMemberToLodestone: function syncMemberToLodestone(memberId) {
         alert.confirmPopUp("Are you sure you want to sync?").then(function () {
-            console.log('You clicked ok' + memberId);
+            module.exports.getLodestoneData(memberId);
         }, //promise resolved
         function () {
             console.log('You clicked cancel');
@@ -723,8 +722,14 @@ module.exports = {
         );
     },
 
-    getLodestoneData: function getLodestoneData() {
-        return api.addData('/lodestone/import/', memberId).then(function () {}).catch(alert.displayPopUpAlert("Error importing gear", "danger"));
+    getLodestoneData: function getLodestoneData(memberId) {
+        return api.addData('/api/lodestone/import/' + memberId, memberId).then(function (data) {
+            console.log(data);
+            if (data.success === false) alert.displayPopUpAlert(data.errors.display, "danger");
+            if (data.success === true) alert.displayPopUpAlert("Success!", "success");
+        }).catch(function (data) {
+            alert.displayPopUpAlert("Error! Data not imported", "danger");
+        });
     }
 
 };

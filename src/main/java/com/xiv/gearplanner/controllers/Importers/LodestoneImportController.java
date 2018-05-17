@@ -3,74 +3,81 @@ package com.xiv.gearplanner.controllers.Importers;
 
 import com.xiv.gearplanner.exceptions.LodestoneParserException;
 import com.xiv.gearplanner.models.*;
+import com.xiv.gearplanner.models.importers.LSCharacter;
+import com.xiv.gearplanner.models.importers.LSItem;
+import com.xiv.gearplanner.models.inventory.Gear;
+import com.xiv.gearplanner.models.inventory.GearSet;
 import com.xiv.gearplanner.parser.CharacterParser;
 import com.xiv.gearplanner.parser.URLS;
 import com.xiv.gearplanner.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class LodestoneImportController {
-    private static PlayerService playerDao;
     private static GearService gearDao;
-    private static JobService jobDao;
     private static GearSetService gearSetDao;
     private static StaticService staticDao;
 
     @Autowired
-    public LodestoneImportController(PlayerService playerDao, GearService gearDao, JobService jobDao, GearSetService gearSetDao) {
-        this.playerDao = playerDao;
+    public LodestoneImportController(StaticService staticDao, GearService gearDao,  GearSetService gearSetDao) {
+        this.staticDao = staticDao;
         this.gearDao = gearDao;
-        this.jobDao = jobDao;
         this.gearSetDao = gearSetDao;
     }
 
-    @GetMapping("/lodestone/import")
-    public String getCharacter(Model model) throws IOException, LodestoneParserException {
+    @PostMapping("/api/lodestone/import/{memberId}")
+    public @ResponseBody Response getCharacter(Model model, @PathVariable Long memberId) throws LodestoneParserException {
 
-        Long LodeStoneId = 13143212L;
+        try {
+            // Member Id
+            StaticMember member = staticDao.getStatics().getMember(memberId);
 
-        CharacterParser parser = new CharacterParser(URLS.US);
+            Long LodeStoneId = member.getPlayer().getLoadstoneId();
 
-        LSCharacter character = parser.getCharacterById(LodeStoneId);
+            /* Parsed Char data from lodestone*/
+            CharacterParser parser = new CharacterParser(URLS.US);
+            LSCharacter character = parser.getCharacterById(LodeStoneId);
+            // LS current job
+            String jobAbbr = character.getClassOrJob(); // current equipped job
+            String assignedJobAbbr = member.getAssignedJob().getAbbr();
 
-        Player player = playerDao.getPlayers().findFirstPlayerByLoadstoneId(LodeStoneId);
+            // Job on Lodestone does not match assigned job.
+            if (!assignedJobAbbr.equals(jobAbbr))
+                return new ResponseError("display", "Lodestone does not match selected assigned job.");
 
-        List<Gear> gearMatches = new ArrayList<>();
+            List<Gear> gearMatches = new ArrayList<>();
 
-        // Get Gear Matches from Loadstone
-        for(LSItem item : character.getGearSet()) {
-            gearMatches.add(gearDao.getGears().findGearByName(item.getName()));
+            // Get Gear Matches from Loadstone
+            for (LSItem item : character.getGearSet()) {
+                gearMatches.add(gearDao.getGears().findGearByName(item.getName()));
             }
 
-            //TODO: check if count matches number of gear valid for set.
-        // add weapon check
+            // Adds weapon
+            gearMatches.add(gearDao.getGears().findGearByName(character.getWeapon().getName()));
 
-        String jobAbbr = character.getClassOrJob(); // current equipped job
-        Job job = jobDao.getJobs().findJobByAbbr(jobAbbr);
-        GearSet gearSet = new GearSet(job, player,gearMatches);
+            GearSet gearSet = new GearSet(member.getAssignedJob(), member.getPlayer(), gearMatches);
 
-        Long memberId = 3L;
-
-        StaticMember member = staticDao.getStatics().getMember(memberId);
-
-        gearSetDao.getGearSets().save(gearSet);
-
-        //staticDao.getStatics().updateMemberGearSet(gearSet.getId());
-
-       //
-
-        // Send Char to view Test!
+            gearSetDao.getGearSets().save(gearSet);
+            staticDao.getStatics().updateMemberGearSet(memberId, gearSet.getId());
+        } catch (NullPointerException e) {
+            // Cant find member
+            if (memberId == null) return new ResponseError("display", "Member not found");
+            return new ResponseError("display","unable to determine error");
+        }
+      /*  // Send Char to view Test!
         model.addAttribute("character",character);
-        model.addAttribute("player",player);
-        model.addAttribute("gearMatches", gearMatches);
-        return "/import/lsPlayer";
+        model.addAttribute("player",member.getPlayer());
+        model.addAttribute("gearMatches", gearMatches);*/
+
+      return new Response(true);
     }
 
 }

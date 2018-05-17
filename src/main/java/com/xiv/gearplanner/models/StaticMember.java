@@ -2,6 +2,7 @@ package com.xiv.gearplanner.models;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.xiv.gearplanner.models.inventory.GearSet;
 
 import javax.persistence.*;
 

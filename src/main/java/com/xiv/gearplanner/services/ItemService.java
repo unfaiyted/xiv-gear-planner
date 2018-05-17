@@ -1,6 +1,6 @@
 package com.xiv.gearplanner.services;
 
-import com.xiv.gearplanner.models.Item;
+import com.xiv.gearplanner.models.inventory.Item;
 import com.xiv.gearplanner.repositories.Items;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

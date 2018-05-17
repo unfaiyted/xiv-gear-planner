@@ -1,7 +1,7 @@
 package com.xiv.gearplanner.repositories;
 
-import com.xiv.gearplanner.models.Item;
-import com.xiv.gearplanner.models.ItemCategory;
+import com.xiv.gearplanner.models.inventory.Item;
+import com.xiv.gearplanner.models.inventory.ItemCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;

@@ -1,9 +1,13 @@
 package com.xiv.gearplanner.models;
 
 
+import com.xiv.gearplanner.models.inventory.GearWithMelds;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -13,9 +17,9 @@ public class JobBIS {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Must contain a code")
-    @Size(min = 5, message = "Code is too short to be valid")
-    @Column(nullable = false)
+
+    // If imported from ariyala
+    @Column
     private String ariyalaCode;
 
     @NotBlank(message = "Must contain a name")
@@ -23,12 +27,11 @@ public class JobBIS {
     @Column(nullable = false)
     private String name;
 
-    @NotBlank(message = "Must contain a patch")
-    @OneToOne
-    private Patch patch;
-
     @ManyToOne
     private Job job;
+
+    @ManyToMany
+    private List<GearWithMelds> gearWithMelds = new ArrayList<>();
 
     public JobBIS() {
     }
@@ -63,14 +66,6 @@ public class JobBIS {
         this.name = name;
     }
 
-    public Patch getPatch() {
-        return patch;
-    }
-
-    public void setPatch(Patch patch) {
-        this.patch = patch;
-    }
-
     public Job getJob() {
         return job;
     }
@@ -85,7 +80,6 @@ public class JobBIS {
                 "id=" + id +
                 ", ariyalaCode='" + ariyalaCode + '\'' +
                 ", name='" + name + '\'' +
-                ", patch=" + patch +
                 ", job=" + job +
                 '}';
     }

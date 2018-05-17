@@ -1,4 +1,4 @@
-package com.xiv.gearplanner.models;
+package com.xiv.gearplanner.models.importers;
 
 import java.util.List;
 

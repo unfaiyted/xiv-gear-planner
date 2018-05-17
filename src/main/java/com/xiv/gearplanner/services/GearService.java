@@ -1,16 +1,13 @@
 package com.xiv.gearplanner.services;
 
-import com.xiv.gearplanner.models.Gear;
-import com.xiv.gearplanner.models.GearStat;
-import com.xiv.gearplanner.models.GearStatType;
+import com.xiv.gearplanner.models.inventory.Gear;
+import com.xiv.gearplanner.models.inventory.GearStat;
+import com.xiv.gearplanner.models.inventory.GearStatType;
 import com.xiv.gearplanner.repositories.GearEquipCategories;
 import com.xiv.gearplanner.repositories.Gears;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 

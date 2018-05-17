@@ -7,7 +7,6 @@ public class Response {
 
     public Response() {
     }
-
     public Response(boolean success) {
         this.success = success;
     }

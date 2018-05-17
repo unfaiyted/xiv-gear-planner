@@ -64,6 +64,12 @@ body {
 
 }
 
+.card-container-dark {
+    background: #0000009c;
+    color: #fff;
+    border-radius: 3px;
+}
+
 .card-container-light {
     background: #481e1ed6;
     color:  #fff;
@@ -353,4 +359,61 @@ SEARCH GEAR PAGES
 
 #add-member-modal #member-list img {
     display: none;
+}
+
+
+/*
+MATERIA ICONS
+*/
+
+.round-button {
+    width:24px;
+    height:18px;
+    padding: 0;
+    float: left;
+    margin-right: 5px;
+}
+.round-button-circle {
+    width: 85%;
+    height:0;
+    padding-bottom: 60%;
+    border-radius: 50%;
+    border:3px solid #bcbcbca1;
+    overflow:hidden;
+    background: #4679BD;
+    background: radial-gradient(circle at 7px 7px, #b0ccff, #4679BD);
+    box-shadow: 0 0 3px gray;
+}
+.round-button-circle:hover {
+    background: radial-gradient(circle at 7px 7px, #7b90b3, #4679BD);
+}
+
+.red-materia {
+    background: radial-gradient(circle at 7px 7px, #ff7f7fe3, #880c0cd9);
+}
+
+.red-materia:hover {
+    background: radial-gradient(circle at 7px 7px, rgba(173, 95, 95, 0.89), #880c0cd9);
+}
+
+.purple-materia {
+    background: radial-gradient(circle at 7px 7px, #ff9efc, #7A3897);
+}
+.purple-materia:hover {
+    background: radial-gradient(circle at 7px 7px, #ff9efca1, #7A3897);
+}
+
+.yellow-materia {
+    background: radial-gradient(circle at 7px 7px, #fff941, #b1ab2d);
+}
+
+.yellow-materia:hover {
+    background: radial-gradient(circle at 7px 7px, #efef96a6, #74700f);
+}
+
+.empty-materia {
+    background: radial-gradient(circle at 7px 7px, #222, #908c858a);
+}
+.empty-materia:hover {
+    background: radial-gradient(circle at 7px 7px, #868686a3, #03020194);
 }

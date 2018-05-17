@@ -1,10 +1,10 @@
 package com.xiv.gearplanner.controllers;
 
 
-import com.xiv.gearplanner.models.Gear;
-import com.xiv.gearplanner.models.GearStat;
-import com.xiv.gearplanner.models.GearStatType;
-import com.xiv.gearplanner.models.GearType;
+import com.xiv.gearplanner.models.inventory.Gear;
+import com.xiv.gearplanner.models.inventory.GearStat;
+import com.xiv.gearplanner.models.inventory.GearStatType;
+import com.xiv.gearplanner.models.inventory.GearType;
 import com.xiv.gearplanner.services.GearService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class GearController {

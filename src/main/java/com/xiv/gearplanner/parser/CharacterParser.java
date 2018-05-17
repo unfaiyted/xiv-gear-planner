@@ -1,8 +1,8 @@
 package com.xiv.gearplanner.parser;
 
 import com.xiv.gearplanner.exceptions.LodestoneParserException;
-import com.xiv.gearplanner.models.LSCharacter;
-import com.xiv.gearplanner.models.LSItem;
+import com.xiv.gearplanner.models.importers.LSCharacter;
+import com.xiv.gearplanner.models.importers.LSItem;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -66,11 +66,7 @@ public class CharacterParser {
 	private void parsePlate(LSCharacter character, Document html) throws LodestoneParserException {
 		Elements playerNameBox = html.select("div.frame__chara__box");
 		ParserUtils.checkElementsSize(playerNameBox, 1, "Cannot find html for character name");
-		
-		// get character name
-//		Elements pName = playerNameBox.select("p.frame__chara__name");
-//		ParserUtils.checkElementsSize(pName, 1, "Cannot find html for character name");
-		
+
 		Elements playerNameTag = playerNameBox.select("p.frame__chara__name");
 		ParserUtils.checkElementsSize(playerNameTag, 1, "Cannot find html for character name");
 		character.setName(playerNameTag.text());

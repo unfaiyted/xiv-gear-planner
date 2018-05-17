@@ -1,4 +1,4 @@
-package com.xiv.gearplanner.models;
+package com.xiv.gearplanner.models.inventory;
 
 
 import javax.persistence.*;
@@ -39,6 +39,10 @@ public class GearSlot {
 
     public void setName(String input) {
         name = input;
+    }
+
+    public String getIcon() {
+        return "/img/gear/Gear_" + id + "_Icon.png";
     }
 
 }

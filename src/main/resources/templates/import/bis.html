@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Index page</title>
+</head>
+<body>
+<div th:replace="partials/layout :: navbar" />
+<div class="h-100 container  mx-auto  text-left p-2">
+
+    <h1>Import BIS from Ariyala</h1>
+
+    <div class="row">
+        <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+            <div class="card-container-dark p-2 m-2">
+                <form method="post" th:action="@{~/bis/importer/}" name="import-bis">
+                <label for="ariyala-url">Ariyala Code</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3">http://ffxiv.ariyala.com/</span>
+                    </div>
+                    <input type="text" class="form-control" name="bis" id="ariyala-url" aria-describedby="basic-addon3" placeholder="11MVK">
+                    <small id="ariyalaHelp" class="form-text text-muted w-100">This code is needed to begin the import.</small>
+                </div>
+                <div class="form-group">
+                    <label for="name">Custom Name</label>
+                    <input type="input" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter a name">
+                    <small id="nameHelp" class="form-text text-muted">An easy to remember name. (ex: Crit/Det Build)</small>
+                </div>
+
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="private-check">
+                    <label class="form-check-label" for="private-check">Private Only</label>
+                    <div class="text-right">
+                    <button class="b>tn btn-sm btn-primary" type="submit" name="submit">Begin!</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-8 col-md-12 col-12">
+            <div id="bis-preview">
+
+
+                <th:block th:if="${displayResult == true}">
+                    <div th:if="${error != null }" th:text="${error}"></div>
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="top">
+                        <th colspan="3" class="text-left">
+                            <div class="row m-0 p-0">
+                                <div class="text-left col-6 m-0 p-0">
+                                    <button class="btn btn-sm btn-secondary">Change Name</button>
+                                    <span>(<span th:text="${bis.getClassAbbr()}"></span> Crit/Det 4.2)</span>
+                                </div>
+                                <div class="text-right col-6 m-0 p-0">
+                                    <span>Everything looks good!</span>
+                                    <button class="btn btn-lg btn-primary">Import!</button>
+                                </div>
+                            </div> </th>
+                    </tr>
+                    <tr class="text-left">
+                        <th scope="col">Name</th>
+                        <th scope="col" class="d-none d-sm-table-cell">iLvl</th>
+                        <th scope="col">Melds</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="item : ${bis.getItems()}">
+
+                        <tr th:data-id="${item.id}" >
+                            <td>   <a th:href="@{https://xivdb.com/item/} + ${item.id}" th:text="${item.name}"></a> </td>
+                            <td>  <span th:text="${item.iLvl}"></span> </td>
+                            <td>
+                                 <!--<span th:text="${item.getMateriaSlot1()}" />-->
+                                 <!--<span th:text="${item.getMateriaSlot2()}" />-->
+
+
+                                <th:block th:each="materia : ${item.getMateriaSlot()}">
+                                    <div class="round-button" data-container="body" data-trigger="hover" data-toggle="popover"
+                                         data-placement="top" th:data-content="${materia.value[0]}">
+                                        <div th:class="@{round-button-circle } + ' ' + ${materia.value[1]} + @{-materia}"></div>
+                                    </div>
+                                </th:block>
+
+                            </td>
+                        </tr>
+                    </th:block>
+
+                    <tr><td colspan="3">
+                        <div class="text-center"><span class="text-muted">Does everything look right? (     <span th:text="${bis.getId()}"></span>) &nbsp;</span><a th:href="@{/import/player}" class="btn btn-sm btn-primary">Import!</a></div>
+                    </tbody>
+                    </td></tr>
+                </table>
+
+
+                </th:block>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div th:replace="partials/layout :: footer" />
+<script th:src="@{~/built/importer.js}">
+</script>
+
+<script src="https://secure.xivdb.com/tooltips.js"></script>
+</body>
+</html>

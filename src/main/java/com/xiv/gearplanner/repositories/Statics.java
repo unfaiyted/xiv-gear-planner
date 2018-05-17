@@ -43,6 +43,12 @@ public interface Statics extends CrudRepository<Static,Long> {
     @Query("update StaticMember sm set sm.assignedJob.id =:jobId where sm.id =:memberId")
     void updateMemberJob(@Param("memberId") Long memberId, @Param("jobId") Long jobId);
 
+
+    @Modifying
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Query("update StaticMember sm set sm.assignedGear.id =:gearSetId where sm.id =:memberId")
+    void updateMemberGearSet(@Param("memberId") Long memberId, @Param("gearSetId") Long gearSetId);
+
     @Modifying
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     @Query("delete from StaticMember sm where sm.id =:memberId")

@@ -1,5 +1,8 @@
-package com.xiv.gearplanner.models;
+package com.xiv.gearplanner.models.inventory;
 
+
+
+import com.xiv.gearplanner.models.Job;
 
 import javax.persistence.*;
 import java.util.ArrayList;

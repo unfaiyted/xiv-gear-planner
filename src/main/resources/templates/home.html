@@ -20,13 +20,13 @@
     <div class="row">
 
         <div class="col-12 col-md-3 col-sm-4">
-            <h3>Menu thing</h3>
+            <h3>Main Menu</h3>
             <div class="list-group m-3">
                 <a th:href="@{/player}" class="list-group-item">Players</a>
                 <a th:href="@{/static/view}" class="list-group-item">Static View</a>
                 <a th:href="@{/static/create}" class="list-group-item">Static Create</a>
                 <a th:href="@{/gear/view}" class="list-group-item">Search Gear</a>
-                <a th:href="@{/jobs}" class="list-group-item">Jobs</a>
+                <a th:href="@{/bis/importer}" class="list-group-item">BIS Importer</a>
                 <div sec:authorize="isAuthenticated()">
                     <a th:href="@{/logout}"class="list-group-item" >Logout</a>
                 </div>

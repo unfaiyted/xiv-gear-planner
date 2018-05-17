@@ -1,6 +1,6 @@
 package com.xiv.gearplanner.repositories;
 
-import com.xiv.gearplanner.models.GearEquipCategory;
+import com.xiv.gearplanner.models.inventory.GearEquipCategory;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

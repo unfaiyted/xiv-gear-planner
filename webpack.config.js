@@ -10,7 +10,8 @@ module.exports = {
         main: ['promise-polyfill', 'whatwg-fetch', './src/main/resources/static/js/global.js'],
         player: './src/main/resources/static/js/player.js',
         gear: './src/main/resources/static/js/gear.js',
-        static: './src/main/resources/static/js/static.js'
+        static: './src/main/resources/static/js/static.js',
+        importer: './src/main/resources/static/js/importer.js',
 
 
     },

@@ -1,4 +1,4 @@
-package com.xiv.gearplanner.models;
+package com.xiv.gearplanner.models.inventory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

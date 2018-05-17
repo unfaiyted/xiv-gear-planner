@@ -27,16 +27,21 @@ module.exports = {
     syncMemberToLodestone: (memberId) => {
         alert.confirmPopUp("Are you sure you want to sync?").then(
                 function() {
-                    console.log('You clicked ok' + memberId);
+                    module.exports.getLodestoneData(memberId);
                     }, //promise resolved
                 function() { console.log('You clicked cancel'); }, //promise rejected
             );
     },
 
-    getLodestoneData: () => {
-           return api.addData('/lodestone/import/',memberId).then(function () {
-               
-           }).catch(alert.displayPopUpAlert("Error importing gear","danger"));
+    getLodestoneData: (memberId) => {
+           return api.addData(`/api/lodestone/import/${memberId}`,memberId).then(function (data) {
+               console.log(data);
+               if(data.success === false) alert.displayPopUpAlert(data.errors.display, "danger");
+               if(data.success === true) alert.displayPopUpAlert("Success!", "success");
+
+           }).catch(function(data) {
+               alert.displayPopUpAlert("Error! Data not imported", "danger");
+           });
     }
 
 
