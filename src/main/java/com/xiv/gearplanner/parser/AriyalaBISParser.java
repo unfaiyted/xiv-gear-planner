@@ -19,6 +19,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.print.Doc;
 import java.io.IOException;
@@ -34,6 +35,8 @@ public class AriyalaBISParser {
     private static Logger logger = LoggerFactory.getLogger(AriyalaBISParser.class);
     private boolean verbose = true;
     private final String rootUrl;
+    @Value("${chrome-driver-install-location}")
+    String driverLocation;
 
     private WebDriver driver = new ChromeDriver();
     private WebDriverWait wait = new WebDriverWait(driver,7);
@@ -52,8 +55,11 @@ public class AriyalaBISParser {
         bis.setId(id);
         String url = rootUrl + id;
 
+
         Document html;
-        System.setProperty("webdriver.chrome.driver", "/Applications/chromedriver");
+        //chrome-driver-install-location
+        // ====>   /Applications/chromedriver
+        System.setProperty("webdriver.chrome.driver", driverLocation);
 
         driver.get(url);
 
