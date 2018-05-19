@@ -8,10 +8,13 @@ Initial structure of website being created
 
 - Static Creation Management (30%)
     * Building the page to create and add static creation 
-- Import Players (50%)
-- View gear (20%)
-- Import gear sets (10%)
-- Design (10%)
+- Import Players (70%)
+- View gear (40%)
+- Import gear sets (50%)
+    - Able to import directly from lodestone
+    - Will only import matching with current job sets currently.
+    - Possible switching of gear sets to be added at a later time. 
+- Design (40%)
 
 
 # Technologies
@@ -19,12 +22,15 @@ Initial structure of website being created
 - Java Spring Boot Web Application
 - Using MySQL database backend
 - Using ES6 compliant Javascript
-- JSON output api to be developed
+- JSON output api to be further develoiped
 - WebPack backend for javascript module support
+- Use of Selenium WebDriver for parsing utilities.
+    * Integrated with Chrome browser to take fully rendered page data and manipulate as needed.
 
 #Known issues
 
 - Nothing works at all :D
+- Ok some things work now, but its mostly a mess still.
 
 #Resources used for data 
 https://github.com/viion/ffxiv-datamining
@@ -53,5 +59,7 @@ http://xivdb.com
     -
     - JDK will need to be installed to setup on system. 
     - Ensure you update this `spring.devtools.restart.additional-paths` if you plan on using the dev tools.
-    - ChromeDriver (Selenium) install and setup driver location
+    - ChromeDriver (Selenium) install and setup driver location. 
+        - Location path must be specified in the `application.properties` file.
+    
     
