@@ -24,6 +24,7 @@ import javax.print.Doc;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
@@ -42,6 +43,7 @@ public class AriyalaBISParser {
     }
 
     public AriyalaBIS getBISbyId(String id) throws AriyalaParserException, UnexpectedHtmlStructureException {
+
         if (verbose) {
             logger.info("Parsing Ariala BIS for {}", id);
         }
@@ -56,14 +58,24 @@ public class AriyalaBISParser {
         driver.get(url);
 
         // Waits for tables to be viewable
-        WebElement page;
-        page = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("group-food")));
+
+        //
+        driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS) ;
+
+        // bad id
+        if(driver.findElements(By.id("group-food")).isEmpty()) {
+            driver.quit();
+            return new AriyalaBIS();
+        }
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("group-food")));
 
         html = Jsoup.parse(driver.getPageSource());
 
-        // Get gear and level
+        // Get job data
         parseJob(bis, html);
 
+        // Get gear and materia
         parseGear(bis, html);
 
         bis.setItems(parseMateriaList(bis.getItems(), driver));

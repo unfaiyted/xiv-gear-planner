@@ -2,9 +2,9 @@ package com.xiv.gearplanner.controllers;
 
 
 import com.xiv.gearplanner.models.inventory.Gear;
-import com.xiv.gearplanner.models.inventory.GearStat;
 import com.xiv.gearplanner.models.inventory.GearStatType;
 import com.xiv.gearplanner.models.inventory.GearType;
+import com.xiv.gearplanner.models.inventory.ItemStat;
 import com.xiv.gearplanner.services.GearService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +30,7 @@ public class GearController {
     @GetMapping("/gear")
     public String addMain(Model model) {
         model.addAttribute("gear", new Gear());
-        model.addAttribute("stat", new GearStat());
+        model.addAttribute("stat", new ItemStat());
         model.addAttribute("statTypes", gear.getGears().getStatTypes());
         model.addAttribute("types", gear.getGears().getGearTypes());
 

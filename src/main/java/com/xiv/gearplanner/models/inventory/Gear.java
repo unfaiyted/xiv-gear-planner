@@ -25,9 +25,9 @@ public class Gear extends Item {
     @OneToOne
     private GearSlotCategory slot;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "gear_id")
-    private List<GearStat> gearStats = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "item_id")
+    private List<ItemStat> gearStats = new ArrayList<>();
 
     @ManyToOne
     private GearEquipCategory equipCategory;
@@ -40,7 +40,8 @@ public class Gear extends Item {
 
     public Gear(String name, Integer originalId, String description, Integer iLvl,
                 Integer equipLevel, Integer icon, Boolean advancedMelding, Integer materiaSlotCount,
-                GearSlotCategory slot, GearEquipCategory equipCategory, Job useJob, ItemCategory category) {
+                GearSlotCategory slot, GearEquipCategory equipCategory, Job useJob, ItemCategory category,
+                List<ItemStat> gearStats) {
         super(name, description, iLvl, icon, originalId, category);
         this.slot = slot;
         this.advancedMelding = advancedMelding;
@@ -48,6 +49,13 @@ public class Gear extends Item {
         this.equipCategory = equipCategory;
         this.equipLevel = equipLevel;
         this.useJob = useJob;
+
+
+        gearStats.forEach(gearStat -> {
+            gearStat.setGear(this);
+        });
+
+        this.gearStats = gearStats;
     }
 
 
@@ -55,11 +63,11 @@ public class Gear extends Item {
         this.gearStats = copy.gearStats;
     }
 
-    public List<GearStat> getGearStats() {
+    public List<ItemStat> getGearStats() {
         return gearStats;
     }
 
-    public void setGearStats(List<GearStat> gearStats) {
+    public void setGearStats(List<ItemStat> gearStats) {
         this.gearStats = gearStats;
     }
 
@@ -113,13 +121,13 @@ public class Gear extends Item {
     }
 
     // TODO: Does a stat already exist, replace stat of the same type.
-    public void addGearStat(GearStat stat) {
+    public void addGearStat(ItemStat stat) {
         gearStats.add(stat);
     }
 
-    public void addGearStat(List<GearStat> stats) {
+    public void addGearStat(List<ItemStat> stats) {
 
-        for (GearStat stat : stats) {
+        for (ItemStat stat : stats) {
             stat.setGear(this);
             addGearStat(stat);
          }

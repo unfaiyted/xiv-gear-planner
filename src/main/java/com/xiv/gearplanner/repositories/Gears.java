@@ -20,8 +20,8 @@ public interface Gears extends JpaRepository<Gear, Long> {
     Gear findGearByName(String name);
 
     // Stats for a specific piece of gear
-    @Query("select new GearStat(gs) from GearStat gs WHERE  gs.gear.id = ?1")
-    List<GearStat> getGearStats(Long gearId);
+    @Query("select new ItemStat(gs) from ItemStat gs WHERE  gs.item.id = ?1")
+    List<ItemStat> getGearStats(Long gearId);
 
     // Get all Stat Types List
     @Query("select new GearStatType(gst) from GearStatType gst")
@@ -35,6 +35,8 @@ public interface Gears extends JpaRepository<Gear, Long> {
     @Query("select new GearType(gt) from GearType gt")
     List<GearType> getGearTypes();
 
+
+    Gear getFirstByOriginalId(Integer id);
 
     @Query("select gs from GearSlot gs where gs.name = ?1")
     GearSlot getGearSlotByName(String name);

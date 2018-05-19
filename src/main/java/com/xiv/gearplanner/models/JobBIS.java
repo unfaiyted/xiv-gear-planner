@@ -17,9 +17,9 @@ public class JobBIS {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     // If imported from ariyala
     @Column
+    @Size(min=5, max=5, message = "Ariyala code is supposed to be 5 digits.")
     private String ariyalaCode;
 
     @NotBlank(message = "Must contain a name")
@@ -30,8 +30,8 @@ public class JobBIS {
     @ManyToOne
     private Job job;
 
-    @ManyToMany
-    private List<GearWithMelds> gearWithMelds = new ArrayList<>();
+    @ManyToMany(cascade =  CascadeType.ALL)
+    private List<GearWithMelds> melded = new ArrayList<>();
 
     public JobBIS() {
     }
@@ -72,6 +72,18 @@ public class JobBIS {
 
     public void setJob(Job job) {
         this.job = job;
+    }
+
+    public List<GearWithMelds> getMelded() {
+        return melded;
+    }
+
+    public void setMelded(List<GearWithMelds> melded) {
+        this.melded = melded;
+    }
+
+    public void addMelded(GearWithMelds melded) {
+        this.melded.add(melded);
     }
 
     @Override

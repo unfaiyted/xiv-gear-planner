@@ -17,6 +17,12 @@
 
                 <div id="bis-form-error">
 
+                    <th:block th:if="${error != null }">
+                        <div class="alert alert-danger">
+                            <div  th:text="${error}"></div>
+                        </div>
+                    </th:block>
+
                 </div>
 
                 <form method="post" th:action="@{~/bis/importer/}" name="form-import-bis" id="form-import-bis">
@@ -48,8 +54,8 @@
         <div class="col-lg-8 col-md-12 col-12">
             <div id="bis-preview">
 
-                <th:block th:if="${displayResult == true}">
-                    <div th:if="${error != null }" th:text="${error}"></div>
+                <th:block th:if="${displayResult == true && error == null}">
+
                 <table class="table table-hover">
                     <thead>
                     <tr class="top">
@@ -59,8 +65,11 @@
                                     <span>(<span th:text="${bis.getClassAbbr()}"></span> Crit/Det 4.2)</span>
                                 </div>
                                 <div class="text-right col-6 m-0 p-0">
+                                    <form method="post" th:action="@{/bis/importer/save}" name="bis-form-save" id="bis-form-save">
                                     <span class="pr-2 align-top">Everything looks good? </span>
                                     <button class="btn btn-lg btn-primary">Import!</button>
+                                    <input type="hidden" name="bisJson" th:value="${bisStr}">
+                                    </form>
                                 </div>
                             </div> </th>
                     </tr>

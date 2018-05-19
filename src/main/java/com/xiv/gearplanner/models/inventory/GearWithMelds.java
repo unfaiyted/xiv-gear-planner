@@ -12,14 +12,13 @@ public class GearWithMelds {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade =  CascadeType.ALL)
     private Gear gear;
 
-    @ManyToMany
+    @ManyToMany(cascade =  CascadeType.ALL)
     private List<Meld> melds;
 
-    public GearWithMelds(Long id, Gear gear, List<Meld> melds) {
-        this.id = id;
+    public GearWithMelds( Gear gear, List<Meld> melds) {
         this.gear = gear;
         this.melds = melds;
     }
@@ -47,4 +46,7 @@ public class GearWithMelds {
     public void setMelds(List<Meld> melds) {
         this.melds = melds;
     }
+
+    public void addMeld(Meld meld) { this.melds.add(meld); }
+
 }

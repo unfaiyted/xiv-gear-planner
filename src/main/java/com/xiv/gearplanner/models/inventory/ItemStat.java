@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table
-public class GearStat {
+public class ItemStat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,19 +18,24 @@ public class GearStat {
     private GearStatType statType;
 
     @ManyToOne
-    @JoinColumn(name = "gear_id", nullable = false)
     @JsonIgnore
-    private Gear gear;
+    private Item item;
 
-    public GearStat() {
+    public ItemStat() {
     }
 
-    public GearStat(GearStatType statType, Long value) {
+    public ItemStat(GearStatType statType, Long value) {
         this.statType = statType;
         this.value = value;
     }
 
-    public GearStat(GearStat copy) {
+    public ItemStat(Item item, GearStatType statType, Long value) {
+        this.item = item;
+        this.statType = statType;
+        this.value = value;
+    }
+
+    public ItemStat(ItemStat copy) {
         this.id = copy.id;
         this.statType = copy.statType;
         this.value = copy.value;
@@ -60,12 +65,20 @@ public class GearStat {
         this.statType = statType;
     }
 
-    public Gear getGear() {
-        return gear;
+    public Item getGear() {
+        return item;
     }
 
-    public void setGear(Gear gear) {
-        this.gear = gear;
+    public void setGear(Item gear) {
+        this.item = gear;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 
 }

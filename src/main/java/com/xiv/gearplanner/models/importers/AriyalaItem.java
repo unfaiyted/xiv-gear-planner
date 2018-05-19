@@ -1,7 +1,6 @@
 package com.xiv.gearplanner.models.importers;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class AriyalaItem {
@@ -12,6 +11,17 @@ public class AriyalaItem {
 
     private Map<Integer, String[]> materiaSlot = new HashMap<>();
     private Integer count = 0;
+
+    public AriyalaItem() {
+    }
+
+    public AriyalaItem(Long id, String name, Integer iLvl, Map<Integer, String[]> materiaSlot, Integer count) {
+        this.id = id;
+        this.name = name;
+        this.iLvl = iLvl;
+        this.materiaSlot = materiaSlot;
+        this.count = count;
+    }
 
     public AriyalaItem(Long id, String name, Integer iLvl) {
         this.id = id;
@@ -85,6 +95,15 @@ public class AriyalaItem {
         }
     }
 
+
+    public void setMateriaSlot(Map<Integer, String[]> materiaSlot) {
+        this.materiaSlot = materiaSlot;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
     @Override
     public String toString() {
         return "AriyalaItem{" +
@@ -92,6 +111,7 @@ public class AriyalaItem {
                 ", name='" + name + '\'' +
                 ", iLvl=" + iLvl +
                 ", materiaSlot=" + materiaSlot +
+                ", count=" + count +
                 '}';
     }
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Index page</title>
+</head>
+<body>
+<div th:replace="partials/layout :: navbar" />
+<div class="container  mx-auto align-middle">
+
+    <div class="col-12 vh-100">
+
+    <div class="card-container-dark w-50 p-2 m-2 mx-auto">
+
+        <div class="p-1 m-1">
+            BIS Imported Successfully
+        </div>
+
+        <hr>
+
+        <p class="p-1 m-1">
+            Update your static members with your newly imported BIS
+        </p>
+        <div class="p-1 m-1">
+        <a th:href="@{/static/view}" class="btn btn-primary btn-sm">Go to Static</a>
+        <a th:href="@{/bis/importer}" class="btn btn-sm">Import another BIS</a>
+        </div>
+    </div>
+
+    </div>
+
+<!--<span th:text="${json}"></span>-->
+
+</div>
+<div th:replace="partials/layout :: footer" />
+<script th:src="@{~/built/importer.js}"></script>
+</body>
+</html>

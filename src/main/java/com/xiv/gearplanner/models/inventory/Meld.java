@@ -12,11 +12,25 @@ public class Meld {
     private Long id;
 
     @ManyToOne
-    private Item materia;
+    private Materia materia;
 
-
-    public Meld(Item materia) {
+    public Meld(Materia materia) {
         this.materia = materia;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Materia getMateria() {
+        return materia;
+    }
+
+    public void setMateria(Materia materia) {
+        this.materia = materia;
+    }
 }

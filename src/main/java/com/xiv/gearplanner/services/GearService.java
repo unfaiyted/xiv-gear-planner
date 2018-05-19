@@ -1,8 +1,8 @@
 package com.xiv.gearplanner.services;
 
 import com.xiv.gearplanner.models.inventory.Gear;
-import com.xiv.gearplanner.models.inventory.GearStat;
 import com.xiv.gearplanner.models.inventory.GearStatType;
+import com.xiv.gearplanner.models.inventory.ItemStat;
 import com.xiv.gearplanner.repositories.GearEquipCategories;
 import com.xiv.gearplanner.repositories.Gears;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +33,15 @@ public class GearService {
     }
 
     // Converts to user input list to gear stats object
-    public List<GearStat> convertStatList(String type, String value) {
-        List<GearStat> gearStatList = new ArrayList<>();
+    public List<ItemStat> convertStatList(String type, String value) {
+        List<ItemStat> gearStatList = new ArrayList<>();
 
         String[] types = type.split(",");
         String[] values = value.split(",");
 
         for(int i = 0; i < types.length; i++ ) {
             GearStatType statType = gears.getStatTypeById(Long.parseLong(types[i]));
-            gearStatList.add(new GearStat(statType, Long.parseLong(values[i])));
+            gearStatList.add(new ItemStat(statType, Long.parseLong(values[i])));
         }
 
         return gearStatList;
@@ -54,7 +54,7 @@ public class GearService {
 
         for(int i = 0; i < types.length; i++ ) {
             GearStatType statType = gears.getStatTypeById(Long.parseLong(types[i]));
-            gear.addGearStat(new GearStat(statType, Long.parseLong(values[i])));
+            gear.addGearStat(new ItemStat(statType, Long.parseLong(values[i])));
         }
 
         return gear;

@@ -9,6 +9,21 @@ body {
     background-attachment: fixed;
 }
 
+.vh-100 {
+    height: calc(100vh - 200px) !important;
+    display: flex;
+    align-items: center
+
+}
+
+
+hr {
+    margin-top: 0.5rem;
+    margin-bottom: 0rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 188, 140, 0.25);
+    width: 95%;
+}
 
 .form-control {
     border: none;
