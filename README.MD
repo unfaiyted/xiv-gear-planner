@@ -43,12 +43,15 @@ http://xivdb.com
     
 5. MySQL server setup
     - 
-    - Install sql server for your platform
+    - Install Mysql server for your platform.
     - Mac / Windows / Linux (Install Guides)
     - Setup a username/ password account and a database
     - Copy `example.properties` and change the name to `application.properties`
-        - Modify these settings to watch your system setup and database nameing.
+        - Modify these settings to watch your system setup and database naming.
     
 6. Spring Setup
-    - 
+    -
+    - JDK will need to be installed to setup on system. 
+    - Ensure you update this `spring.devtools.restart.additional-paths` if you plan on using the dev tools.
+    - ChromeDriver (Selenium) install and setup driver location
     
