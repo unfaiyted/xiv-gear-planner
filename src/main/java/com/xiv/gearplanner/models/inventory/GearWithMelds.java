@@ -18,6 +18,9 @@ public class GearWithMelds {
     @ManyToMany(cascade =  CascadeType.ALL)
     private List<Meld> melds;
 
+    public GearWithMelds() {
+    }
+
     public GearWithMelds( Gear gear, List<Meld> melds) {
         this.gear = gear;
         this.melds = melds;

@@ -1,16 +1,14 @@
 package com.xiv.gearplanner.controllers;
 
 import com.xiv.gearplanner.models.Job;
+import com.xiv.gearplanner.models.JobBIS;
 import com.xiv.gearplanner.models.JobType;
 import com.xiv.gearplanner.services.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -31,16 +29,11 @@ public class JobController {
     public @ResponseBody
     List<Job> viewJobTypeInJson(@RequestParam(name="job", defaultValue = "true") boolean job) {
 
-        System.out.println(job);
-
         List<Job> jobList = new ArrayList<>();
 
         try {
             jobs.getJobs().findAll().forEach((value) -> {
-                System.out.println(value);
-
                 if (value.isJob() == job) jobList.add(value);
-
             });
         } catch (NullPointerException e) {
             return new ArrayList<>();
@@ -78,4 +71,35 @@ public class JobController {
         return "redirect:/job/add";
     }
 
+
+    @GetMapping("/api/bis/{jobId}")
+    public @ResponseBody   List<JobBIS> viewBISListByJob(@PathVariable Long jobId) {
+
+        List<JobBIS> BISList = new ArrayList<>();
+
+        if(jobs.getJobs().findById(jobId).isPresent()) {
+           Job job = jobs.getJobs().findById(jobId).get();
+            try {
+                jobs.getSets().findAllByJob(job).forEach((value) -> {
+                    BISList.add(value);
+
+                });
+            } catch (NullPointerException e) {
+                return new ArrayList<>();
+            }
+
+        return BISList;
+
+        }
+
+        return  new ArrayList<>();
+
+
+
+
+
+    }
+
+
 }
+

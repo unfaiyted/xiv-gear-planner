@@ -14,6 +14,8 @@ public class Meld {
     @ManyToOne
     private Materia materia;
 
+    public Meld() {}
+
     public Meld(Materia materia) {
         this.materia = materia;
     }

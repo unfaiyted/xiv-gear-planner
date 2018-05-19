@@ -25,7 +25,12 @@ public class StaticMember {
     private Job assignedJob;
 
     @ManyToOne
+    @JsonManagedReference
     private GearSet assignedGear;
+
+    @ManyToOne
+    @JsonManagedReference
+    private JobBIS assignedBIS;
 
     @ManyToOne
     @JsonManagedReference
@@ -99,5 +104,13 @@ public class StaticMember {
 
     public void setAssignedGear(GearSet assignedGear) {
         this.assignedGear = assignedGear;
+    }
+
+    public JobBIS getAssignedBIS() {
+        return assignedBIS;
+    }
+
+    public void setAssignedBIS(JobBIS assignedBIS) {
+        this.assignedBIS = assignedBIS;
     }
 }
