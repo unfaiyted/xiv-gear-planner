@@ -42,8 +42,13 @@ http://xivdb.com
     - Webpack settings are stored in webpack.config.js
     
 5. MySQL server setup
-    -
+    - 
+    - Install sql server for your platform
+    - Mac / Windows / Linux (Install Guides)
+    - Setup a username/ password account and a database
+    - Copy `example.properties` and change the name to `application.properties`
+        - Modify these settings to watch your system setup and database nameing.
     
 6. Spring Setup
-    -
+    - 
     
