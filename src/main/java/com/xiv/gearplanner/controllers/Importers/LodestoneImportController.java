@@ -40,6 +40,8 @@ public class LodestoneImportController {
             // Member Id
             StaticMember member = staticDao.getStatics().getMember(memberId);
 
+            System.out.println(member.toString());
+
             Long LodeStoneId = member.getPlayer().getLoadstoneId();
 
             /* Parsed Char data from lodestone*/

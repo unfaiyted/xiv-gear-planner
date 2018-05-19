@@ -1,9 +1,6 @@
 package com.xiv.gearplanner.repositories;
 
-import com.xiv.gearplanner.models.inventory.Item;
-import com.xiv.gearplanner.models.inventory.ItemCategory;
-import com.xiv.gearplanner.models.inventory.ItemStat;
-import com.xiv.gearplanner.models.inventory.Materia;
+import com.xiv.gearplanner.models.inventory.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
@@ -26,6 +23,9 @@ public interface Items extends CrudRepository<Item, Long> {
 
     Item findByOriginalId(Integer originalId);
 
+    @Query("select f from Food f where f.originalId = ?1")
+    Food findFoodByOriginalId(Integer originalId);
+
     @Query("select i from ItemStat i where i.item.id = ?1")
     ItemStat findItemStatByItemId(Long id);
 
@@ -47,10 +47,11 @@ public interface Items extends CrudRepository<Item, Long> {
     @Transactional
     void addCategory(String name, Integer order, Integer icon, Integer originalId, Long jobId, Long parentId);
 
-    @Query(value = "select m.* from item_stat i " +
-            " inner join materia m ON (i.item_id = m.id) " +
-            " inner join gear_stat_type gst ON (gst.id = i.stat_type_id) " +
-            " where gst.name = ?1 & i.value = ?2", nativeQuery = true)
+    @Query(value = "Select m.* from materia m\n" +
+            "  inner join item_stat i ON (i.item_id = m.id)\n" +
+            " inner join gear_stat_type gst ON (gst.id = i.stat_type_id)" +
+            " where gst.name LIKE ?1 and i.value = ?2", nativeQuery = true)
     Materia getMateriaByStat(String statTypeName, Long value);
+
 
 }

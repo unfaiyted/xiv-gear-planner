@@ -48,40 +48,6 @@ public class ItemImportController {
         this.gearDao = gearDao;
     }
 
-//    @GetMapping("/import/items")
-//    public String ReadJson(Model model) throws IOException {
-//        objectMapper = new ObjectMapper();
-//        System.out.println("=====OPENING FILE=====");
-//        data = objectMapper.readTree(new File("src/main/resources/static/data/item.json"));
-//
-//        List<Item> items = new ArrayList<>();
-//
-//        System.out.println("=====LOOPING=====");
-//            for (JsonNode item : data) {
-//
-//            System.out.println("==ADDING ITEM===");
-//               if(item != null) {
-//                   String name = item.get("name").asText();
-//                    System.out.print(name);
-//                    Integer iLvl = Integer.parseInt(item.get("level_item").asText());
-//                    System.out.print(iLvl);
-//                    Integer equipLevel = Integer.parseInt(item.get("level_equip").asText());
-//                    System.out.print(equipLevel);
-//                    Long xivdbID = item.get("id").asLong();
-//                    String icon = item.get("icon").asText();
-//                    String lodestoneId = (item.get("lodestone_id").asText() != null) ? item.get("lodestone_id").asText() : "" ;
-//                   // items.add(new Item(name,  icon,  iLvl,  equipLevel,  xivdbID,  lodestoneId));
-//               }
-//        }
-//
-//        System.out.println("=====SAVING=====ITEMS====" + items.size() + "TOTAL ====");
-//        itemDao.getItems().saveAll(items);
-//
-//        System.out.println("===RENDER VIEW===");
-//        model.addAttribute("itemCount", items.size());
-//        return "import/items";
-//    }
-
     @GetMapping("/import/all/test")
     public String  importJobs(Model model) throws IOException {
         int i = 0; // skip first row
@@ -310,17 +276,17 @@ public class ItemImportController {
 
                     //Gear Importing
                     // 57 = materia orig id
-                    if ( parentCatId.equals(2L) ||  parentCatId.equals(3L) || parentCatId.equals(4L) )
-                    {
 
                         // Create a new
                         GearSlotCategory slot = gearDao.getGears().getGearSlotCategoryByOriginalId(slotCategoryOriginalId);
 
                         if (slot == null) {
-                            System.out.println("====SKIPPING==== " + name);
+                           // System.out.println("====SKIPPING==== " + name);
                         }
 
-                        if (slot != null || cat[0].getName().equalsIgnoreCase("Materia")) {
+                        if (slot != null || cat[0].getName().equalsIgnoreCase("Materia") ||
+                                cat[0].getName().equalsIgnoreCase("Meals") ||
+                                cat[0].getName().equalsIgnoreCase("Seafood") ) {
 
                             Job useJob = jobDao.getJobs().findFirstByOriginalId(jobUseOriginalId);
                             GearEquipCategory equipCategory = gearDao.getEquipCategories().findFirstByOriginalId(jobCatOriginalId);
@@ -329,17 +295,24 @@ public class ItemImportController {
                             if (cat[0].getName().equalsIgnoreCase("Materia")) {
 
                                 System.out.println("====MATERIA==== " + name);
-                                System.out.println("====MATERIA==== " + name);
 
 
                                 Materia materia = new Materia(
                                         name, desc, itemLevel, icon, importId, cat[0]);
 
 
-
                                 itemDao.getItems().save(materia);
 
                                 // Gear
+                            }else if(cat[0].getName().equalsIgnoreCase("Meals") || cat[0].getName().equalsIgnoreCase("Seafood")) {
+
+                                System.out.println("====MEALS (FOOOD)==== " + name);
+
+                                Food food = new Food(name, desc,itemLevel, icon, importId,cat[0]);
+
+                                itemDao.getItems().save(food);
+
+
                             } else {
                                 System.out.println("====GEAR==== " + name);
 
@@ -352,7 +325,6 @@ public class ItemImportController {
                                 // "IsDyeable":"False","IsCrestWorthy":"False","ItemAction":"0",
                                 // "Cooldown<s>":"0"
                                 // "Item{Glamour}":"21800","Salvage":"0","IsCollectable":"False",
-                                // "Level{Equip}":"37",
                                 // "EquipRestriction":"1","ClassJobCategory":"18",
                                 // "BaseParamModifier":"9","Model{Main}":"7101, 1, 3, 0",
                                 // "Model{Sub}":"0, 0, 0, 0","ClassJob{Use}":"17"
@@ -400,31 +372,16 @@ public class ItemImportController {
 
                                 // Param  are called -> gear_stat_type
                                 // "BaseParam[0]":"72","BaseParamValue[0]":"70",
-                                // "BaseParam[1]":"73","BaseParamValue[1]":"40",
-                                // "BaseParam[2]":"0","BaseParamValue[2]":"0",
-                                // "BaseParam[3]":"0","BaseParamValue[3]":"0",
-                                // "BaseParam[4]":"0","BaseParamValue[4]":"0",
-                                // "BaseParam[5]":"0","BaseParamValue[5]":"0",
                                 // "ItemSpecialBonus":"1",
                                 // "ItemSpecialBonus{Param}":"0",
                                 // "BaseParam{Special}[0]":"12",
                                 // "BaseParamValue{Special}[0]":"0"
-                                // ,"BaseParam{Special}[1]":"13","BaseParamValue{Special}[1]":"0"
-                                // "BaseParam{Special}[2]":"72"
-                                // ,"BaseParamValue{Special}[2]":"9","BaseParam{Special}[3]":"73",
-                                // "BaseParamValue{Special}[3]":"5"
-                                // ,"BaseParam{Special}[4]":"0","BaseParamValue{Special}[4]":"0",
-                                // "BaseParam{Special}[5]":"0"
                                 // ,"BaseParamValue{Special}[5]":"0","MaterializeType":"11","MateriaSlotCount":"0",
                                 // "IsAdvancedMeldingPermitted":"False","IsPvP":"False"},
 
                             } // end gear import
 
-
-
                         } // gear slots
-
-                    } // gear import end
 
 
                 } // already imported skip end
@@ -433,54 +390,61 @@ public class ItemImportController {
             } // ignore first record data type end
             i++;
         } // records loop end
+        Long totalItems = (long) i;
 
-
+        System.out.println("MATERIA" + data.get("Materia").size());
 
         i = 0; // Import Materia, convert stats
         for (JsonNode record : data.get("Materia")) {
             //Add to array
+
             if (i >= 1) {
 
                 Integer row = record.get("#").asInt();
-                String  name= record.get("Name").asText();
-
                 Integer paramOriginalId = record.get("BaseParam").asInt();
                 // base param = gearStatType
 
-                GearStatType statType = gearDao.getGears().findStatTypeByOriginalId(paramOriginalId);
+                if(paramOriginalId != 0) {
 
+                    GearStatType statType = gearDao.getGears().findStatTypeByOriginalId(paramOriginalId);
 
-                for (int j = 0; j <= 9; j++) {
-                    Integer item = record.get("Item[" + j + "]").asInt();
-                    Long value = record.get("Value[" + j + "]").asLong();
+                    System.out.println(statType.getName() + " = STAT TYPE");
 
+                    for (int j = 0; j <= 9; j++) {
+                        Integer item = record.get("Item[" + j + "]").asInt();
+                        Long value = record.get("Value[" + j + "]").asLong();
 
-                    Item materia = itemDao.getItems().findByOriginalId(item);
+                        if (item != 0) {
 
+                            Item materia = itemDao.getItems().findByOriginalId(item);
 
-                    if(itemDao.getItems().findItemStatByItemId(materia.getId()) == null) {
+                            if(materia != null) {
+                                System.out.println("MATERIA FOUND: "+ materia.getName());
 
-                        ItemStat stat = new ItemStat(materia, statType, value);
-                        itemDao.getItems().addItemStat(materia.getId(), statType.getId(), value);
+                              if(itemDao.getItems().findItemStatByItemId(materia.getId()) == null) {
+                                    System.out.println(String.format("matid: %1$d, statType: %2$d, val: %3$d",
+                                                                    materia.getId(), statType.getId(), value));
+
+                                    itemDao.getItems().addItemStat(materia.getId(), statType.getId(), value);
+                                }
+                            }
+                        }
 
                     }
 
                 }
-
-
-
-
             }
+            i++;
         }
+        Long totalMateriaStats = (long) i;
 
 
-
-        results.add(new ImporterResult("MateriaStatTypes",0L));
+        results.add(new ImporterResult("MateriaStatTypes",totalMateriaStats));
         results.add(new ImporterResult("GearStatTypes", (long) StatTypelist.size()));
         results.add(new ImporterResult("Jobs",(long) list.size()));
         results.add(new ImporterResult("GearEquipCategories",(long) gearList.size()));
         results.add(new ImporterResult( "ItemCategories", (long) itemCatList.size()));
-        results.add(new ImporterResult("Items",0L));
+        results.add(new ImporterResult("Items",totalItems));
 
         model.addAttribute("results", results);
         return "/import/results";

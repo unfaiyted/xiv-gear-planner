@@ -121,10 +121,12 @@ public class StaticController {
     @ResponseBody
     public Response deleteMember (@RequestBody String jsonStr) throws IOException {
         try {
-
+            jsonStr = jsonStr.replaceAll("^\"|\"$|\\\\", "");
             JsonNode actualObj = strToJsonNode(jsonStr);
             JsonNode idNode = actualObj.path("memberId");
             Long memberId = idNode.asLong();
+
+            System.out.println(memberId);
             staticDao.getStatics().deleteMember(memberId);
 
         } catch(IOException err) {

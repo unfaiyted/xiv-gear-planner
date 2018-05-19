@@ -9,16 +9,14 @@ import com.xiv.gearplanner.models.Job;
 import com.xiv.gearplanner.models.JobBIS;
 import com.xiv.gearplanner.models.importers.AriyalaBIS;
 import com.xiv.gearplanner.models.importers.AriyalaItem;
-import com.xiv.gearplanner.models.inventory.Materia;
-import com.xiv.gearplanner.models.inventory.Meld;
-import com.xiv.gearplanner.models.inventory.Gear;
-import com.xiv.gearplanner.models.inventory.GearWithMelds;
+import com.xiv.gearplanner.models.inventory.*;
 import com.xiv.gearplanner.parser.AriyalaBISParser;
 import com.xiv.gearplanner.parser.URLS;
 import com.xiv.gearplanner.services.GearService;
 import com.xiv.gearplanner.services.ItemService;
 import com.xiv.gearplanner.services.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +34,9 @@ public class BISImportController {
    private GearService gearDao;
    private ItemService itemDao;
 
+   @Value("${chrome-driver-install-location}")
+   String driverLocation;
+
    @Autowired
     public BISImportController(JobService jobDao, GearService gearDao, ItemService itemDao) {
         this.jobDao = jobDao;
@@ -52,6 +53,8 @@ public class BISImportController {
     // Verify Page
     @PostMapping("/bis/importer")
     public String showBIS(Model model, @RequestParam(name = "bis") String id) throws AriyalaParserException {
+
+        System.setProperty("webdriver.chrome.driver", driverLocation);
 
         try {
             AriyalaBISParser parser = new AriyalaBISParser(URLS.BIS);
@@ -87,26 +90,40 @@ public class BISImportController {
 
         List<GearWithMelds> gearWithMelds = new ArrayList<>();
 
+        Food food = null;
+
         // Loop for items ariyala
         for(AriyalaItem item: bis.getItems()) {
 
+            System.out.println(item.getName() + item.getId());
             Gear gear = gearDao.getGears().getFirstByOriginalId(item.getId().intValue());
 
-            List<Meld> melds = new ArrayList<>();
-
-            // Adding melds to list of melds for gear.
-            for (Map.Entry<Integer, String[]> me : item.getMateriaSlot().entrySet()) {
-                String[] val = me.getValue();
-                melds.add(new Meld(materiaFromString(val[0])));
-                   // val[1]; //color
+            if(gear == null) {
+                food = itemDao.getItems().findFoodByOriginalId(item.getId().intValue());
             }
 
-            gearWithMelds.add(new GearWithMelds(gear, melds));
+            if(gear != null) {
+                List<Meld> melds = new ArrayList<>();
+
+                // Adding melds to list of melds for gear.
+                for (Map.Entry<Integer, String[]> me : item.getMateriaSlot().entrySet()) {
+                    String[] val = me.getValue();
+                    melds.add(new Meld(materiaFromString(val[0])));
+                    // val[1]; //color
+                }
+
+                gearWithMelds.add(new GearWithMelds(gear, melds));
+
+            }
 
         }
 
         JobBIS jobBIS = new JobBIS(bis.getId(),"Bis Name",job);
         jobBIS.setMelded(gearWithMelds);
+
+        if(food != null) {
+            jobBIS.setFood(food);
+        }
 
         jobDao.getSets().save(jobBIS);
 
@@ -136,6 +153,8 @@ public class BISImportController {
 
            Materia materia =itemDao.getItems()
                    .getMateriaByStat(m.group(1).trim(),Long.parseLong(m.group(2)));
+
+            System.out.println(materia.toString());
 
             return materia;
         }

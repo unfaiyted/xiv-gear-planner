@@ -34,21 +34,28 @@ module.exports = {
     },
 
     confirmRemove: (id) => {
-        let cfrm = confirm(module.exports.settings.deleteMsg);
-        if(cfrm) module.exports.updateServer(id)
-            .then(module.exports.removeVisual(id)).
-                 catch(function (data) {
+        alert.confirmPopUp(module.exports.settings.deleteMsg).then(
+            function() {
+                module.exports.updateServer(id)
+                    .then(module.exports.removeVisual(id)).
+                catch(function (data) {
                         console.log(data);
-                    alert.displayPopUpAlert("Error removing item","danger")
-            });
+                        alert.displayPopUpAlert("Error removing item","danger")
+                });
+            }, //promise resolved
+            function() { console.log('You clicked cancel'); }, //promise rejected
+
+        );
     },
 
     removeVisual: (id) => {
-        console.log("remov...in theory" + id)
         $(`.${module.exports.settings.displayClass}[data-id="${id}"]`).remove();
     },
 
     updateServer: (id) => {
+
+        console.log(module.exports.settings.dataSet);
+
         let json = {memberId: id};
         return api.deleteData(module.exports.settings.dataSet,  JSON.stringify(json));
     }

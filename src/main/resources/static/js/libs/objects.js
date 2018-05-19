@@ -13,7 +13,7 @@ module.exports = {
             avatar: json.data.avatar,
             server: json.data.server,
             portrait: json.data.portrait,
-            loadstone_id: json.lodestone_id
+            loadstoneId: json.lodestone_id
 
         };
     }

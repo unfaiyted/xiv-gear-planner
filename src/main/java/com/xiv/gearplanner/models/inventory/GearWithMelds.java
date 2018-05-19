@@ -49,4 +49,12 @@ public class GearWithMelds {
 
     public void addMeld(Meld meld) { this.melds.add(meld); }
 
+    @Override
+    public String toString() {
+        return "GearWithMelds{" +
+                "id=" + id +
+                ", gear=" + gear +
+                ", melds=" + melds +
+                '}';
+    }
 }

@@ -36,8 +36,7 @@ public class AriyalaBISParser {
     private boolean verbose = true;
     private final String rootUrl;
 
-    @Value("${chrome-driver-install-location}")
-    private String driverLocation;
+
 
     private WebDriver driver = new ChromeDriver();
     private WebDriverWait wait = new WebDriverWait(driver,7);
@@ -56,10 +55,8 @@ public class AriyalaBISParser {
         bis.setId(id);
         String url = rootUrl + id;
 
-        System.out.println(url);
         Document html;
 
-        System.setProperty("webdriver.chrome.driver", driverLocation);
 
         driver.get(url);
 

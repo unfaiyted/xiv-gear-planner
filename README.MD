@@ -22,7 +22,7 @@ Initial structure of website being created
 - Java Spring Boot Web Application
 - Using MySQL database backend
 - Using ES6 compliant Javascript
-- JSON output api to be further develoiped
+- JSON output api to be further developed
 - WebPack backend for javascript module support
 - Use of Selenium WebDriver for parsing utilities.
     * Integrated with Chrome browser to take fully rendered page data and manipulate as needed.

@@ -1,6 +1,7 @@
 package com.xiv.gearplanner.models;
 
 
+import com.xiv.gearplanner.models.inventory.Food;
 import com.xiv.gearplanner.models.inventory.GearWithMelds;
 
 import javax.persistence.*;
@@ -32,6 +33,9 @@ public class JobBIS {
 
     @ManyToMany(cascade =  CascadeType.ALL)
     private List<GearWithMelds> melded = new ArrayList<>();
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Food food;
 
     public JobBIS() {
     }
@@ -86,6 +90,14 @@ public class JobBIS {
         this.melded.add(melded);
     }
 
+    public Food getFood() {
+        return food;
+    }
+
+    public void setFood(Food food) {
+        this.food = food;
+    }
+
     @Override
     public String toString() {
         return "JobBIS{" +
@@ -93,6 +105,8 @@ public class JobBIS {
                 ", ariyalaCode='" + ariyalaCode + '\'' +
                 ", name='" + name + '\'' +
                 ", job=" + job +
+                ", melded=" + melded +
+                ", food=" + food +
                 '}';
     }
 }

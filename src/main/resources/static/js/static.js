@@ -35,7 +35,7 @@ module.exports = {
 
 
             let callback = function (e) {
-                e.preventDefault();
+               e.preventDefault();
                 // takes search btn or input value
                 let name = ($(this).val() !== "") ? $(this).val() : $('#member-search').val() ;
 
@@ -59,7 +59,7 @@ module.exports = {
 
 
             // Press Enter or Type Submit
-            $('#member-find').keydown(callback);
+          //  $('#member-find').keydown(callback);
             $('#member-find').click(callback);
 
     },

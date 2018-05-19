@@ -34,7 +34,8 @@ module.exports = {
     },
 
     getLodestoneData: (memberId) => {
-           return api.addData(`/api/lodestone/import/${memberId}`,memberId).then(function (data) {
+        console.log(memberId);
+        return api.addData(`/api/lodestone/import/${memberId}`,memberId).then(function (data) {
                console.log(data);
                if(data.success === false) alert.displayPopUpAlert(data.errors.display, "danger");
                if(data.success === true) alert.displayPopUpAlert("Success!", "success");

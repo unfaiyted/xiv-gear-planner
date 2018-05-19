@@ -16,11 +16,11 @@ public class StaticMember {
     @Column
     private String nickname;
 
-    @OneToOne
+    @ManyToOne
     @JsonManagedReference
     private Player player;
 
-    @OneToOne
+    @ManyToOne
     @JsonManagedReference
     private Job assignedJob;
 
