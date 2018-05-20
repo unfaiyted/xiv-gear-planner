@@ -13,15 +13,8 @@ public class User {
     @Id @GeneratedValue
     private Long id;
 
-    @Column(nullable = false, length = 50)
-    private String firstName;
-    @Column(nullable = false, length = 50)
-    private String lastName;
     @Column(nullable = false, length = 35)
     private String username;
-
-    @Column(nullable = false, length = 200)
-    private String email;
 
     @Column(nullable = false)
     @JsonIgnore
@@ -29,6 +22,7 @@ public class User {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
     @Column
     private LocalDateTime lastLoginDate;
 
@@ -36,15 +30,17 @@ public class User {
 
     public User(User copy) {
         id = copy.id;
-        email = copy.email;
         username = copy.username;
         password = copy.password;
-
-        firstName = copy.firstName;
-        lastName = copy.lastName;
-
         createdAt = copy.createdAt;
         lastLoginDate = copy.lastLoginDate;
+    }
+
+    public User(String username, String password, LocalDateTime createdAt, LocalDateTime lastLoginDate) {
+        this.username = username;
+        this.password = password;
+        this.createdAt = createdAt;
+        this.lastLoginDate = lastLoginDate;
     }
 
     public Long getId() {
@@ -55,36 +51,12 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
@@ -113,10 +85,12 @@ public class User {
 
     @Override
     public String toString() {
-        String data = Long.toString(id) + username + password;
-
-
-            return data;
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", createdAt=" + createdAt +
+                ", lastLoginDate=" + lastLoginDate +
+                '}';
     }
-
 }

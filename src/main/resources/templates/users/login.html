@@ -5,6 +5,31 @@
     <title>Home</title>
 </head>
 <body>
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '1835569223173047',
+            xfbml      : true,
+            version    : 'v3.0'
+        });
+        FB.AppEvents.logPageView();
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+
+    FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+    });
+
+</script>
 
 
 <div th:replace="partials/layout :: navbar" />
@@ -48,38 +73,15 @@
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
             <a href="/sign-up">Register?</a></small>
+
+        <div class="fb-login-button" data-width="50" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true"></div>
     </form>
+
+
 
 
 </form>
 </div>
 <div th:replace="partials/layout :: footer" />
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : '1835569223173047',
-            cookie     : true,
-            xfbml      : true,
-            version    : '{latest-api-version}'
-        });
-
-        FB.AppEvents.logPageView();
-
-    };
-
-    (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-
-
-    FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-    });
-</script>
 </body>
 </html>
