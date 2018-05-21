@@ -2,6 +2,7 @@ package com.xiv.gearplanner;
 
 import com.xiv.gearplanner.services.AccountConnectionSignUpService;
 import com.xiv.gearplanner.services.UserService;
+import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -35,10 +36,9 @@ public class SocialConfiguration implements SocialConfigurer {
     @Override
     public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfigurer, Environment environment) {
 
-
-    //        connectionFactoryConfigurer.addConnectionFactory(new FacebookConnectionFactory(
-    //            environment.getProperty("spring.social.facebook.appId"),
-    //            environment.getProperty("spring.social.facebook.appSecret")));
+            connectionFactoryConfigurer.addConnectionFactory(new FacebookConnectionFactory(
+                environment.getProperty("spring.social.facebook.appId"),
+                environment.getProperty("spring.social.facebook.appSecret")));
     //        connectionFactoryConfigurer.addConnectionFactory(new TwitterConnectionFactory(
     //            environment.getProperty("twitter.consumerKey"),
     //            environment.getProperty("twitter.consumerSecret")));

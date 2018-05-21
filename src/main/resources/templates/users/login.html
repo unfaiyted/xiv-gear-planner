@@ -74,17 +74,13 @@
 
             <a href="/sign-up">Register?</a></small>
 
-<div class="col-12 d-flex flex-row pt-2">
-
-    <div class="fb-login-button" data-width="20" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true"></div>
-
-    <a th:href="@{/auth/github}" class="btn btn-sm btn-github"><i class="fa fa-github"></i>Github</a>
-    <a th:href="@{/auth/google(scope='profile')}" class="btn btn-sm btn-google-plus"><i class="fa fa-google-plus"></i>Google+</a></td>
+<div class="col-12 d-flex flex-row pt-2 pl-0">
+    <a th:href="@{/auth/facebook}" class="btn btn-social btn-sm btn-facebook"><i class="fa fa-facebook"></i>Facebook</a>
+    <!--<a th:href="@{/auth/github}" class="ml-1 btn btn-sm btn-social btn-github"><i class="fa fa-github"></i>Github</a>-->
+    <a th:href="@{/auth/google(scope='profile')}" class="ml-1 btn  btn-social btn-sm btn-google-plus"><i class="fa fa-google-plus"></i>Google+</a>
 
 
 </div>
-
-
 
 
 
