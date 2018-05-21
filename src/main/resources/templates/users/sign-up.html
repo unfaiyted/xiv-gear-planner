@@ -30,8 +30,8 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="">First and last name</span>
         </div>
-        <input id="firstName" th:field="*{firstName}"  class="form-control" />
-        <input id="lastName" th:field="*{lastName}" class="form-control" />
+        <input id="firstName" th:field="*{profile.firstName}"  class="form-control" />
+        <input id="lastName" th:field="*{profile.lastName}" class="form-control" />
     </div>
 
 
@@ -39,7 +39,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="email-addon">Email</span>
         </div>
-        <input type="text" id="email" th:field="*{email}" class="form-control" placeholder="email" aria-label="email" aria-describedby="basic-addon1">
+        <input type="text" id="email" th:field="*{profile.email}" class="form-control" placeholder="email" aria-label="email" aria-describedby="basic-addon1">
     </div>
 
 

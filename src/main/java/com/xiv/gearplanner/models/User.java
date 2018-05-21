@@ -10,21 +10,24 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "users")
 public class User {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 35)
+    @Column
     private String username;
 
-    @Column(nullable = false)
+    @Column
     @JsonIgnore
     private String password;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime createdAt;
 
     @Column
     private LocalDateTime lastLoginDate;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private UserProfile profile;
 
     public User() { }
 
@@ -83,6 +86,15 @@ public class User {
         this.lastLoginDate = lastLoginDate;
     }
 
+
+    public UserProfile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(UserProfile profile) {
+        this.profile = profile;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -91,6 +103,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", createdAt=" + createdAt +
                 ", lastLoginDate=" + lastLoginDate +
+                ", profile=" + profile +
                 '}';
     }
 }

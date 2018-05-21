@@ -1,6 +1,8 @@
 package com.xiv.gearplanner.models;
 
 
+import org.springframework.social.security.SocialUser;
+
 import javax.annotation.Generated;
 import javax.persistence.*;
 

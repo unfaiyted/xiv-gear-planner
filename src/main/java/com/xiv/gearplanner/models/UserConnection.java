@@ -2,34 +2,54 @@ package com.xiv.gearplanner.models;
 
 import javax.persistence.*;
 
-@Table
+@Table(name="userconnection")
 @Entity
 public class UserConnection {
+
+
+    /*
+    create table UserConnection (
+      userId varchar(255) not null,
+      providerId varchar(255) not null,
+      providerUserId varchar(255),
+      rank int not null,
+      displayName varchar(255),
+      profileUrl varchar(512),
+      imageUrl varchar(512),
+      accessToken varchar(1024) not null,
+      secret varchar(255),
+      refreshToken varchar(255),
+      expireTime bigint,
+      primary key (userId, providerId, providerUserId));
+    create unique index UserConnectionRank on UserConnection(userId, providerId, rank);
+
+     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name="userid")
     private  String userId;
-    @Column
+    @Column(nullable= false, name="providerid")
     private  String providerId;
-    @Column
+    @Column(name="provideruserid")
     private  String providerUserId;
-    @Column
+    @Column(nullable = false, name="rank")
     private  int rank;
-    @Column
+    @Column(name="displayname")
     private  String displayName;
-    @Column
+    @Column(name="profileurl")
     private  String profileUrl;
-    @Column
+    @Column(name="imageurl")
     private  String imageUrl;
-    @Column
+    @Column(nullable = false, name="accesstoken")
     private  String accessToken;
-    @Column
+    @Column(name="secret")
     private  String secret;
-    @Column
+    @Column(name="refreshtoken")
     private  String refreshToken;
-    @Column
+    @Column(name="expiretime")
     private  Long expireTime;
 
     public UserConnection() {}

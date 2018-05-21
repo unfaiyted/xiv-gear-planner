@@ -1,5 +1,6 @@
 package com.xiv.gearplanner;
 
+import com.xiv.gearplanner.services.SimpleSocialUsersDetailService;
 import com.xiv.gearplanner.services.UserDetailsLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.social.security.SocialUserDetailsService;
+import org.springframework.social.security.SpringSocialConfigurer;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -87,12 +90,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     /* Pages that can be viewed without having to log in */
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/css/**", "js/**","/images/**","/error**") // anyone can see the home and the posts pages
-                    .permitAll()
+                        .antMatchers("/css/**", "js/**","/images/**","/error**") // anyone can see the home and the posts pages
+                        .permitAll()
                     .and()
-                    .authorizeRequests()
-                    .antMatchers("/create")
-                    .hasAuthority("ADMIN")
+                     .authorizeRequests()
+                     .antMatchers("/create")
+                     .hasAuthority("ADMIN")
                     /* Pages that require authentication */
                 .and()
                     .authorizeRequests()
@@ -101,8 +104,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "/posts/**/edit",
                             "/static/**"// only authenticated users can edit posts
                     )
-                .authenticated();
+                .authenticated()
+                .and()
+                .rememberMe()
+                .and()
+                .apply(new SpringSocialConfigurer()
+                        .postLoginUrl("/")
+                        .alwaysUsePostLoginUrl(true));;
 
+    }
+
+    @Bean
+    public SocialUserDetailsService socialUsersDetailService() {
+        return new SimpleSocialUsersDetailService(userDetailsService());
     }
 
 

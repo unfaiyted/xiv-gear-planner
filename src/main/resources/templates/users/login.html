@@ -53,7 +53,7 @@
 
 <form class="card card-block bg-faded m-3 p-3 col-4 mx-auto" th:action="@{/login}" method="post" name="f" th:object="${user}">
         <h5 class="card-title">Please login</h5>
-    <form>
+
         <div class="form-group">
             <label th:for="*{username}">Username</label>
             <input type="text" class="form-control" th:field="*{username}" aria-describedby="userHelp" placeholder="Enter username">
@@ -74,8 +74,16 @@
 
             <a href="/sign-up">Register?</a></small>
 
-        <div class="fb-login-button" data-width="50" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true"></div>
-    </form>
+<div class="col-12 d-flex flex-row pt-2">
+
+    <div class="fb-login-button" data-width="20" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true"></div>
+
+    <a th:href="@{/auth/github}" class="btn btn-sm btn-github"><i class="fa fa-github"></i>Github</a>
+    <a th:href="@{/auth/google(scope='profile')}" class="btn btn-sm btn-google-plus"><i class="fa fa-google-plus"></i>Google+</a></td>
+
+
+</div>
+
 
 
 

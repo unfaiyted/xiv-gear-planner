@@ -19,6 +19,9 @@ public interface Users extends CrudRepository<User, Long> {
     @Query("select up from UserProfile up where up.userId = ?1")
     UserProfile getUserProfile(Long userId);
 
+    @Query("select up from UserProfile up where up.username = ?1")
+    UserProfile getUserProfileByUsername(String username);
+
     @Query("select uc from UserConnection uc where userId = ?1")
     UserConnection getUserConnection(Long userId);
 

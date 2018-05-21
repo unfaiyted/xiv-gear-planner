@@ -1,5 +1,6 @@
 package com.xiv.gearplanner.controllers.util;
 
+import com.xiv.gearplanner.models.User;
 import com.xiv.gearplanner.models.UserConnection;
 import com.xiv.gearplanner.models.UserProfile;
 import com.xiv.gearplanner.services.UserService;
@@ -100,6 +101,52 @@ public class SocialControllerUtil {
         return connection;
     }
 
+
+    public void setModel(HttpServletRequest request, Principal currentUser, Model model) {
+
+        // SecurityContext ctx = (SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT");
+
+        String username = currentUser == null ? null : currentUser.getName();
+        String path = request.getRequestURI();
+        HttpSession session = request.getSession();
+
+        UserConnection connection = null;
+        UserProfile profile = null;
+        String displayName = null;
+        User data = null;
+
+        // Collect info if the user is logged in, i.e. userId is set
+        if (username != null) {
+
+            // Get user data
+            data = usersDao.getUsers().findByUsername(username);
+
+            // Get the current UserConnection from the http session
+            connection = getUserConnection(session, data.getId());
+
+            // Get the current UserProfile from the http session
+            profile = getUserProfile(session, data.getId());
+
+            // Compile the best display name from the connection and the profile
+            displayName = getDisplayName(connection, profile);
+
+        }
+
+        Throwable exception = (Throwable)session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+
+        // Update the model with the information we collected
+        model.addAttribute("exception",              exception == null ? null : exception.getMessage());
+        model.addAttribute("currentUsername",          username);
+        model.addAttribute("currentUserProfile",     profile);
+        model.addAttribute("currentUserConnection",  connection);
+        model.addAttribute("currentUserDisplayName", displayName);
+        model.addAttribute("currentData",            data);
+
+        if (LOG.isDebugEnabled()) {
+            logInfo(request, model, username, path, session);
+        }
+    }
+
     /**
      * Compile the best display name from the connection and the profile
      *
@@ -116,4 +163,8 @@ public class SocialControllerUtil {
             return profile.getName();
         }
     }
+
+
+
+
 }
