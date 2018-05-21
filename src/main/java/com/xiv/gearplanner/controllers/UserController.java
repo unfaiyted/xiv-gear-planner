@@ -1,6 +1,7 @@
 package com.xiv.gearplanner.controllers;
 
 import com.xiv.gearplanner.models.User;
+import com.xiv.gearplanner.models.UserProfile;
 import com.xiv.gearplanner.models.UserRole;
 import com.xiv.gearplanner.models.UserWithRoles;
 import com.xiv.gearplanner.repositories.Roles;
@@ -43,13 +44,27 @@ public class UserController {
     }
 
     @PostMapping("/sign-up")
-    public String saveUser(@ModelAttribute User user) {
+    public String saveUser(@ModelAttribute User user, @ModelAttribute UserProfile profile) {
+
+        System.out.println(profile.toString());
 
         String hash = passwordEncoder.encode(user.getPassword());
         user.setPassword(hash);
         user.setCreatedAt(LocalDateTime.now());
+
+        System.out.println(user.toString());
         users.save(user);
-        roles.save(UserRole.newUser(user));
+        users.addDefaultRole(user.getId());
+
+//        users.addProfile(user.getId(),
+//                profile.getEmail(),
+//                profile.getFirstName(),
+//                profile.getLastName(),
+//                profile.getName(),
+//                profile.getUsername());
+
+
+
 
         authenticate(user);
         return "redirect:/login";

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xiv.gearplanner.controllers.util.UserUtil;
 import com.xiv.gearplanner.models.*;
 import com.xiv.gearplanner.services.StaticService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,15 @@ import java.util.Map;
 @Controller
 public class StaticController {
     StaticService staticDao;
+    UserUtil userUtil;
+
 
     @Autowired
-    public StaticController(StaticService staticDao) {
+    public StaticController(StaticService staticDao, UserUtil userUtil) {
         this.staticDao = staticDao;
+        this.userUtil = userUtil;
+
+
     }
 
     // Create a Static
@@ -40,7 +46,7 @@ public class StaticController {
     public String action(@RequestParam(value = "member[]") Long[] playerIds,
                        @RequestParam(value = "static-name") String name){
 
-        User loggedIn = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User loggedIn = userUtil.getLoggedInUser();
         Static newStatic = new Static(name, loggedIn);
         // add members
         newStatic.addMembers(staticDao.createStaticMembersbyPlayerId(playerIds));
@@ -52,8 +58,8 @@ public class StaticController {
     @GetMapping("/static/delete")
     public String deleteStatic(Model model) {
 
-        User loggedIn = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Static userStatic = staticDao.getStatics().getStaticByOwner(loggedIn.getId());
+
+        Static userStatic = staticDao.getStatics().getStaticByOwner(userUtil.getLoggedInUser().getId());
 
         staticDao.getStatics().delete(userStatic);
 
@@ -63,11 +69,10 @@ public class StaticController {
     // View Static
     @GetMapping("/static/view")
     public String viewStatic(Model model){
-        User loggedIn = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (staticDao.isOwner(loggedIn.getId())) {
-            List<StaticMember> staticMembers = staticDao.getStatics().getMembersByOwnerId(loggedIn.getId());
-            Static myStatic = staticDao.getStatics().getStaticByOwner(loggedIn.getId());
+        if (staticDao.isOwner(userUtil.getLoggedInUser().getId())) {
+            List<StaticMember> staticMembers = staticDao.getStatics().getMembersByOwnerId(userUtil.getLoggedInUser().getId());
+            Static myStatic = staticDao.getStatics().getStaticByOwner(userUtil.getLoggedInUser().getId());
 
             model.addAttribute("static", myStatic);
             model.addAttribute("members", staticMembers);
@@ -81,12 +86,10 @@ public class StaticController {
     public String viewStaticMember(@PathVariable Long id, Model model) {
 
         StaticMember member =  staticDao.getStatics().getMember(id);
-
         model.addAttribute("member", member);
         return "static/viewMember";
 
     }
-
 
     @RequestMapping(
             value = "/api/static/job/update",
@@ -151,9 +154,8 @@ public class StaticController {
     @ResponseBody
     public Response addMember (@RequestBody String jsonStr) throws IOException {
         try {
-            User loggedIn = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            JsonNode actualObj = strToJsonNode(jsonStr);
-            Long staticId = staticDao.getStatics().getStaticIdByOwner(loggedIn.getId());
+           JsonNode actualObj = strToJsonNode(jsonStr);
+            Long staticId = staticDao.getStatics().getStaticIdByOwner(userUtil.getLoggedInUser().getId());
 
 
             System.out.println(actualObj);

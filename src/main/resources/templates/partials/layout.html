@@ -31,10 +31,11 @@
             <div sec:authorize="isAuthenticated()">
                 <img th:src="@{~/img/online.png}">
 
-                <span th:text="${#authentication.principal.toString()}"/>
+                <span th:text="${#authentication.principal.profile.firstName}"/>
                 <th:block th:if="${currentUserConnection == null}" >
-                <span th:text="${#authentication.principal.username}"/>
+                <!--<span th:text="${#authentication.principal.username}"/>-->
                 </th:block>
+
                 <th:block th:unless="${currentUserConnection == null}" >
 
 

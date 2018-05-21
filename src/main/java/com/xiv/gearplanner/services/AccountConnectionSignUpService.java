@@ -20,10 +20,9 @@ public class AccountConnectionSignUpService implements ConnectionSignUp {
 
     public String execute(Connection<?> connection) {
         org.springframework.social.connect.UserProfile profile = connection.fetchUserProfile();
-        String userId = UUID.randomUUID().toString();
-        // TODO: Or simply use: r = new Random(); r.nextInt(); ???
-        LOG.debug("Created user-id: " + userId);
-        usersDao.createUser(userId, new UserProfile(userId, profile));
-        return userId;
+        String username = UUID.randomUUID().toString();
+        LOG.debug("Created username: " + username);
+        usersDao.createUser(username, new UserProfile(profile));
+        return username;
     }
 }

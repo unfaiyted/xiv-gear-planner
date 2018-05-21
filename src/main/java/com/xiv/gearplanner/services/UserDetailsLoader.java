@@ -2,6 +2,7 @@ package com.xiv.gearplanner.services;
 
 
 import com.xiv.gearplanner.models.User;
+import com.xiv.gearplanner.models.UserProfile;
 import com.xiv.gearplanner.models.UserWithRoles;
 import com.xiv.gearplanner.repositories.Roles;
 import com.xiv.gearplanner.repositories.Users;
@@ -23,6 +24,7 @@ public class UserDetailsLoader implements UserDetailsService {
                 this.roles = roles;
     }
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
          User user = users.findByUsername(username);
@@ -34,5 +36,20 @@ public class UserDetailsLoader implements UserDetailsService {
         return new UserWithRoles(user, roles.ofUserWith(username));
 
     }
+
+
+    public UserProfile getProfile(Long id) {
+        UserProfile profile = users.getUserProfile(id);
+        return profile;
+    }
+
+    public UserProfile getProfile(String username) {
+        User user = users.findByUsername(username);
+
+        UserProfile profile = users.getUserProfile(user.getId());
+        return profile;
+    }
+
+
 
 }

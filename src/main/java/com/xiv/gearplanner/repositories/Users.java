@@ -16,14 +16,14 @@ public interface Users extends CrudRepository<User, Long> {
     User findByUsername(String username);
 
 
-    @Query("select up from UserProfile up where up.userId = ?1")
+    @Query("select up from UserProfile up where up.user.id = ?1")
     UserProfile getUserProfile(Long userId);
 
     @Query("select up from UserProfile up where up.username = ?1")
     UserProfile getUserProfileByUsername(String username);
 
     @Query("select uc from UserConnection uc where userId = ?1")
-    UserConnection getUserConnection(Long userId);
+    UserConnection getUserConnection(String userId);
 
     @Modifying
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)

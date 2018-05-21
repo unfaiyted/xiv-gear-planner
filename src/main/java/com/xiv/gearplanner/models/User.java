@@ -37,6 +37,7 @@ public class User {
         password = copy.password;
         createdAt = copy.createdAt;
         lastLoginDate = copy.lastLoginDate;
+        profile = copy.profile;
     }
 
     public User(String username, String password, LocalDateTime createdAt, LocalDateTime lastLoginDate) {
@@ -92,6 +93,7 @@ public class User {
     }
 
     public void setProfile(UserProfile profile) {
+        profile.setUser(this);
         this.profile = profile;
     }
 

@@ -15,18 +15,22 @@ import org.springframework.stereotype.Service;
 
 public class SimpleSocialUsersDetailService implements SocialUserDetailsService {
 
-    private UserDetailsService userDetailsService;
+    private UserDetailsLoader userDetailsService;
   //  private Users users;
 
-    public SimpleSocialUsersDetailService(UserDetailsService userDetailsService) {
+    public SimpleSocialUsersDetailService(UserDetailsLoader userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
     @Override
     public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException, DataAccessException {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
-       // UserProfile profile = users.getUserProfileByUsername(userId);
-        return new SocialUser(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
+        UserProfile profile = userDetailsService.getProfile(userId);
+
+        //return new ExtendedSocialUser(userDetails.getUsername(), userDetails.getPassword(),
+          //      userDetails.getAuthorities(), userDetailsService.);
+        return new ExtendedSocialUser(userDetails.getUsername(),
+                userDetails.getPassword(), userDetails.getAuthorities(), profile);
     }
 
 }

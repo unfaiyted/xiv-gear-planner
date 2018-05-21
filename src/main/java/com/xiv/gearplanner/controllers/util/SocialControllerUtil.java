@@ -89,13 +89,13 @@ public class SocialControllerUtil {
      * @param userId
      * @return
      */
-    public UserConnection getUserConnection(HttpSession session, Long userId) {
+    public UserConnection getUserConnection(HttpSession session, String username) {
         UserConnection connection;
         connection = (UserConnection) session.getAttribute(USER_CONNECTION);
 
         // Reload from persistence storage if not set or invalid (i.e. no valid userId)
-        if (connection == null || !userId.equals(connection.getUserId())) {
-            connection = usersDao.getUsers().getUserConnection(userId);
+        if (connection == null || !username.equals(connection.getUserId())) {
+            connection = usersDao.getUsers().getUserConnection(username);
             session.setAttribute(USER_CONNECTION, connection);
         }
         return connection;
@@ -122,7 +122,7 @@ public class SocialControllerUtil {
             data = usersDao.getUsers().findByUsername(username);
 
             // Get the current UserConnection from the http session
-            connection = getUserConnection(session, data.getId());
+            connection = getUserConnection(session, data.getUsername());
 
             // Get the current UserProfile from the http session
             profile = getUserProfile(session, data.getId());

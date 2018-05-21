@@ -16,9 +16,12 @@ import java.security.Principal;
 
 @Controller
 public class AuthenticationController {
+    private SocialControllerUtil util;
 
     @Autowired
-    private SocialControllerUtil util;
+    public AuthenticationController(SocialControllerUtil util) {
+        this.util = util;
+    }
 
     @GetMapping("/login")
     public String showLoginForm(HttpServletRequest request, Principal currentUser, Model model) {

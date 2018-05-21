@@ -12,9 +12,6 @@ public class UserProfile {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private  String userId;
-
     @Column
     private String name;
     @Column
@@ -26,11 +23,24 @@ public class UserProfile {
     @Column
     private  String username;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User user;
 
     public UserProfile() {}
 
-    public UserProfile(String userId, String name, String firstName, String lastName, String email, String username) {
-        this.userId = userId;
+    public UserProfile(Long id, User user, String name, String firstName, String lastName, String email, String username) {
+        this.id = id;
+        this.user = user;
+        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+    }
+
+
+    public UserProfile(User user, String name, String firstName, String lastName, String email, String username) {
+        this.user = user;
         this.name = name;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,8 +50,17 @@ public class UserProfile {
         fixName();
     }
 
-    public UserProfile(String userId, org.springframework.social.connect.UserProfile up) {
-        this.userId = userId;
+
+    public UserProfile(User user, org.springframework.social.connect.UserProfile up) {
+        this.user = user;
+        this.name = up.getName();
+        this.firstName = up.getFirstName();
+        this.lastName = up.getLastName();
+        this.email = up.getEmail();
+        this.username = up.getUsername();
+    }
+
+    public UserProfile(org.springframework.social.connect.UserProfile up) {
         this.name = up.getName();
         this.firstName = up.getFirstName();
         this.lastName = up.getLastName();
@@ -81,6 +100,13 @@ public class UserProfile {
         }
     }
 
+
+
+    // TODO: figure out the dumb naming conventions and replace functionality
+    public String getUserId() {
+        return username;
+    }
+
     public Long getId() {
         return id;
     }
@@ -93,8 +119,8 @@ public class UserProfile {
         this.name = name;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
     public String getName() {
@@ -115,6 +141,10 @@ public class UserProfile {
 
     public String getUsername() {
         return username;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String toString() {

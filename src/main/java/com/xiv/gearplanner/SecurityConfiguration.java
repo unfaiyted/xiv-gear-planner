@@ -115,8 +115,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public SocialUserDetailsService socialUsersDetailService() {
-        return new SimpleSocialUsersDetailService(userDetailsService());
+        return new SimpleSocialUsersDetailService(usersLoader);
     }
-
 
 }
