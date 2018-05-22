@@ -1,5 +1,6 @@
 package com.xiv.gearplanner.models.inventory;
 
+import com.xiv.gearplanner.models.JobBIS;
 import com.xiv.gearplanner.models.inventory.Gear;
 
 import javax.persistence.*;
@@ -17,6 +18,10 @@ public class GearWithMelds {
 
     @ManyToMany(cascade =  CascadeType.ALL)
     private List<Meld> melds;
+
+
+    @ManyToOne
+    JobBIS bis;
 
     public GearWithMelds() {
     }
@@ -51,6 +56,14 @@ public class GearWithMelds {
     }
 
     public void addMeld(Meld meld) { this.melds.add(meld); }
+
+    public JobBIS getBis() {
+        return bis;
+    }
+
+    public void setBis(JobBIS bis) {
+        this.bis = bis;
+    }
 
     @Override
     public String toString() {

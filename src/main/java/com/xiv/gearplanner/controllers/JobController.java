@@ -72,6 +72,21 @@ public class JobController {
     }
 
 
+    // An overview of all stored BIS in list format
+    @GetMapping("/bis")
+    public String viewStoredBISList(Model model) {
+
+        model.addAttribute("jobs", jobs.getJobs().findAll());
+        model.addAttribute("bis",jobs.getSets().findAll());
+            return "job/bis/index";
+    }
+
+    @GetMapping("/bis/view/{id}")
+    public String viewBIS(@PathVariable Long id, Model model) {
+        model.addAttribute("bis",jobs.getSets().findFirstById(id));
+        return "job/bis/view";
+    }
+
     @GetMapping("/api/bis/{jobId}")
     public @ResponseBody   List<JobBIS> viewBISListByJob(@PathVariable Long jobId) {
 

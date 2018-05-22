@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Index page</title>
+</head>
+<body>
+
+<div th:replace="partials/layout :: navbar" />
+
+<div class="h-100 container  mx-auto">
+
+    <table class="table table-hover">
+        <thead>
+        <tr class="top">
+            <th colspan="3" class="text-left">
+                <div class="row m-0 p-0">
+                    <div class="text-left col-6 m-0 p-0">
+                        <span>(<span th:text="${bis.job.getAbbr()}"></span>
+                            <span th:text="${bis.name}"></span>)</span>
+                    </div>
+                    <div class="text-right col-6 m-0 p-0">
+                        <form method="post" th:action="@{/bis/importer/save}" name="bis-form-save" id="bis-form-save">
+                            <span class="pr-2 align-top">Everything looks good? </span>
+                            <button class="btn btn-lg btn-primary">Import!</button>
+                            <input type="hidden" name="bisJson" value="">
+                        </form>
+                    </div>
+                </div> </th>
+        </tr>
+        <tr class="text-left">
+            <th scope="col">Name</th>
+            <th scope="col" class="d-none d-sm-table-cell">iLvl</th>
+            <th scope="col">Melds</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="item : ${bis.melded}">
+
+            <tr th:data-id="${item.gear.id}" >
+                <td>   <a th:href="@{https://xivdb.com/item/} + ${item.gear.originalId}" th:text="${item.gear.name}"></a> </td>
+                <td>  <span th:text="${item.gear.iLvl}"></span> </td>
+                <td>
+
+                    <th:block th:each="meld : ${item.melds}">
+                        <div class="round-button" data-container="body" data-trigger="hover" data-toggle="popover"
+                             data-placement="top" th:title="${meld.materia.name}" th:data-content="${meld.materia.itemStat?.statType?.name}">
+                            <div th:class="@{round-button-circle } + ' ' + ${meld.materia.id} + @{-materia}"></div>
+                        </div>
+                    </th:block>
+
+                </td>
+            </tr>
+        </th:block>
+
+        <tr><td colspan="3">
+            <div class="text-center"><span class="text-muted">Does everything look right? (     <span th:text="${bis.getId()}"></span>) &nbsp;</span><a th:href="@{/import/player}" class="btn btn-sm btn-primary">Import!</a></div>
+        </tbody>
+        </td></tr>
+    </table>
+
+
+
+</div>
+
+<div th:replace="partials/layout :: footer" />
+<script src="https://secure.xivdb.com/tooltips.js"></script>
+<script th:src="@{~/built/importer.js}"></script>
+
+</body>
+</html>

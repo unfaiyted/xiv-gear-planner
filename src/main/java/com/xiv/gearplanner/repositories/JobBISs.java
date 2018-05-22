@@ -12,4 +12,6 @@ public interface JobBISs extends CrudRepository<JobBIS, Long> {
 
     List<JobBIS> findAllByJob(Job job);
 
+    JobBIS findFirstById(Long id);
+
 }

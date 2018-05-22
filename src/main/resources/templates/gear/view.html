@@ -41,28 +41,6 @@
         <tbody>
     <th:block th:each="item :${gear}">
 
-        <!--<div class="d-flex flex-row" th:data-id="${item.id}">-->
-           <!--<div>-->
-           <!--<img src="https://secure.xivdb.com/img/game_local/2/21399.jpg" class="img-float" />-->
-           <!--</div>-->
-            <!--<div>-->
-                <!--<a th:href="@{https://xivdb.com/item/} + ${item.originalId}" th:text="${item.name}"></a>-->
-
-            <!--</div>-->
-
-           <!--Equip Level:-->
-           <!--<span th:text="${item.equipLevel}"></span>-->
-           <!--Equip Slot:-->
-           <!--<span th:text="${item.getSlot().slot.name}"></span>-->
-           <!--Equippable by:-->
-           <!--<span th:text="${item.equipCategory.name}"></span>-->
-           <!--Job Name:-->
-           <!--<span th:text="${item.useJob.getName()}"></span>-->
-           <!--Materia Slots:-->
-           <!--<span th:text="${item.materiaSlotCount}"></span>-->
-            <!--Overmelding Possible:-->
-           <!--<span th:text="${item.advancedMelding}"></span>-->
-
     <tr>
         <td> <img src="https://secure.xivdb.com/img/game_local/2/21399.jpg" class="img-icon-small" /></td>
         <td> <a th:href="@{https://xivdb.com/item/} + ${item.originalId}" th:text="${item.name}"></a></td>

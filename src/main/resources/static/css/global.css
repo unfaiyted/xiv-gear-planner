@@ -433,6 +433,54 @@ MATERIA ICONS
     background: radial-gradient(circle at 7px 7px, #868686a3, #03020194);
 }
 
+.bis-job-img {
+    max-width: 30px;
+    left: 10px;
+    top: 9px;
+    position: absolute;
+}
+
+.bis-job-table {
+    display: block;
+    height: 256px;
+    margin-top: -16px;
+    overflow-y: scroll;
+    width: calc(100% + 6px);
+    margin-left: 0;
+    border-radius: 0;
+
+}
+
+.bis-job-table-header {
+    border-radius: 0px 6px 0px 0px;
+    border-color: transparent;
+
+}
+
+
+
+.bis-job-table::-webkit-scrollbar {
+    position: relative;
+    width: 6px;  /* remove scrollbar space */
+    /*background: transparent;  !* optional: just make scrollbar invisible *!*/
+    left: -6px;
+}
+
+.bis-job-table::-webkit-scrollbar-track {
+    background-color: transparent;
+    position: absolute;
+}
+
+.bis-job-table::-webkit-scrollbar-thumb        {
+
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 5px;
+    padding-top: 5px;
+    margin-left: 5px;
+    /* 5 */
+
+}
+
 
 /*
 NETWORK SOCIAL BUTTONS
