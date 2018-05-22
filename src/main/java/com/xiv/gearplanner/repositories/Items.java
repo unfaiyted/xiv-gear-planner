@@ -47,11 +47,49 @@ public interface Items extends CrudRepository<Item, Long> {
     @Transactional
     void addCategory(String name, Integer order, Integer icon, Integer originalId, Long jobId, Long parentId);
 
-    @Query(value = "Select m.* from materia m\n" +
-            "  inner join item_stat i ON (i.item_id = m.id)\n" +
+    @Query(value = "Select m.* from materia m" +
+            "  inner join item_stat i ON (i.item_id = m.id)" +
             " inner join gear_stat_type gst ON (gst.id = i.stat_type_id)" +
             " where gst.name LIKE ?1 and i.value = ?2", nativeQuery = true)
     Materia getMateriaByStat(String statTypeName, Long value);
+
+
+
+    /* Updates the materia import to have colors added to data set*/
+    @Modifying
+    @Query(value ="UPDATE Materia" +
+            "    SET" +
+            "      color =" +
+            "      case" +
+            "      when name like '%Lightning%' then 'white'" +
+            "      when name like '%Fire%' then 'white'" +
+            "      when name like '%Wind%' then 'white'" +
+            "      when name like '%Water%' then 'white'" +
+            "      when name like '%Ice%' then 'white'" +
+            "      when name like '%Earth%' then 'white'" +
+            "      when name like '%Mind%' then 'skyblue'" +
+            "      when name like '%Vitality%' then 'skyblue'" +
+            "      when name like '%Strength%' then 'skyblue'" +
+            "      when name like '%Intelligence%' then 'skyblue'" +
+            "      when name like '%Dexterity%' then 'skyblue'" +
+            "      when name like '%Savage%' then 'red'" +
+            "      when name like '%Heaven%' then 'red'" +
+            "      when name like '%Battle%' then 'yellow'" +
+            "      when name like '%Piety%' then 'yellow'" +
+            "      when name like '%Quick%' then 'purple'" +
+            "      when name like '%Craft%' then 'drkblue'" +
+            "      when name like '%Gatherer%' then 'green'" +
+            "      else null end", nativeQuery = true)
+    @Transactional
+    void updateMateriaColors();
+
+
+    /* Match stats to materia when imported*/
+    @Modifying
+    @Query(value ="update materia set materia.stat_id = (Select item_stat.id from item_stat where item_stat.item_id = materia.id)"
+            , nativeQuery= true)
+    @Transactional
+    void matchStatsToMateria();
 
 
 }

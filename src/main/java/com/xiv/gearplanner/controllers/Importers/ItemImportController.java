@@ -436,6 +436,13 @@ public class ItemImportController {
             }
             i++;
         }
+
+        // executs update materia query to add colors to materia directly
+        itemDao.getItems().updateMateriaColors();
+
+        // Checks materia and links the stat_id to the item stat table
+        itemDao.getItems().matchStatsToMateria();
+
         Long totalMateriaStats = (long) i;
 
 

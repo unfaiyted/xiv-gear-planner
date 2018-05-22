@@ -43,13 +43,20 @@ module.exports = {
         let jobDisplay = "." + module.exports.settings.jobDisplayClass;
         //save action, return to edit
 
+
+        // get selected job value and place as text
         let jobId = parent.find(".job-display select option:selected").val();
         let jobName = parent.find(".job-display select option:selected").text();
         let memberId = parent.find(".edit-toggle").data("id");
 
+        // updates the value of data for current job
+        $(`.bis-edit[data-member-id="${memberId}"]`).attr("data-job-id", jobId);
+
 
         parent.find(jobDisplay).empty();
-        parent.find(jobDisplay).append(jobName);
+        parent.find(jobDisplay).append(`<span class="job-display-text">${jobName}</span>`);
+
+
 
         let arr = {
             memberId: memberId,
@@ -73,7 +80,7 @@ module.exports = {
             // creates special picker
             $('.job-list-select').selectpicker({
                 style: 'btn-info',
-                size: 3
+                size: 5
             });
 
            $('.job-list-select').selectpicker('setStyle', 'btn-sm', 'add');

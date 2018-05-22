@@ -88,7 +88,7 @@
                                 <div class="delete-btn" th:data-id="${member?.getId()}">&times;</div>
 
                             </div>
-                            <div class="card-body text-left">
+                            <div class="card-body text-left pl-0 pr-0">
                                 <div class="progress prog-bar">
                                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 44%"></div>
                                 </div>
@@ -97,16 +97,27 @@
                                            <div class="row">
                                             <span class="text-muted job-text">Job:</span>
                                             <div class="job-display">
-                                                <span th:text="${member?.assignedJob?.name}"></span>
+                                                <span class="job-display-text" th:text="${member?.assignedJob?.name}"></span>
                                             </div>
                                             <i th:data-id="${member?.getId()}" class="edit-toggle material-icons">
                                                 edit
                                             </i>
                                            </div>
-                                           <div class="row w-100">
+                                           <div class="row w-100 ml-0 mr-0 pr-0">
 
-                                            <ul class="list-group">
-                                                <li class="list-group-item">BIS: War DH/Crit (<a href="#">edit</a>)</li>
+                                            <ul class="list-group static-list">
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="text-left"><span class="bis-text text-muted">BIS:</span>
+                                                            <span class="bis-name">DH/Crit</span></div>
+                                                    <div class="text-right ml-auto">
+                                                        <button type="button" class="btn btn-sm btn-secondary bis-edit"
+                                                        th:data-member-id="${member.id}" th:data-job-id="${member?.assignedJob?.id}"
+                                                                 >Change</button>
+
+                                                    </div>
+                                                    </div>
+                                                    </li>
                                             </ul>
 
                                            </div>
@@ -129,7 +140,16 @@
                         <div th:replace="partials/static/quickAdd :: add"/>
                     </div>
 
+
+
+
+
                 </th:block>
+
+
+                <div class="col-12 col-md-6 col-lg-3 mb-5 static-member mx-auto mv-auto">
+                    <div th:replace="partials/static/quickAdd :: bis-update"/>
+                </div>
         </div>
     </div>
 

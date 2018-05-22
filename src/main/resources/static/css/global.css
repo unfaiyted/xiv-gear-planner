@@ -156,8 +156,8 @@ STATIC VIEW PAGE
 .card-body .prog-bar {
     position: relative;
     top: -44px;
-    left: -10px;
-    width: calc(100% + 20px);
+    left: 7px;
+    width: calc(100% - 15px);
     padding: 0;
     margin: 0;
 }
@@ -171,9 +171,9 @@ STATIC VIEW PAGE
     color: grey;
     cursor: pointer;
     float: right;
-    left: calc(100% - 10px);
+    left: calc(100% - 25px);
     font-size: 20px;
-    top: -35px;
+    top: -42px;
     height: 25px;
 }
 
@@ -190,10 +190,15 @@ STATIC VIEW PAGE
 .job-display {
     position: relative;
     float: left;
-    left: -10px;
-    top: -10px;
+    left: 1px;
+    top: -12px;
     width: 100%;
     height: 3px;
+
+}
+
+.job-display-text {
+    padding-left: 15px;
 
 }
 
@@ -203,10 +208,21 @@ STATIC VIEW PAGE
     font-size: 10px;
     padding: 0;
     margin: 0;
-    left: -13px;
-    top: -22px;
+    left: 6px;
+    top: -24px;
 }
 
+
+.static-list {
+    width:100%;
+}
+
+.bis-text {
+    position: relative;
+    top: -14px;
+    font-size: 12px;
+    padding-right: 9px;
+}
 
 /**
 HOME PAGE

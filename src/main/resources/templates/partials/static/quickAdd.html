@@ -1,4 +1,9 @@
 <!-- Button trigger modal -->
+<!--
+
+ADD a NEW MEMBER TO STATIC FORM (MODAL)
+
+-->
 <div th:fragment="add">
 
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-member-modal">
@@ -55,3 +60,74 @@
 </div>
 
 </div>
+
+<!--
+
+FORM TO UPDATE THE CURRENT BIS LIST OF A MEMBER
+
+-->
+
+<div th:fragment="bis-update">
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="edit-bis-modal" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="text-left text-muted pl-2 pt-2 p-1">
+                    <span>PLD Bis List...</span>
+                </div>
+                <div class="p-2">
+                    <div class="card-container-light col-12 pt-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="bis-search" placeholder="Search for gear set..." aria-label="Search for gear..." aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button" id="bis-find">Search</button>
+                            </div>
+
+                        </div>
+                        <small class="text-left">Search by the name or ariyala ID.</small>
+                        <div class="text-right p-1">
+
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-modal">
+                        <table class="table table-hover mt-2">
+                            <thead>
+                            <tr class="text-left">
+                                <th scope="col">Name</th>
+                                <th scope="col">iLvl</th>
+                                <th scope="col" colspan="2">Users</th>
+                            </tr>
+                            </thead>
+                            <tbody id="bis-results">
+                                <!--Filled with Top BISs assigned currently-->
+                                <tr>
+                                <td class="bis-name"><a th:href="@{/bis/view/}">Crit/Det 4.4 SS Build</a></td>
+                                <td class="bis-users">355</td>
+                                <td class="d-none d-sm-table-cell bis-ilvl">44</td>
+                                <td class="text-right"><button  class="btn btn-sm btn-secondary bis-select">Select</button> </td>
+                                </tr>
+
+                            </tbody>
+                            <tbody>
+                            <tr>
+                                <td colspan="4" class="text-right">Can't find a good BIS? <a class="ml-2 btn btn-sm btn-primary" th:href="@{/bis/importer}">Import</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+

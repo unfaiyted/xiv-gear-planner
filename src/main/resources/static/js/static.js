@@ -1,9 +1,14 @@
 const lib = require('./libs/local.js');
+const loader = require('./libs/loader.js');
+
+
+// Static Specific Functionality
 const member = require('./module/static/memberAdd');
 const job = require('./module/static/editJob.js');
 const deleteMember = require('./libs/remove.js');
-const loader = require('./libs/loader.js');
 const syncGear = require('./module/static/gearSync.js');
+const bis = require('./module/static/editBIS');
+
 
 module.exports = {
 
@@ -109,6 +114,9 @@ loader.injectFullPageLoader();
 
 // Init the job functionality to edit job inline.
 job.init();
+
+// Allowes BIS editing functionality.
+bis.init();
 
 // Initilized functionality to delete an object form data/display.
 deleteMember.init({

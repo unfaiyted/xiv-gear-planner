@@ -1,5 +1,6 @@
 package com.xiv.gearplanner.controllers;
 
+import com.xiv.gearplanner.models.BISSelector;
 import com.xiv.gearplanner.models.Job;
 import com.xiv.gearplanner.models.JobBIS;
 import com.xiv.gearplanner.models.JobType;
@@ -88,16 +89,15 @@ public class JobController {
     }
 
     @GetMapping("/api/bis/{jobId}")
-    public @ResponseBody   List<JobBIS> viewBISListByJob(@PathVariable Long jobId) {
+    public @ResponseBody   List<BISSelector> viewBISListByJob(@PathVariable Long jobId) {
 
-        List<JobBIS> BISList = new ArrayList<>();
+        List<BISSelector> BISList = new ArrayList<>();
 
         if(jobs.getJobs().findById(jobId).isPresent()) {
            Job job = jobs.getJobs().findById(jobId).get();
             try {
                 jobs.getSets().findAllByJob(job).forEach((value) -> {
-                    BISList.add(value);
-
+                    BISList.add(new BISSelector(value.getId(), value.getJob().getId(), value.getName()));
                 });
             } catch (NullPointerException e) {
                 return new ArrayList<>();

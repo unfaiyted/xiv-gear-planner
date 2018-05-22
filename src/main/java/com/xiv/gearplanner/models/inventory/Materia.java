@@ -1,5 +1,7 @@
 package com.xiv.gearplanner.models.inventory;
 
+import org.springframework.stereotype.Controller;
+
 import javax.persistence.*;
 
 
@@ -10,9 +12,12 @@ import javax.persistence.*;
 @Table
 public class Materia extends Item {
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stat_id")
     private ItemStat itemStat;
+
+    @Column
+    String color;
 
     public Materia() { }
 
@@ -28,6 +33,14 @@ public class Materia extends Item {
     public void setItemStat(ItemStat stat) {
         stat.setItem(this);
         this.itemStat = stat;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     @Override
