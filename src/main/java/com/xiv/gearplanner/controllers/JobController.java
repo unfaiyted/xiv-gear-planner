@@ -1,9 +1,8 @@
 package com.xiv.gearplanner.controllers;
 
-import com.xiv.gearplanner.models.BISSelector;
-import com.xiv.gearplanner.models.Job;
-import com.xiv.gearplanner.models.JobBIS;
-import com.xiv.gearplanner.models.JobType;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xiv.gearplanner.models.*;
 import com.xiv.gearplanner.services.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +11,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,10 +110,56 @@ public class JobController {
         return  new ArrayList<>();
 
 
+    }
+
+
+    @RequestMapping(
+            value = "/api/bis/assign/",
+            method= RequestMethod.POST,
+            headers = "Accept=*/*",
+            produces = "application/json",
+            consumes="application/json")
+    @ResponseBody
+    public Response updateBIS (@RequestBody String jsonStr) {
+        try {
+            JsonNode data = strToJsonNode(jsonStr);
+            //Long staticId = staticDao.getStatics().getStaticIdByOwner(userUtil.getLoggedInUser().getId());
+
+             Long memberId =  data.path("memberId").asLong();
+             Long bisId =  data.path("bisId").asLong();
+
+            System.out.println(memberId);
+            System.out.println(bisId);
+
+            jobs.getSets().updateStaticMemberBIS(memberId, bisId);
+
+        } catch(IOException err) {
+
+            ResponseError error = new ResponseError();
+            // fill map with errors here
+            return error;
+        }
+
+        Response res = new Response();
+        res.setSuccess(true);
+        return res;
 
 
 
     }
+
+
+
+    // package json node mapping from string
+    private JsonNode strToJsonNode(String jsonStr)  throws IOException {
+
+        jsonStr = jsonStr.replaceAll("^\"|\"$|\\\\", "");
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode actualNode = mapper.readTree(jsonStr);
+
+        return actualNode;
+    }
+
 
 
 }

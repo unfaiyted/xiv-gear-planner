@@ -811,7 +811,8 @@ module.exports = {
         openEditorClass: 'bis-edit',
         editorCreated: false,
         memberId: null,
-        jobId: null
+        jobId: null,
+        updateMsg: "Are you sure you want to select this Gear set?"
     },
 
     init: function init() {
@@ -822,6 +823,7 @@ module.exports = {
 
         //reset
         $('.' + module.exports.settings.openEditorClass).off();
+        $('.bis-select').off();
 
         //Open Editor
         $('.' + module.exports.settings.openEditorClass).click(function () {
@@ -834,6 +836,24 @@ module.exports = {
 
             module.exports.displayEditor();
         });
+
+        $('.bis-select').click(function () {
+
+            var memberId = module.exports.settings.memberId;
+            var bisId = $(this).attr('data-bis-id');
+
+            // Popup to confirm
+            alerts.confirmPopUp(module.exports.settings.updateMsg).then(function () {
+                module.exports.assignBIS(memberId, bisId).then($('#edit-bis-modal').modal('hide')).catch(function (data) {
+                    console.log(data);
+                    alert.displayPopUpAlert("Error changing gear set.", "danger");
+                });
+            }, //promise resolved
+            function () {
+                console.log('You clicked cancel');
+            } //promise rejected
+            );
+        });
     },
 
     displayEditor: function displayEditor() {
@@ -841,6 +861,7 @@ module.exports = {
         module.exports.getBISList(module.exports.settings.jobId).then(function () {
             //show modal;
             $('#edit-bis-modal').modal('show');
+            module.exports.initHandlers();
         });
     },
 
@@ -852,7 +873,7 @@ module.exports = {
 
         data.forEach(function (item) {
 
-            output += '<tr>\n            <td class="bis-name"><a href="/bis/view/' + item.id + '">' + item.name + '</a></td>\n             <td class="bis-users">???</td>\n            <td class="d-none d-sm-table-cell bis-ilvl">??</td>\n            <td class="text-right"><button  class="btn btn-sm btn-secondary bis-select">Select</button> </td>\n            </tr>';
+            output += '<tr>\n            <td class="bis-name"><a href="/bis/view/' + item.id + '">' + item.name + '</a></td>\n             <td class="bis-users">???</td>\n            <td class="d-none d-sm-table-cell bis-ilvl">??</td>\n            <td class="text-right"><button data-bis-id="' + item.id + '" class="btn btn-sm btn-secondary bis-select">Select</button> </td>\n            </tr>';
         });
 
         $('#bis-results').append(output);
@@ -874,7 +895,9 @@ module.exports = {
             bisId: bisId
         };
 
-        return api.updateData('/api/bis/assign/', assign);
+        console.log(assign);
+
+        return api.addData('/api/bis/assign/', assign);
     }
 
 };

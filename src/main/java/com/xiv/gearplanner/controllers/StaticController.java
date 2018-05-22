@@ -157,9 +157,6 @@ public class StaticController {
            JsonNode actualObj = strToJsonNode(jsonStr);
             Long staticId = staticDao.getStatics().getStaticIdByOwner(userUtil.getLoggedInUser().getId());
 
-
-            System.out.println(actualObj);
-
             for(JsonNode member : actualObj) {
                 Long playerId =  member.path("id").asLong();
                 staticDao.getStatics().addMember(staticId, playerId);

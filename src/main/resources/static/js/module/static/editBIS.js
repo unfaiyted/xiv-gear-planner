@@ -8,7 +8,8 @@ module.exports = {
         openEditorClass: 'bis-edit',
         editorCreated: false,
         memberId: null,
-        jobId: null
+        jobId: null,
+        updateMsg: "Are you sure you want to select this Gear set?"
     },
 
     init: () =>  {
@@ -19,6 +20,7 @@ module.exports = {
 
         //reset
         $('.' + module.exports.settings.openEditorClass).off();
+        $('.bis-select').off();
 
         //Open Editor
         $('.' + module.exports.settings.openEditorClass).click(function() {
@@ -32,6 +34,27 @@ module.exports = {
             module.exports.displayEditor();
 
         });
+
+        $(`.bis-select`).click(function () {
+
+            let memberId = module.exports.settings.memberId;
+            let bisId =   $(this).attr('data-bis-id');
+
+            // Popup to confirm
+            alerts.confirmPopUp(module.exports.settings.updateMsg).then(
+                function() {
+                    module.exports.assignBIS(memberId, bisId)
+                        .then($('#edit-bis-modal').modal('hide')).
+                    catch(function (data) {
+                        console.log(data);
+                        alert.displayPopUpAlert("Error changing gear set.","danger")
+                    });
+                }, //promise resolved
+                function() { console.log('You clicked cancel'); }, //promise rejected
+            );
+        });
+
+
     },
 
     displayEditor: () => {
@@ -39,6 +62,7 @@ module.exports = {
         module.exports.getBISList(module.exports.settings.jobId).then(function() {
                 //show modal;
             $('#edit-bis-modal').modal('show');
+            module.exports.initHandlers();
 
         });
 
@@ -56,7 +80,7 @@ module.exports = {
             <td class="bis-name"><a href="/bis/view/${item.id}">${item.name}</a></td>
              <td class="bis-users">???</td>
             <td class="d-none d-sm-table-cell bis-ilvl">??</td>
-            <td class="text-right"><button  class="btn btn-sm btn-secondary bis-select">Select</button> </td>
+            <td class="text-right"><button data-bis-id="${item.id}" class="btn btn-sm btn-secondary bis-select">Select</button> </td>
             </tr>`;
         });
 
@@ -80,7 +104,9 @@ module.exports = {
             bisId: bisId
         };
 
-        return api.updateData('/api/bis/assign/', assign);
+        console.log(assign);
+
+        return api.addData('/api/bis/assign/', assign);
     }
 
 
