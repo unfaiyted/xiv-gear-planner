@@ -310,6 +310,7 @@ var deleteMember = __webpack_require__(18);
 var syncGear = __webpack_require__(19);
 var bis = __webpack_require__(22);
 var compare = __webpack_require__(24);
+var panel = __webpack_require__(26);
 
 module.exports = {
 
@@ -424,34 +425,7 @@ $(document).scroll(function () {
 
 compare.init();
 
-var scotchPanel =
-////////// TESTING PANEL ////
-$('#panel-member').scotchPanel({
-    containerSelector: '.main-container', // As a jQuery Selector
-    direction: 'left', // Make it toggle in from the left
-    duration: 300, // Speed in ms how fast you want it to be
-    transition: 'ease', // CSS3 transition type: linear, ease, ease-in, ease-out, ease-in-out, cubic-bezier(P1x,P1y,P2x,P2y)
-    clickSelector: '.toggle-panel', // Enables toggling when clicking elements of this class
-    distanceX: '350px', // Size fo the toggle
-    enableEscapeKey: true, // Clicking Esc will close the panel
-    beforePanelOpen: function beforePanelOpen() {},
-    afterPanelOpen: function afterPanelOpen() {
-        $('.scotch-panel-wrapper').animate({
-            backgroundColor: "rgba( 0, 0, 0 , 0.75)"
-        }, 400);
-    }
-
-});
-
-$('.toggle-panel').click(function () {
-    console.log("yes");
-    setTimeout(function () {}, 200);
-});
-
-$('.overlay').click(function () {
-    // CLOSE ONLY
-    scotchPanel.close();
-});
+panel.init();
 
 /***/ }),
 /* 16 */
@@ -987,8 +961,10 @@ module.exports = {
         for (var i = 0; i < bis.length; i++) {
 
             if (bis[i] !== current[i]) {
-                module.exports.updateTable(current[i]);
+                module.exports.updateTable(current[i], false);
                 count++;
+            } else {
+                module.exports.updateTable(current[i], true);
             }
         }
 
@@ -996,8 +972,17 @@ module.exports = {
     },
 
 
-    updateTable: function updateTable(id) {
-        $('#gear-current tr[data-id="' + id + '"]').css("background-color", "#6d121287");
+    updateTable: function updateTable(id, success) {
+
+        var html = $('#gear-current tr[data-id="' + id + '"] .gear-name').html();
+        $('#gear-current tr[data-id="' + id + '"] .gear-name').empty();
+
+        if (success === false) {
+
+            $('#gear-current tr[data-id="' + id + '"] .gear-name').html('<i class="fas  fa-exclamation-triangle fail-check"></i>' + html);
+        } else {
+            $('#gear-current tr[data-id="' + id + '"] .gear-name').html('<i class="fas fa-check  match-check"></i>' + html);
+        }
     },
 
     updateProgressData: function updateProgressData(count, total) {
@@ -1027,6 +1012,110 @@ module.exports = {
         $('#gear-matched-count').text(matches);
         $('#gear-total-count').text(total);
         $('#gear-percent').text(percent);
+    }
+
+};
+
+/***/ }),
+/* 25 */,
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// Creates a member PANEL
+
+
+module.exports = {
+
+    settings: {
+        lastPos: 0,
+        updatePos: true,
+        stickyScroll: {}
+
+    },
+
+    init: function init() {
+        module.exports.initHandler();
+    },
+
+    initHandler: function initHandler() {
+
+        // $('.toggle-panel').off();  $('.overlay').off();
+        //  $( window ).off();
+        var panelMember = $('#panel-member').scotchPanel({
+            containerSelector: '.main-container', // As a jQuery Selector
+            direction: 'left', // Make it toggle in from the left
+            duration: 300, // Speed in ms how fast you want it to be
+            transition: 'ease', // CSS3 transition type: linear, ease, ease-in, ease-out, ease-in-out, cubic-bezier(P1x,P1y,P2x,P2y)
+            clickSelector: '.toggle-panel', // Enables toggling when clicking elements of this class
+            distanceX: '350px', // Size fo the toggle
+            enableEscapeKey: true // Clicking Esc will close the panel
+        });
+
+        $('.toggle-panel').click(function () {
+            //disable sticky handler default
+            $(window).unbind('scroll');
+            // move to top
+            $('html,body').animate({ scrollTop: 0 }, 600);
+
+            var top = $(".sticky-parent").css("top");
+
+            $(".sticky-parent").animate({
+                top: "-=" + top
+            }, 150, function () {
+
+                setTimeout(function () {
+                    module.exports.settings.lastPos = 0;
+                    module.exports.stickyHandler();
+                }, 1000);
+            });
+        });
+
+        $('.overlay').click(function () {
+            // CLOSE ONLY
+            panelMember.close();
+        });
+
+        module.exports.stickyHandler();
+    },
+
+    stickyHandler: function stickyHandler() {
+
+        var stickyScroll = $(window).scroll(function () {
+            var lastPos = module.exports.settings.lastPos;
+
+            if (lastPos > $(document).scrollTop()) {
+                var diff = Math.abs($(document).scrollTop() - lastPos);
+                module.exports.animateMoveSticky("up", diff);
+            } else {
+                var _diff = Math.abs(lastPos - $(document).scrollTop());
+                module.exports.animateMoveSticky("down", _diff);
+            }
+            module.exports.settings.lastPos = $(document).scrollTop();
+        });
+    },
+
+    animateMoveSticky: function animateMoveSticky(direction, value) {
+
+        var action = "-=" + value;
+        if (direction === "down") {
+            action = "+=" + value;
+        }
+
+        if (module.exports.settings.updatePos = true) {
+
+            $(".sticky-parent").animate({
+                top: action
+            }, 150, function () {
+                module.exports.settings.updatePos = false;
+            });
+        }
+
+        setTimeout(function () {
+            module.exports.settings.updatePos = true;
+        }, 400);
     }
 
 };

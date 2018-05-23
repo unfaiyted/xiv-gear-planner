@@ -9,6 +9,7 @@ const deleteMember = require('./libs/remove.js');
 const syncGear = require('./module/static/gearSync.js');
 const bis = require('./module/static/editBIS');
 const compare = require('./module/static/gearCompare.js');
+const panel = require('./module/static/panel.js');
 
 
 module.exports = {
@@ -147,41 +148,4 @@ $(document).scroll(function() {
 
 compare.init();
 
-
-let scotchPanel =
-////////// TESTING PANEL ////
-$('#panel-member').scotchPanel({
-    containerSelector: '.main-container', // As a jQuery Selector
-    direction: 'left', // Make it toggle in from the left
-    duration: 300, // Speed in ms how fast you want it to be
-    transition: 'ease', // CSS3 transition type: linear, ease, ease-in, ease-out, ease-in-out, cubic-bezier(P1x,P1y,P2x,P2y)
-    clickSelector: '.toggle-panel', // Enables toggling when clicking elements of this class
-    distanceX: '350px', // Size fo the toggle
-    enableEscapeKey: true, // Clicking Esc will close the panel
-    beforePanelOpen: function() {
-
-    },
-    afterPanelOpen: function() {
-        $('.scotch-panel-wrapper').animate({
-            backgroundColor: "rgba( 0, 0, 0 , 0.75)"
-        }, 400);
-    },
-
-});
-
-
-$('.toggle-panel').click(function () {
-    console.log("yes");
-    setTimeout(function () {
-
-    }, 200)
-
-
-});
-
-
-
-$('.overlay').click(function() {
-    // CLOSE ONLY
-    scotchPanel.close();
-});
+panel.init();

@@ -232,7 +232,6 @@ STATIC VIEW PAGE
 
 .bis-progress-text {
     position: relative;
-
     font-size: 12px;
 }
 
@@ -240,13 +239,22 @@ STATIC VIEW PAGE
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
+
     position: relative;
     left: -45px;
     top: 14px;
 }
 
+.sticky-parent {
+    position: relative;
+}
+
 .member-menu-avatar {
-    height: 45px;
+
+    top: 20px;
+    /*border: 1px solid #fff;*/
+    z-index:10000;
+
 }
 
 .member-show-btn {
@@ -262,6 +270,15 @@ STATIC VIEW PAGE
 
 }
 
+.match-check {
+    color: #17bf17;
+    font-size: 20px;
+}
+
+.fail-check {
+    color: #ffcf09;
+    font-size: 20px;
+}
 
 
 /* Panel  CSS eventually */
@@ -291,21 +308,6 @@ STATIC VIEW PAGE
     display: block;
 }
 
-.panel-member {
-    background: rgba(0, 0, 0, 0.0);
-    -webkit-transition: all 225ms ease;
-    -moz-transition: all 225ms ease;
-    transition: all 225ms ease;
-
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-
-    -webkit-animation-name: fadeIn;
-    animation-name: fadeIn;
-
-}
 
 
 @-webkit-keyframes fadeIn {
