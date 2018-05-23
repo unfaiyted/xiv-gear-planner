@@ -139,6 +139,12 @@ STATIC VIEW PAGE
     height: 50px;
 }
 
+
+.job-img-mini {
+    height: 25px;
+    width: 25px;
+}
+
 .player-card .name {
     color: #fff;
     background-color: rgba(0,0,0,0.5);
@@ -241,7 +247,7 @@ STATIC VIEW PAGE
     border-radius: 50%;
 
     position: relative;
-    left: -45px;
+    left: -30px;
     top: 14px;
 }
 
@@ -254,19 +260,21 @@ STATIC VIEW PAGE
     top: 20px;
     /*border: 1px solid #fff;*/
     z-index:10000;
+    height: 25px;
 
 }
 
 .member-show-btn {
     position: relative;
     top: 59px;
-    left: -79px;
+    left: -65px;
     font-size: 25px;
     z-index: 100;
 }
 
 #panel-member {
     background-color: rgba(0,0,0,1);
+    border-right: 1px solid #7a7a7a;
 
 }
 

@@ -149,3 +149,8 @@ $(document).scroll(function() {
 compare.init();
 
 panel.init();
+
+
+
+//Enabled popover support on page.
+$('[data-toggle="popover"]').popover();

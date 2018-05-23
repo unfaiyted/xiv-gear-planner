@@ -427,6 +427,9 @@ compare.init();
 
 panel.init();
 
+//Enabled popover support on page.
+$('[data-toggle="popover"]').popover();
+
 /***/ }),
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {

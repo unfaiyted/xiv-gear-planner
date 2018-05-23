@@ -27,7 +27,11 @@
         </div>
     </div>
         <div class="d-flex flex-row p-2">
-            <div class="align-self-bottom">
+            <div>
+                <img th:src="${(member?.getAssignedJob()?.getImg() != null && !#strings.isEmpty(member?.getAssignedJob()?.getImg())) ?  member.getAssignedJob().getImg() :
+                                 'https://img.finalfantasyxiv.com/lds/promo/h/R/laSrEkvlK_7NNbNZ3JErTqzaR8.png'}" class="job-img-mini m-1" th:data-id="${member?.getId()}"/>
+            </div>
+                <div class="align-self-bottom">
                 <h3 class="text-left mb-0" th:text="${member?.getPlayer()?.getName()}">Faiyt Lee</h3>
             </div>
         </div>
@@ -125,7 +129,7 @@
 
                     <div class="row">
                     <!--Gear Table -->
-                    <div class="col-6">
+                    <div class="col-6 table-responsive">
                     <table class="table table-hover" id="gear-current">
                         <thead>
                         <tr class="top">
@@ -163,7 +167,7 @@
 
 
                         <!-- BIS -->
-                    <div class="col-6">
+                    <div class="col-6 table-responsive">
                         <table class="table table-hover" id="gear-bis">
                             <thead>
                             <tr class="top">
@@ -179,6 +183,7 @@
                                 <th scope="col">Slot</th>
                                 <th scope="col">Name</th>
                                 <th scope="col" class="d-none d-sm-table-cell">iLvl</th>
+                                <th scope="col">Melds</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -190,6 +195,20 @@
                                     <td>   <a th:href="@{https://xivdb.com/item/} + ${melded.getGear().originalId}"
                                               th:text="${melded.getGear().name}"></a> </td>
                                     <td>  <span th:text="${melded.getGear().iLvl}"></span> </td>
+
+
+                                    <!-- MELDS --->
+                                    <td>
+                                        <th:block th:each="meld : ${melded.melds}">
+                                            <div class="round-button" data-container="body" data-trigger="hover" data-toggle="popover"
+                                                 data-placement="top" th:title="${meld.materia.name}" th:data-content="${meld.materia.itemStat?.statType?.name} + ' +' + ${meld.materia.itemStat?.value}">
+                                                <div th:class="@{round-button-circle } + ' ' + ${meld.materia.color} + @{-materia}"></div>
+                                            </div>
+                                        </th:block>
+
+                                    </td>
+
+
                                 </tr>
 
                             </th:block>

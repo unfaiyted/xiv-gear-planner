@@ -11,7 +11,9 @@ public class LSItem {
 	String name;
 	String category;
 	
-	List<String> classes;
+	private List<String> classes;
+
+	private List<String> materia;
 
 	public String getId() {
 		return id;
@@ -47,8 +49,20 @@ public class LSItem {
 	public void setClasses(List<String> classes) {
 		this.classes = classes;
 	}
-	
-	
+
+
+	public List<String> getMateria() {
+		return materia;
+	}
+
+	public void setMateria(List<String> materia) {
+		this.materia = materia;
+	}
+
+	public void addMateria(String materia) {
+		this.materia.add(materia);
+	}
+
 	@Override
 	public String toString() {
 		return "LSItem [id=" + id + ", level=" + level + ", name=" + name + ", category="

@@ -175,7 +175,18 @@ public class CharacterParser {
 		} else {
 			item.setClasses(Arrays.asList(classes.split(" ")));
 		}
-		
+
+		Elements materiaList = element.select("ul.db-tooltip__materia");
+		Elements materiaItem = materiaList.select("div.db-tooltip__materia__txt"); // list if materia
+
+			for(Element ele : materiaItem) {
+				ele.select("span").remove();
+			}
+
+			for(Element ele : materiaItem) {
+				item.addMateria(ele.toString());
+			}
+
 		return item;
 	}
 	
