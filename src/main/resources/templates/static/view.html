@@ -9,6 +9,9 @@
 
 <div th:replace="partials/layout :: navbar" />
 <div class="h-100 main-container  mx-auto w-100 text-center">
+
+
+
     <div class="container">
         <!-- Static Header -->
         <div class="row">
@@ -109,7 +112,7 @@
                                                 <li class="list-group-item">
                                                     <div class="row">
                                                         <div class="text-left"><span class="bis-text text-muted">BIS:</span>
-                                                            <span class="bis-name">DH/Crit</span></div>
+                                                            <span class="bis-name" th:data-member-id="${member.id}" th:text="${member.assignedBIS?.name}">DH/Crit</span></div>
                                                     <div class="text-right ml-auto">
                                                         <button type="button" class="btn btn-sm btn-secondary bis-edit"
                                                         th:data-member-id="${member.id}" th:data-job-id="${member?.assignedJob?.id}"

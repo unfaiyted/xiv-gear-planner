@@ -9,6 +9,7 @@ module.exports = {
         editorCreated: false,
         memberId: null,
         jobId: null,
+        bisName: null,
         updateMsg: "Are you sure you want to select this Gear set?"
     },
 
@@ -28,6 +29,7 @@ module.exports = {
             module.exports.settings.jobId = $(this).attr('data-job-id');
             module.exports.settings.memberId = $(this).attr('data-member-id');
 
+
             // track...current job, current member
             console.log("clicked editor");
 
@@ -39,12 +41,17 @@ module.exports = {
 
             let memberId = module.exports.settings.memberId;
             let bisId =   $(this).attr('data-bis-id');
+            let bisName =  $(this).attr('data-bis-name');
 
             // Popup to confirm
             alerts.confirmPopUp(module.exports.settings.updateMsg).then(
                 function() {
                     module.exports.assignBIS(memberId, bisId)
-                        .then($('#edit-bis-modal').modal('hide')).
+                        .then(function () {
+
+                            $(`.bis-name[data-member-id="${module.exports.settings.memberId}"]`).text(bisName);
+                            $('#edit-bis-modal').modal('hide')
+                        }).
                     catch(function (data) {
                         console.log(data);
                         alert.displayPopUpAlert("Error changing gear set.","danger")
@@ -80,7 +87,7 @@ module.exports = {
             <td class="bis-name"><a href="/bis/view/${item.id}">${item.name}</a></td>
              <td class="bis-users">???</td>
             <td class="d-none d-sm-table-cell bis-ilvl">??</td>
-            <td class="text-right"><button data-bis-id="${item.id}" class="btn btn-sm btn-secondary bis-select">Select</button> </td>
+            <td class="text-right"><button data-bis-id="${item.id}" data-bis-name="${item.name}" class="btn btn-sm btn-secondary bis-select">Select</button> </td>
             </tr>`;
         });
 

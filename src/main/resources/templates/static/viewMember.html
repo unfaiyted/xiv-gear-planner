@@ -7,69 +7,125 @@
 </head>
 <body>
 
-<div th:replace="partials/layout :: navbar" />
-<div class="h-100 main-container  mx-auto w-100 text-center">
-    <div class="container">
-        <!-- Static Header -->
 
-        <div class="col-12 p-2 m-2">
-            <div class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 44%"></div>
+<span class="overlay"></span>
+<div th:replace="partials/layout :: navbar" />
+
+<div class="h-100 main-container  mx-auto w-100 text-left" >
+
+
+    <div class="row">
+    <span class="overlay"></span>
+    <div class="member-menu-avatar">
+        <a href="#" class="toggle-panel">
+    <img th:src="${member.getPlayer().getAvatar()}" class="member-img-avatar">
+            <i class="fas fa-chevron-circle-right member-show-btn"></i>
+        </a>
+    </div>
+        <div class="d-flex flex-row p-2">
+            <div class="align-self-bottom">
+                <h3 class="text-left mb-0" th:text="${member?.getPlayer()?.getName()}">Faiyt Lee</h3>
             </div>
         </div>
+    </div>
 
-        <div class="row">
 
-                <!--Member Preview -->
-                <div class="col-12 col-md-6 col-lg-3 mb-5">
-                    <div class="card player-card">
-                        <img class="card-img-top img-fluid"  th:src="${member.getPlayer().getPortrait()}" th:alt="${member.getPlayer().getName()}">
+    <div id="panel-member">
 
-                        <div class="card-img-overlay">
-                            <img th:src="${member.getAssignedJob().getImg()}" class="job-img" th:data-id="${member.getId()}">
-                            <div class="text-left name" th:text="${member.getPlayer().getName()}">Faiyt Lee</div>
+        <div class="card player-card m-3 ">
+            <img class="card-img-top img-fluid" th:src="${member?.getPlayer()?.getPortrait()}" th:alt="${member?.getPlayer()?.getName()}">
+
+            <div class="card-img-overlay">
+                <!--<img th:src="${member?.getAssignedJob()?.getIcon()}"  class="job-img" th:data-id="${member?.getId()}">-->
+
+                <img th:src="${(member?.getAssignedJob()?.getImg() != null && !#strings.isEmpty(member?.getAssignedJob()?.getImg())) ?  member.getAssignedJob().getImg() :
+                                 'https://img.finalfantasyxiv.com/lds/promo/h/R/laSrEkvlK_7NNbNZ3JErTqzaR8.png'}" class="job-img" th:data-id="${member?.getId()}"/>
+
+                <div class="text-left name" th:text="${member?.getPlayer()?.getName()}">Faiyt Lee</div>
+                <div class="hide-btn" th:data-id="${member?.getId()}"></div>
+
+            </div>
+            <div class="card-body text-left pl-0 pr-0">
+                <div class="progress prog-bar">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 44%"></div>
+                </div>
+
+                <div class="col-12">
+                    <div class="row">
+                        <span class="text-muted job-text">Job:</span>
+                        <div class="job-display">
+                            <span class="job-display-text" th:text="${member?.assignedJob?.name}"></span>
                         </div>
-                        <div class="card-body text-left">
-                            <div class="progress prog-bar">
-                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 44%"></div>
-                            </div>
+                        <i th:data-id="${member?.getId()}" class="edit-toggle material-icons">
+                            edit
+                        </i>
+                    </div>
+                    <div class="row w-100 ml-0 mr-0 pr-0">
 
-                            <div class="col-12">
+                        <ul class="list-group static-list">
+                            <li class="list-group-item">
                                 <div class="row">
-                                    <span class="text-muted job-text">Job:</span>
-                                    <div class="job-display">
-                                        <span th:text="${member?.assignedJob?.name}"></span>
+                                    <div class="text-left"><span class="bis-text text-muted">BIS:</span>
+                                        <span class="bis-name " th:data-member-id="${member.id}" th:text="${member.assignedBIS?.name}">DH/Crit</span></div>
+                                    <div class="text-right ml-auto">
+                                        <button type="button" class="btn btn-sm btn-secondary bis-edit"
+                                                th:data-member-id="${member.id}" th:data-job-id="${member?.assignedJob?.id}"
+                                        >Change</button>
+
                                     </div>
-                                    <i th:data-id="${member?.getId()}" class="edit-toggle material-icons">
-                                        edit
-                                    </i>
                                 </div>
-                                <div class="row w-100">
+                            </li>
+                        </ul>
 
-                                    <ul class="list-group">
-                                        <li class="list-group-item">BIS: War DH/Crit (<a href="#">edit</a>)</li>
-                                    </ul>
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="card-footer text-muted">
-                            <a href="#" class="btn btn-sm btn-secondary">Loadstone</a>
-                            <a href="#" class="btn btn-sm btn-danger">Remove</a>
-                        </div>
                     </div>
                 </div>
 
-        <div class="col-9">
+            </div>
+            <div class="card-footer text-muted">
+                <a th:href="@{/static/view/} + ${member?.getId()}" class="btn btn-sm btn-primary">View Gear</a>
+                <a href="#" class="btn btn-sm btn-secondary member-gear-sync" th:data-id="${member.getId()}">Sync Gear</a>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+    <div class="container">
+        <!-- Static Header -->
+
+
+
+
+
+        <div class="row">
+
+        <div class="col-12 col-lg-12 col-md-12">
+            <div class="d-flex flew-row card-container-dark p-0 m-2">
+
+
+                    <div class="w-100 p-0 m-2 text-left">
+                        <span class="bis-progress-text">Progress: (<span id="gear-matched-count"></span>/<span id="gear-total-count"></span> gear) <span id="gear-percent"></span> %
+
+                        <div class="progress">
+                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 10%"></div>
+                          </div>
+                    </div>
+            </div>
+
             <div class="row text-left">
-                <div>Gear</div>
+
                 <div class="col-12 card-container-dark p-2 m-2">
 
                     <div class="row">
                     <!--Gear Table -->
                     <div class="col-6">
-                    <table class="table table-hover">
+                    <table class="table table-hover" id="gear-current">
                         <thead>
                         <tr class="top">
                             <th colspan="3" class="text-left">Current Gear...</th>
@@ -83,11 +139,14 @@
                         <tbody>
                     <th:block th:each="gear : ${member.getAssignedGear().getGears()}">
 
-                        <tr th:data-id="${gear.id}" >
+                        <!--CURRENT SLOT LIST -->
+                      <th:block th:if="${!#strings.containsIgnoreCase(gear.name,'Soul of the')}">
+                        <tr th:data-id="${gear.id}"  class="gear-slot">
                             <td>  <img th:src="${gear.slot.slot.getIcon()}" /> </td>
                             <td>   <a th:href="@{https://xivdb.com/item/} + ${gear.originalId}" th:text="${gear.name}"></a> </td>
                             <td>  <span th:text="${gear.iLvl}"></span> </td>
                         </tr>
+                      </th:block>
 
                     </th:block>
 
@@ -101,16 +160,16 @@
                     </div>
 
 
+                        <!-- BIS -->
                     <div class="col-6">
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="gear-bis">
                             <thead>
                             <tr class="top">
                                 <th colspan="3" class="text-left">
                                     <div class="row m-0 p-0">
                                     <div class="text-left col-4 m-0 p-0"><span class="pr-1">BIS Gear...</span></div>
-                                      <div class="text-right  m-0 p-0">
-                                          <span>(PLD Crit/Det 4.2)</span>
-                                          <button class="btn btn-sm btn-secondary">Change BIS</button>
+                                      <div class="text-right ml-auto m-0 p-0">
+
                                       </div>
                                     </div> </th>
                             </tr>
@@ -121,19 +180,23 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <th:block th:each="gear : ${member.getAssignedGear().getGears()}">
+                            <!--BIS SLOT LIST -->
+                            <th:block th:each="melded : ${member.getAssignedBIS().getMelded()}">
 
-                                <tr th:data-id="${gear.id}" >
-                                    <td>  <img th:src="${gear.slot.slot.getIcon()}" /> </td>
-                                    <td>   <a th:href="@{https://xivdb.com/item/} + ${gear.originalId}" th:text="${gear.name}"></a> </td>
-                                    <td>  <span th:text="${gear.iLvl}"></span> </td>
+                                <tr th:data-id="${melded.getGear().id}" class="gear-slot" >
+                                    <td>  <img th:src="${melded.getGear().slot.slot.getIcon()}" /> </td>
+                                    <td>   <a th:href="@{https://xivdb.com/item/} + ${melded.getGear().originalId}"
+                                              th:text="${melded.getGear().name}"></a> </td>
+                                    <td>  <span th:text="${melded.getGear().iLvl}"></span> </td>
                                 </tr>
 
                             </th:block>
 
 
                             <tr><td colspan="3">
-                                <div class="text-center"><span class="text-muted">Some message that says things? &nbsp;</span><a th:href="@{/import/player}" class="btn btn-sm btn-primary">Yes</a></div>
+                                (<span th:text="${member.getAssignedJob().abbr} + ' ' "></span><span th:text="${member.getAssignedBIS().name}"></span>)
+                                <button class="btn btn-sm btn-secondary">Change BIS</button>
+
                             </tbody>
                             </td></tr>
                         </table>
@@ -143,8 +206,6 @@
                 </div>
             </div>
         </div>
-
-
         </div>
 
         </div>

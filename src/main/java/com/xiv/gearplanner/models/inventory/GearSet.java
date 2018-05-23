@@ -4,6 +4,8 @@ import com.xiv.gearplanner.models.Job;
 import com.xiv.gearplanner.models.Player;
 
 import javax.persistence.*;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Entity
@@ -66,6 +68,16 @@ public class GearSet {
     }
 
     public List<Gear> getGears() {
+
+        if (gears.size() > 0) {
+            Collections.sort(gears, new Comparator<Gear>() {
+                @Override
+                public int compare(final Gear object1, final Gear object2) {
+                    return object1.getSlot().getSlot().getId().compareTo(object2.getSlot().getSlot().getId());
+                }
+            });
+        }
+
         return gears;
     }
 

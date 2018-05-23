@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group">
                     <label for="name">Custom Name</label>
-                    <input type="input" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter a name">
+                    <input type="input" class="form-control" name="name" id="name" aria-describedby="emailHelp" placeholder="Enter a name">
                     <small id="nameHelp" class="form-text text-muted">An easy to remember name. (ex: Crit/Det Build)</small>
                 </div>
 
@@ -62,13 +62,14 @@
                         <th colspan="3" class="text-left">
                             <div class="row m-0 p-0">
                                 <div class="text-left col-6 m-0 p-0">
-                                    <span>(<span th:text="${bis.getClassAbbr()}"></span> Crit/Det 4.2)</span>
+                                    <span>(<span th:text="${bis.getClassAbbr()}"></span> <span th:text="${name}"></span>)</span>
                                 </div>
                                 <div class="text-right col-6 m-0 p-0">
                                     <form method="post" th:action="@{/bis/importer/save}" name="bis-form-save" id="bis-form-save">
                                     <span class="pr-2 align-top">Everything looks good? </span>
                                     <button class="btn btn-lg btn-primary">Import!</button>
                                     <input type="hidden" name="bisJson" th:value="${bisStr}">
+                                        <input type="hidden" name="bis-name-submit" th:value="${name}">
                                     </form>
                                 </div>
                             </div> </th>

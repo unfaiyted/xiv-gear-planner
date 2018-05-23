@@ -55,7 +55,11 @@ public class StaticMember {
         this.player = copy.player;
         this.assignedJob = copy.assignedJob;
         this.oneStatic = copy.oneStatic;
+        this.assignedBIS = copy.assignedBIS;
+        this.assignedGear = copy.assignedGear;
     }
+
+
 
 
     public Long getId() {

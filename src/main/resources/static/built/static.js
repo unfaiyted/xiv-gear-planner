@@ -309,6 +309,7 @@ var job = __webpack_require__(17);
 var deleteMember = __webpack_require__(18);
 var syncGear = __webpack_require__(19);
 var bis = __webpack_require__(22);
+var compare = __webpack_require__(24);
 
 module.exports = {
 
@@ -419,6 +420,37 @@ $(document).scroll(function () {
     if (y < 100) {
         $('#member-list-container').removeAttr("style");
     }
+});
+
+compare.init();
+
+var scotchPanel =
+////////// TESTING PANEL ////
+$('#panel-member').scotchPanel({
+    containerSelector: '.main-container', // As a jQuery Selector
+    direction: 'left', // Make it toggle in from the left
+    duration: 300, // Speed in ms how fast you want it to be
+    transition: 'ease', // CSS3 transition type: linear, ease, ease-in, ease-out, ease-in-out, cubic-bezier(P1x,P1y,P2x,P2y)
+    clickSelector: '.toggle-panel', // Enables toggling when clicking elements of this class
+    distanceX: '350px', // Size fo the toggle
+    enableEscapeKey: true, // Clicking Esc will close the panel
+    beforePanelOpen: function beforePanelOpen() {},
+    afterPanelOpen: function afterPanelOpen() {
+        $('.scotch-panel-wrapper').animate({
+            backgroundColor: "rgba( 0, 0, 0 , 0.75)"
+        }, 400);
+    }
+
+});
+
+$('.toggle-panel').click(function () {
+    console.log("yes");
+    setTimeout(function () {}, 200);
+});
+
+$('.overlay').click(function () {
+    // CLOSE ONLY
+    scotchPanel.close();
 });
 
 /***/ }),
@@ -812,6 +844,7 @@ module.exports = {
         editorCreated: false,
         memberId: null,
         jobId: null,
+        bisName: null,
         updateMsg: "Are you sure you want to select this Gear set?"
     },
 
@@ -841,10 +874,15 @@ module.exports = {
 
             var memberId = module.exports.settings.memberId;
             var bisId = $(this).attr('data-bis-id');
+            var bisName = $(this).attr('data-bis-name');
 
             // Popup to confirm
             alerts.confirmPopUp(module.exports.settings.updateMsg).then(function () {
-                module.exports.assignBIS(memberId, bisId).then($('#edit-bis-modal').modal('hide')).catch(function (data) {
+                module.exports.assignBIS(memberId, bisId).then(function () {
+
+                    $('.bis-name[data-member-id="' + module.exports.settings.memberId + '"]').text(bisName);
+                    $('#edit-bis-modal').modal('hide');
+                }).catch(function (data) {
                     console.log(data);
                     alert.displayPopUpAlert("Error changing gear set.", "danger");
                 });
@@ -873,7 +911,7 @@ module.exports = {
 
         data.forEach(function (item) {
 
-            output += '<tr>\n            <td class="bis-name"><a href="/bis/view/' + item.id + '">' + item.name + '</a></td>\n             <td class="bis-users">???</td>\n            <td class="d-none d-sm-table-cell bis-ilvl">??</td>\n            <td class="text-right"><button data-bis-id="' + item.id + '" class="btn btn-sm btn-secondary bis-select">Select</button> </td>\n            </tr>';
+            output += '<tr>\n            <td class="bis-name"><a href="/bis/view/' + item.id + '">' + item.name + '</a></td>\n             <td class="bis-users">???</td>\n            <td class="d-none d-sm-table-cell bis-ilvl">??</td>\n            <td class="text-right"><button data-bis-id="' + item.id + '" data-bis-name="' + item.name + '" class="btn btn-sm btn-secondary bis-select">Select</button> </td>\n            </tr>';
         });
 
         $('#bis-results').append(output);
@@ -898,6 +936,97 @@ module.exports = {
         console.log(assign);
 
         return api.addData('/api/bis/assign/', assign);
+    }
+
+};
+
+/***/ }),
+/* 23 */,
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = {
+
+    settings: {
+        bis: [],
+        current: []
+    },
+
+    init: function init() {
+
+        // Get Gear Id's
+        $('#gear-bis tr').each(function (i, row) {
+            if (i >= 2 && i < 15) {
+                console.log(i, $(row).data('id'));
+
+                module.exports.settings.bis.push($(row).data('id'));
+            }
+        });
+
+        // Get Current Gear Ids
+        $('#gear-current tr').each(function (i, row) {
+            if (i >= 2 && i < 15) {
+                console.log(i, $(row).data('id'));
+
+                module.exports.settings.current.push($(row).data('id'));
+            }
+        });
+
+        module.exports.compareToBis();
+    },
+
+    compareToBis: function compareToBis() {
+
+        var bis = module.exports.settings.bis;
+        var current = module.exports.settings.current;
+        var count = 0;
+
+        for (var i = 0; i < bis.length; i++) {
+
+            if (bis[i] !== current[i]) {
+                module.exports.updateTable(current[i]);
+                count++;
+            }
+        }
+
+        module.exports.updateProgressData(count, bis.length);
+    },
+
+
+    updateTable: function updateTable(id) {
+        $('#gear-current tr[data-id="' + id + '"]').css("background-color", "#6d121287");
+    },
+
+    updateProgressData: function updateProgressData(count, total) {
+
+        var percent = (1.0 - count / total).toFixed(2) * 100;
+
+        console.log(percent);
+
+        $('.progress-bar').css('width', percent + '%');
+
+        if (percent >= 0 && percent < 25) {
+            $('.progress-bar').addClass("bg-danger");
+        }
+        if (percent >= 25 && percent < 50) {
+            $('.progress-bar').addClass("bg-danger");
+        }
+        if (percent >= 50 && percent < 75) {
+            $('.progress-bar').addClass("bg-info");
+        }
+        if (percent >= 75 && percent < 100) {}
+        if (percent >= 100) {
+            $('.progress-bar').addClass("bg-success");
+        }
+
+        var matches = total - count;
+
+        $('#gear-matched-count').text(matches);
+        $('#gear-total-count').text(total);
+        $('#gear-percent').text(percent);
     }
 
 };

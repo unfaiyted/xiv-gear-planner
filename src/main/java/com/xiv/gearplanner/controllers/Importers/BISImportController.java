@@ -52,7 +52,7 @@ public class BISImportController {
 
     // Verify Page
     @PostMapping("/bis/importer")
-    public String showBIS(Model model, @RequestParam(name = "bis") String id) throws AriyalaParserException {
+    public String showBIS(Model model, @RequestParam(name = "bis") String id, @RequestParam(name = "name") String name) throws AriyalaParserException {
 
         System.setProperty("webdriver.chrome.driver", driverLocation);
 
@@ -66,6 +66,7 @@ public class BISImportController {
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             String json = ow.writeValueAsString(ariyalaBIS);
 
+            model.addAttribute("name", name);
             model.addAttribute("bisStr",json);
             model.addAttribute("bis", ariyalaBIS);
 
@@ -80,7 +81,8 @@ public class BISImportController {
     }
 
     @PostMapping("/bis/importer/save")
-    public String saveBIS(Model model, @RequestParam(name ="bisJson") String json) throws IOException {
+    public String saveBIS(Model model, @RequestParam(name ="bisJson") String json,
+                          @RequestParam(name="bis-name-submit") String name) throws IOException {
         // get bis object from page
         ObjectMapper mapper = new ObjectMapper();
         AriyalaBIS bis = mapper.readValue(json, AriyalaBIS.class);
@@ -118,7 +120,7 @@ public class BISImportController {
 
         }
 
-        JobBIS jobBIS = new JobBIS(bis.getId(),"Bis Name",job);
+        JobBIS jobBIS = new JobBIS(bis.getId(),name,job);
         jobBIS.setMelded(gearWithMelds);
 
         if(food != null) {
