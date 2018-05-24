@@ -7,6 +7,8 @@ import com.xiv.gearplanner.models.importers.LSCharacter;
 import com.xiv.gearplanner.models.importers.LSItem;
 import com.xiv.gearplanner.models.inventory.Gear;
 import com.xiv.gearplanner.models.inventory.GearSet;
+import com.xiv.gearplanner.models.inventory.GearWithMelds;
+import com.xiv.gearplanner.models.inventory.Materia;
 import com.xiv.gearplanner.parser.CharacterParser;
 import com.xiv.gearplanner.parser.URLS;
 import com.xiv.gearplanner.services.*;
@@ -25,12 +27,15 @@ public class LodestoneImportController {
     private static GearService gearDao;
     private static GearSetService gearSetDao;
     private static StaticService staticDao;
+    private static ItemService itemDao;
 
     @Autowired
-    public LodestoneImportController(StaticService staticDao, GearService gearDao,  GearSetService gearSetDao) {
+    public LodestoneImportController(StaticService staticDao, GearService gearDao,  GearSetService gearSetDao,
+                                     ItemService itemDao) {
         this.staticDao = staticDao;
         this.gearDao = gearDao;
         this.gearSetDao = gearSetDao;
+        this.itemDao = itemDao;
     }
 
     @PostMapping("/api/lodestone/import/{memberId}")
@@ -55,22 +60,26 @@ public class LodestoneImportController {
             if (!assignedJobAbbr.equals(jobAbbr))
                 return new ResponseError("display", "Lodestone does not match selected assigned job.");
 
-            List<Gear> gearMatches = new ArrayList<>();
+
+            // Creates a list of melds to assign to gear
+            List<GearWithMelds> gearMatches = new ArrayList<>();
 
             // Get Gear Matches from Loadstone
             for (LSItem item : character.getGearSet()) {
-                gearMatches.add(gearDao.getGears().findGearByName(item.getName()));
+                gearMatches.add(parseGearWithMelds(item));
             }
 
-            // Adds weapon
-            gearMatches.add(gearDao.getGears().findGearByName(character.getWeapon().getName()));
+            // Adds weapon and  materia
+            gearMatches.add(parseGearWithMelds(character.getWeapon()));
 
             GearSet gearSet = new GearSet(member.getAssignedJob(), member.getPlayer(), gearMatches);
 
             gearSetDao.getGearSets().save(gearSet);
             staticDao.getStatics().updateMemberGearSet(memberId, gearSet.getId());
         } catch (NullPointerException e) {
-            // Cant find member
+            // Cant find members
+
+            e.printStackTrace();
             if (memberId == null) return new ResponseError("display", "Member not found");
             return new ResponseError("display","unable to determine error");
         }
@@ -81,5 +90,25 @@ public class LodestoneImportController {
 
       return new Response(true);
     }
+
+
+
+    private GearWithMelds parseGearWithMelds(LSItem item) {
+
+        // Adding materia and gear from lodeston to match gear
+        List<Materia> materias = new ArrayList<>();
+        Gear gear = gearDao.getGears().findGearByName(item.getName());
+
+        for(String materiaName : item.getMateria()) {
+            System.out.println(materiaName);
+            materias.add(itemDao.getItems().getMateriaByName(materiaName));
+
+        }
+        ;
+
+        return new GearWithMelds(gear, materias);
+
+    }
+
 
 }

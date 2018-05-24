@@ -129,28 +129,45 @@
 
                     <div class="row">
                     <!--Gear Table -->
-                    <div class="col-6 table-responsive">
+                    <div class="col-12 col-md-6 table-responsive">
                     <table class="table table-hover" id="gear-current">
                         <thead>
                         <tr class="top">
                             <th colspan="3" class="text-left">Current Gear...</th>
                         </tr>
                         <tr class="text-left">
-                            <th scope="col">Slot</th>
+                            <th scope="col"></th>
                             <th scope="col">Name</th>
-                            <th scope="col" class="d-none d-sm-table-cell">iLvl</th>
+                            <th scope="col" class="d-none d-lg-table-cell">iLvl</th>
+                            <th>Melds</th>
                         </tr>
                         </thead>
                         <tbody>
                     <th:block th:each="gear : ${member.getAssignedGear().getGears()}">
 
                         <!--CURRENT SLOT LIST -->
-                      <th:block th:if="${!#strings.containsIgnoreCase(gear.name,'Soul of the')}">
-                        <tr th:data-id="${gear.id}"  class="gear-slot">
-                            <td>  <img th:src="${gear.slot.slot.getIcon()}" /> </td>
-                            <td class="gear-name">&nbsp;  <a th:href="@{https://xivdb.com/item/} + ${gear.originalId}" th:text="${gear.name}"></a>  </td>
+                      <th:block th:if="${!#strings.containsIgnoreCase(gear.getGear().name,'Soul of the')}">
+                        <tr th:data-id="${gear.getGear().id}"  class="gear-slot">
+                            <td>  <img th:src="${gear.getGear().slot.slot.getIcon()}" class="img-slot-icon" /> </td>
+                            <td class="gear-name">&nbsp;  <a th:href="@{https://xivdb.com/item/} + ${gear.getGear().originalId}" th:text="${gear.getGear().name}"></a>  </td>
 
-                            <td>  <span th:text="${gear.iLvl}"></span> </td>
+                            <td class="d-none d-lg-table-cell">  <span th:text="${gear.getGear().iLvl}"></span> </td>
+
+                            <!-- MELDS --->
+                            <td>
+                                <div class="d-flex flew-row ">
+                                <th:block th:each="meld : ${gear.getMelds()}">
+                                    <div class="round-button" data-container="body" data-trigger="hover" data-toggle="popover"
+                                         data-placement="top" th:title="${meld.name}" th:data-content="${meld.itemStat?.statType?.name} + ' +' + ${meld.itemStat?.value}">
+                                        <div th:class="@{round-button-circle } + ' ' + ${meld.color} + @{-materia}"></div>
+                                    </div>
+                                </th:block>
+                                </div>
+
+                            </td>
+
+
+
                         </tr>
                       </th:block>
 
@@ -167,7 +184,7 @@
 
 
                         <!-- BIS -->
-                    <div class="col-6 table-responsive">
+                    <div class="col-12 col-md-6 table-responsive">
                         <table class="table table-hover" id="gear-bis">
                             <thead>
                             <tr class="top">
@@ -180,9 +197,9 @@
                                     </div> </th>
                             </tr>
                             <tr class="text-left">
-                                <th scope="col">Slot</th>
+                                <!--<th scope="col"></th>-->
                                 <th scope="col">Name</th>
-                                <th scope="col" class="d-none d-sm-table-cell">iLvl</th>
+                                <th scope="col" class="d-none d-lg-table-cell">iLvl</th>
                                 <th scope="col">Melds</th>
                             </tr>
                             </thead>
@@ -191,20 +208,22 @@
                             <th:block th:each="melded : ${member.getAssignedBIS().getMelded()}">
 
                                 <tr th:data-id="${melded.getGear().id}" class="gear-slot" >
-                                    <td>  <img th:src="${melded.getGear().slot.slot.getIcon()}" /> </td>
+                                    <!--<td>  <img th:src="${melded.getGear().slot.slot.getIcon()}" /> </td>-->
                                     <td>   <a th:href="@{https://xivdb.com/item/} + ${melded.getGear().originalId}"
                                               th:text="${melded.getGear().name}"></a> </td>
-                                    <td>  <span th:text="${melded.getGear().iLvl}"></span> </td>
+                                    <td class="d-none d-lg-table-cell">  <span th:text="${melded.getGear().iLvl}"></span> </td>
 
 
                                     <!-- MELDS --->
-                                    <td>
+                                    <td >
+                                        <div class="d-flex flew-row ">
                                         <th:block th:each="meld : ${melded.melds}">
                                             <div class="round-button" data-container="body" data-trigger="hover" data-toggle="popover"
-                                                 data-placement="top" th:title="${meld.materia.name}" th:data-content="${meld.materia.itemStat?.statType?.name} + ' +' + ${meld.materia.itemStat?.value}">
-                                                <div th:class="@{round-button-circle } + ' ' + ${meld.materia.color} + @{-materia}"></div>
+                                                 data-placement="top" th:title="${meld.name}" th:data-content="${meld.itemStat?.statType?.name} + ' +' + ${meld.itemStat?.value}">
+                                                <div th:class="@{round-button-circle } + ' ' + ${meld.color} + @{-materia}"></div>
                                             </div>
                                         </th:block>
+                                        </div>
 
                                     </td>
 

@@ -105,12 +105,12 @@ public class BISImportController {
             }
 
             if(gear != null) {
-                List<Meld> melds = new ArrayList<>();
+                List<Materia> melds = new ArrayList<>();
 
                 // Adding melds to list of melds for gear.
                 for (Map.Entry<Integer, String[]> me : item.getMateriaSlot().entrySet()) {
                     String[] val = me.getValue();
-                    melds.add(new Meld(materiaFromString(val[0])));
+                    melds.add(materiaFromString(val[0]));
                     // val[1]; //color
                 }
 

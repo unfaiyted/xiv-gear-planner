@@ -84,14 +84,10 @@ public class JobBIS {
     }
 
     public void setMelded(List<GearWithMelds> melded) {
-        for(GearWithMelds melds : melded) {
-            melds.setBis(this);
-        }
         this.melded = melded;
     }
 
     public void addMelded(GearWithMelds melded) {
-        melded.setBis(this);
         this.melded.add(melded);
     }
 

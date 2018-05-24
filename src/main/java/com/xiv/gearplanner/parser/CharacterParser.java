@@ -184,7 +184,7 @@ public class CharacterParser {
 			}
 
 			for(Element ele : materiaItem) {
-				item.addMateria(ele.toString());
+				item.addMateria(ele.text());
 			}
 
 		return item;

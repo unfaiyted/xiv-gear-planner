@@ -44,8 +44,8 @@
 
                     <th:block th:each="meld : ${item.melds}">
                         <div class="round-button" data-container="body" data-trigger="hover" data-toggle="popover"
-                             data-placement="top" th:title="${meld.materia.name}" th:data-content="${meld.materia.itemStat?.statType?.name} + ' +' + ${meld.materia.itemStat?.value}">
-                            <div th:class="@{round-button-circle } + ' ' + ${meld.materia.color} + @{-materia}"></div>
+                             data-placement="top" th:title="${meld.name}" th:data-content="${meld.itemStat?.statType?.name} + ' +' + ${meld.itemStat?.value}">
+                            <div th:class="@{round-button-circle } + ' ' + ${meld.color} + @{-materia}"></div>
                         </div>
                     </th:block>
 

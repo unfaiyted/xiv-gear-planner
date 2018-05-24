@@ -937,7 +937,7 @@ module.exports = {
         // Get Gear Id's
         $('#gear-bis tr').each(function (i, row) {
             if (i >= 2 && i < 15) {
-                console.log(i, $(row).data('id'));
+                //console.log(i, $(row).data('id'));
 
                 module.exports.settings.bis.push($(row).data('id'));
             }
@@ -946,7 +946,7 @@ module.exports = {
         // Get Current Gear Ids
         $('#gear-current tr').each(function (i, row) {
             if (i >= 2 && i < 15) {
-                console.log(i, $(row).data('id'));
+                //console.log(i, $(row).data('id'));
 
                 module.exports.settings.current.push($(row).data('id'));
             }
@@ -992,7 +992,7 @@ module.exports = {
 
         var percent = (1.0 - count / total).toFixed(2) * 100;
 
-        console.log(percent);
+        // console.log(percent);
 
         $('.progress-bar').css('width', percent + '%');
 

@@ -17,16 +17,12 @@ public class GearWithMelds {
     private Gear gear;
 
     @ManyToMany(cascade =  CascadeType.ALL)
-    private List<Meld> melds;
-
-
-    @ManyToOne
-    JobBIS bis;
+    private List<Materia> melds;
 
     public GearWithMelds() {
     }
 
-    public GearWithMelds( Gear gear, List<Meld> melds) {
+    public GearWithMelds( Gear gear, List<Materia> melds) {
         this.gear = gear;
         this.melds = melds;
     }
@@ -47,23 +43,15 @@ public class GearWithMelds {
         this.gear = gear;
     }
 
-    public List<Meld> getMelds() {
+    public List<Materia> getMelds() {
         return melds;
     }
 
-    public void setMelds(List<Meld> melds) {
+    public void setMelds(List<Materia> melds) {
         this.melds = melds;
     }
 
-    public void addMeld(Meld meld) { this.melds.add(meld); }
-
-    public JobBIS getBis() {
-        return bis;
-    }
-
-    public void setBis(JobBIS bis) {
-        this.bis = bis;
-    }
+    public void addMeld(Materia meld) { this.melds.add(meld); }
 
     @Override
     public String toString() {

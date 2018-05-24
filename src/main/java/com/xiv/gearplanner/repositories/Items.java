@@ -54,6 +54,9 @@ public interface Items extends CrudRepository<Item, Long> {
     Materia getMateriaByStat(String statTypeName, Long value);
 
 
+    @Query("Select m from Materia m WHERE m.name LIKE ?1")
+    Materia getMateriaByName(String name);
+
 
     /* Updates the materia import to have colors added to data set*/
     @Modifying

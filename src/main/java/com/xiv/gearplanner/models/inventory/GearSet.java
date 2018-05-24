@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Table
 public class GearSet {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,14 +23,13 @@ public class GearSet {
 
     @ManyToOne
     private Player player;
-    @ManyToMany
-    private List<Gear> gears;
 
-    public GearSet() {
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<GearWithMelds> gears;
 
-    }
+    public GearSet() { }
 
-    public GearSet(Job job, Player player, List<Gear> gears) {
+    public GearSet(Job job, Player player, List<GearWithMelds> gears) {
         this.job = job;
         this.player = player;
         this.gears = gears;
@@ -67,13 +67,13 @@ public class GearSet {
         this.player = player;
     }
 
-    public List<Gear> getGears() {
+    public List<GearWithMelds> getGears() {
 
         if (gears.size() > 0) {
-            Collections.sort(gears, new Comparator<Gear>() {
+            Collections.sort(gears, new Comparator<GearWithMelds>() {
                 @Override
-                public int compare(final Gear object1, final Gear object2) {
-                    return object1.getSlot().getSlot().getId().compareTo(object2.getSlot().getSlot().getId());
+                public int compare(final GearWithMelds object1, final GearWithMelds object2) {
+                    return object1.getGear().getSlot().getSlot().getId().compareTo(object2.getGear().getSlot().getSlot().getId());
                 }
             });
         }
@@ -81,7 +81,7 @@ public class GearSet {
         return gears;
     }
 
-    public void setGears(List<Gear> gears) {
+    public void setGears(List<GearWithMelds> gears) {
         this.gears = gears;
     }
 }

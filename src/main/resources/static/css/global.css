@@ -114,6 +114,10 @@ Bootstrap Custom Themes
  */
 
 
+.table {
+    font-size: 12px;
+}
+
 
 .jumbotron {
    background-color: #292828b5;
@@ -280,12 +284,17 @@ STATIC VIEW PAGE
 
 .match-check {
     color: #17bf17;
-    font-size: 20px;
+    font-size: 12px;
 }
 
 .fail-check {
     color: #ffcf09;
-    font-size: 20px;
+    font-size: 12px;
+}
+
+.img-slot-icon {
+    width: 16px;
+    height: 16px;
 }
 
 
@@ -515,7 +524,7 @@ MATERIA ICONS
     height:18px;
     padding: 0;
     float: left;
-    margin-right: 5px;
+    margin-right: 0px;
 }
 .round-button-circle {
     width: 85%;

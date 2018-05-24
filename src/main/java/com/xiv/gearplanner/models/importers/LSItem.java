@@ -1,5 +1,6 @@
 package com.xiv.gearplanner.models.importers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LSItem {
@@ -11,9 +12,9 @@ public class LSItem {
 	String name;
 	String category;
 	
-	private List<String> classes;
+	private List<String> classes = new ArrayList<>();
 
-	private List<String> materia;
+	private List<String> materia = new ArrayList<>();
 
 	public String getId() {
 		return id;
