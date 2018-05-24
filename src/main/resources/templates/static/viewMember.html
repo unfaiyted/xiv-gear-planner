@@ -13,8 +13,7 @@
 
 
 
-<div class="h-100 main-container  mx-auto w-100 text-left" >
-
+<div class="h-100 main-container  mx-auto w-100 text-left">
 
     <div class="row">
     <span class="overlay"></span>
@@ -143,8 +142,20 @@
                         </tr>
                         </thead>
                         <tbody>
-                    <th:block th:each="gear : ${member.getAssignedGear().getGears()}">
 
+                        <th:block th:if="${member.assignedGear.gears == null}">
+                            <tr>
+                                <td colspan="4" class="text-center">
+                                    Sync a valid gear set for the selected job  to
+                                    view current gear.
+                                </td>
+                            </tr>
+                        </th:block>
+
+
+                        <th:block th:if="${member.assignedGear.gears != null}">
+
+                    <th:block  th:each="gear : ${member?.getAssignedGear()?.getGears()}">
                         <!--CURRENT SLOT LIST -->
                       <th:block th:if="${!#strings.containsIgnoreCase(gear.getGear().name,'Soul of the')}">
                         <tr th:data-id="${gear.getGear().id}"  class="gear-slot">
@@ -156,29 +167,33 @@
                             <!-- MELDS --->
                             <td>
                                 <div class="d-flex flew-row ">
-                                <th:block th:each="meld : ${gear.getMelds()}">
-                                    <div class="round-button" data-container="body" data-trigger="hover" data-toggle="popover"
-                                         data-placement="top" th:title="${meld.name}" th:data-content="${meld.itemStat?.statType?.name} + ' +' + ${meld.itemStat?.value}">
-                                        <div th:class="@{round-button-circle } + ' ' + ${meld.color} + @{-materia}"></div>
-                                    </div>
-                                </th:block>
+                                    <th:block th:each="meld : ${gear.getMelds()}">
+                                        <div class="round-button" data-container="body" data-trigger="hover" data-toggle="popover"
+                                             data-placement="top" th:title="${meld.name}" th:data-content="${meld.itemStat?.statType?.name} + ' +' + ${meld.itemStat?.value}">
+                                            <div th:class="@{round-button-circle } + ' ' + ${meld.color} + @{-materia}"></div>
+                                        </div>
+                                    </th:block>
+                                    <!--END MATERIA MELDS-->
                                 </div>
-
                             </td>
-
-
 
                         </tr>
                       </th:block>
-
+                        <!--AVOID SOULS-->
                     </th:block>
+                            <!--GEAR LOOP-->
+                        </th:block>
+                        <!--IF NOT NULL-->
 
-
-                    <tr><td colspan="3">
+                    <tr>
+                        <td colspan="4">
                         <div class="text-center"><span class="text-muted">Gear outdated you can grab from lodestone? &nbsp;</span>
                             <a href="#" class="btn btn-sm btn-primary member-gear-sync" th:data-id="${member.getId()}">Sync Gear</a>
-                        </tbody>
-                    </td></tr>
+                        </div>
+                        </td>
+                    </tr>
+                   </tbody>
+
                     </table>
                     </div>
 
@@ -205,35 +220,45 @@
                             </thead>
                             <tbody>
                             <!--BIS SLOT LIST -->
-                            <th:block th:each="melded : ${member.getAssignedBIS().getMelded()}">
 
-                                <tr th:data-id="${melded.getGear().id}" class="gear-slot" >
-                                    <!--<td>  <img th:src="${melded.getGear().slot.slot.getIcon()}" /> </td>-->
-                                    <td>   <a th:href="@{https://xivdb.com/item/} + ${melded.getGear().originalId}"
-                                              th:text="${melded.getGear().name}"></a> </td>
-                                    <td class="d-none d-lg-table-cell">  <span th:text="${melded.getGear().iLvl}"></span> </td>
-
-
-                                    <!-- MELDS --->
-                                    <td >
-                                        <div class="d-flex flew-row ">
-                                        <th:block th:each="meld : ${melded.melds}">
-                                            <div class="round-button" data-container="body" data-trigger="hover" data-toggle="popover"
-                                                 data-placement="top" th:title="${meld.name}" th:data-content="${meld.itemStat?.statType?.name} + ' +' + ${meld.itemStat?.value}">
-                                                <div th:class="@{round-button-circle } + ' ' + ${meld.color} + @{-materia}"></div>
-                                            </div>
-                                        </th:block>
-                                        </div>
-
+                            <th:block th:if="${member?.getAssignedBIS()?.getMelded() == null}">
+                                <tr>
+                                    <td colspan="4" class="text-center">
+                                        Select a BIS to view BIS Gear List
                                     </td>
-
-
                                 </tr>
-
                             </th:block>
 
 
-                            <tr><td colspan="3">
+                            <th:block th:if="${member?.getAssignedBIS()?.getMelded() != null}">
+
+                                <th:block th:each="melded : ${member.getAssignedBIS().getMelded()}">
+
+                                    <tr th:data-id="${melded.getGear().id}" class="gear-slot" >
+                                        <!--<td>  <img th:src="${melded.getGear().slot.slot.getIcon()}" /> </td>-->
+                                        <td>   <a th:href="@{https://xivdb.com/item/} + ${melded.getGear().originalId}"
+                                                  th:text="${melded.getGear().name}"></a> </td>
+                                        <td class="d-none d-lg-table-cell">  <span th:text="${melded.getGear().iLvl}"></span> </td>
+
+
+                                        <!-- MELDS --->
+                                        <td >
+                                            <div class="d-flex flew-row ">
+                                            <th:block th:each="meld : ${melded.melds}">
+                                                <div class="round-button" data-container="body" data-trigger="hover" data-toggle="popover"
+                                                     data-placement="top" th:title="${meld.name}" th:data-content="${meld.itemStat?.statType?.name} + ' +' + ${meld.itemStat?.value}">
+                                                    <div th:class="@{round-button-circle } + ' ' + ${meld.color} + @{-materia}"></div>
+                                                </div>
+                                            </th:block>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </th:block>
+
+                            </th:block>
+
+                            <tr><td colspan="4">
                                 (<span th:text="${member.getAssignedJob().abbr} + ' ' "></span><span th:text="${member.getAssignedBIS().name}"></span>)
                                 <button class="btn btn-sm btn-secondary">Change BIS</button>
 
