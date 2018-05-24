@@ -1029,7 +1029,6 @@ module.exports = {
 
 // Creates a member PANEL
 
-
 module.exports = {
 
     settings: {

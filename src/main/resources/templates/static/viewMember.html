@@ -143,7 +143,7 @@
                         </thead>
                         <tbody>
 
-                        <th:block th:if="${member.assignedGear.gears == null}">
+                        <th:block th:if="${member?.assignedGear?.gears == null}">
                             <tr>
                                 <td colspan="4" class="text-center">
                                     Sync a valid gear set for the selected job  to
@@ -153,7 +153,7 @@
                         </th:block>
 
 
-                        <th:block th:if="${member.assignedGear.gears != null}">
+                        <th:block th:if="${member?.assignedGear?.gears != null}">
 
                     <th:block  th:each="gear : ${member?.getAssignedGear()?.getGears()}">
                         <!--CURRENT SLOT LIST -->
@@ -259,7 +259,7 @@
                             </th:block>
 
                             <tr><td colspan="4">
-                                (<span th:text="${member.getAssignedJob().abbr} + ' ' "></span><span th:text="${member.getAssignedBIS().name}"></span>)
+                                (<span th:text="${member.getAssignedJob().abbr} + ' ' "></span><span th:text="${member?.getAssignedBIS()?.name}"></span>)
                                 <button class="btn btn-sm btn-secondary">Change BIS</button>
 
                             </tbody>

@@ -34,8 +34,8 @@ public abstract class Item {
     @ManyToOne
     ItemCategory category;
 
-//    @OneToOne
-//    private Patch patch;
+    @Column
+    private boolean craftable;
 
     public Item() { }
 
@@ -103,14 +103,6 @@ public abstract class Item {
         this.lodestoneId = lodestoneId;
     }
 
-//    public Patch getPatch() {
-//        return patch;
-//    }
-//
-//    public void setPatch(Patch patch) {
-//        this.patch = patch;
-//    }
-
     public Integer getIcon() {
         return icon;
     }
@@ -142,4 +134,13 @@ public abstract class Item {
     public void setCategory(ItemCategory category) {
         this.category = category;
     }
+
+    public boolean isCraftable() {
+        return craftable;
+    }
+
+    public void setCraftable(boolean craftable) {
+        this.craftable = craftable;
+    }
+
 }

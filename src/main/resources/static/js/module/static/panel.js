@@ -1,8 +1,6 @@
 
 // Creates a member PANEL
 
-
-
 module.exports = {
 
     settings: {
@@ -15,7 +13,6 @@ module.exports = {
     init: () => {
       module.exports.initHandler();
     },
-
 
     initHandler: () => {
 

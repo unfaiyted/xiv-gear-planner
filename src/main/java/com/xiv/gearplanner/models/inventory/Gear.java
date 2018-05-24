@@ -9,7 +9,6 @@ import java.util.List;
 @Entity(name="gear")
 public class Gear extends Item {
 
-
     @Column
     private boolean advancedMelding;
 
