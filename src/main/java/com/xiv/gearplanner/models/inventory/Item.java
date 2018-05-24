@@ -35,7 +35,7 @@ public abstract class Item {
     ItemCategory category;
 
     @Column
-    private boolean craftable;
+    private boolean craftable = false;
 
     public Item() { }
 

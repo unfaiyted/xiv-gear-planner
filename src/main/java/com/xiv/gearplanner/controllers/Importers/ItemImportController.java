@@ -48,7 +48,7 @@ public class ItemImportController {
         this.gearDao = gearDao;
     }
 
-    @GetMapping("/import/all/test")
+    @GetMapping("/import/data/items")
     public String  importJobs(Model model) throws IOException {
         int i = 0; // skip first row
 
@@ -456,6 +456,13 @@ public class ItemImportController {
         model.addAttribute("results", results);
         return "/import/results";
     }
+
+
+
+
+
+
+
 
 
 
