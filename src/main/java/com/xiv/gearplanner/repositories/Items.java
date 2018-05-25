@@ -18,6 +18,8 @@ public interface Items extends CrudRepository<Item, Long> {
 
     Page<Item> findAll(Pageable pageable);
 
+    List<Item> findAll();
+
     @Query("select ic from ItemCategory ic where ic.originalId = ?1")
     ItemCategory findCategoryByOriginalId(Integer originalId);
 

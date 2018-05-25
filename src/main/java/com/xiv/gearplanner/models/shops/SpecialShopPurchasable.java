@@ -2,18 +2,20 @@ package com.xiv.gearplanner.models.shops;
 
 import com.xiv.gearplanner.models.inventory.Item;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table
 public class SpecialShopPurchasable  {
 
-    @ManyToMany
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Purchasable> receivables;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Purchasable> costs;
 
     public SpecialShopPurchasable() {}
@@ -40,4 +42,11 @@ public class SpecialShopPurchasable  {
     }
 
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

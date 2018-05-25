@@ -4,10 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiv.gearplanner.models.ImporterResult;
 import com.xiv.gearplanner.models.inventory.Item;
-import com.xiv.gearplanner.models.shops.GilShop;
-import com.xiv.gearplanner.models.shops.Shop;
+import com.xiv.gearplanner.models.shops.*;
+import com.xiv.gearplanner.repositories.SpecialShops;
 import com.xiv.gearplanner.services.ItemService;
 import com.xiv.gearplanner.services.ShopService;
+import com.xiv.gearplanner.services.SpecialShopsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,21 +31,25 @@ public class ShopImportController {
     private ItemService itemDao;
     private ShopService shopDao;
 
+    private SpecialShopsService specialShopDao;
+
     // Location of Json files to be imported
     private String directory = "src/main/resources/static/data/additional/";
 
     @Autowired
-    public ShopImportController(ItemService itemDao, ShopService shopDao) {
+    public ShopImportController(ItemService itemDao, ShopService shopDao, SpecialShopsService specialShopDao) {
         this.itemDao = itemDao;
         this.shopDao = shopDao;
+        this.specialShopDao = specialShopDao;
     }
 
     @GetMapping("/import/data/shops")
     public String getShops(Model model) {
 
         // Files to be imported, results returned.
-        results.add(importGilShopNames(getFileAsJson(directory +"GilShop.csv.json")));
-        results.add(importGilShopItems(getFileAsJson(directory +"GilShopItem.csv.json")));
+       // results.add(importGilShopNames(getFileAsJson(directory +"GilShop.csv.json")));
+       // results.add(importGilShopItems(getFileAsJson(directory +"GilShopItem.csv.json")));
+        results.add(importSpecialShop(getFileAsJson(directory + "SpecialShop.csv.json")));
 
         //GCShop.csv.json
         //FccShop.csv.json
@@ -117,49 +122,79 @@ public class ShopImportController {
     }
 
 
-
     private ImporterResult importSpecialShop(JsonNode file) {
+
+        List<SpecialShop> shops = new ArrayList<>();
+
+        List<Item> items = itemDao.getItems().findAll();
 
         // Job Importing
         int i = 0;
         for (JsonNode record : file) {
             //Add to array
             if (i >= 1) {
+                List<SpecialShopPurchasable> purchasable = new ArrayList<>();
+
                 Integer originalId = record.get("#").asInt();
                 String name = record.get("Name").asText();
 
-
-                for (int j = 0; j < 60; j++) {
-                        for(int x = 0; x < 3; x++) {
-
-                        Long itemReceiveId = record.get("Item{Receive}["+ j +"]["+ x +"]").asLong();
-                        Long itemReceiveCount = record.get("Count{Receive}["+ j +"]["+ x +"]").asLong();
-                        Long itemReceiveHQ = record.get("HQ{Receive}["+ j +"]["+ x +"]").asLong();
-
-
-
-                    }
+                if(specialShopDao.getShops().findAllByOriginalId(originalId) != null) {
+                    continue;
                 }
 
-//"Item{Cost}[0][0]"  "Count{Cost}[0][0]" "HQ{Cost}[0][0]" "CollectabilityRating{Cost}[0][0]"
-//                                             "Item{Receive}[0][1]" = "Item{Receive}[59][1]"
-//
-//                "Item{Cost}[0][1]" "Count{Cost}[0][1]" "HQ{Cost}[0][1]"  "CollectabilityRating{Cost}[0][1]"
-//
-//                "Item{Cost}[0][2]"  "Quest{Item}[0]" "Quest{Shop}"
+                System.out.println("====> SHOP NAME: "+ name);
+
+                for (int j = 0; j < 60; j++) {
+                     List<Purchasable> receivable = new ArrayList<>();
+                     List<Purchasable> costs = new ArrayList<>();
+
+                    for(int x = 0; x < 2; x++) {
+                        // Fill items in list Receipt
+                        Integer itemReceiveId = record.get("Item{Receive}["+ j +"]["+ x +"]").asInt();
+                        Integer itemReceiveCount = record.get("Count{Receive}["+ j +"]["+ x +"]").asInt();
+                        Integer itemReceiveHQ = record.get("HQ{Receive}["+ j +"]["+ x +"]").asInt();
+
+                        Item item =  findItemByOriginalId(items, itemReceiveId);
 
 
+                        if (item != null) {
+                            System.out.println("─────┬── BUY Item: " + item.getName());
+                            receivable.add(new Purchasable(item, itemReceiveCount, itemReceiveHQ));
+                        }
+
+                    }
+
+                    for(int y = 0; y < 3; y++) {
+                    // fill costs
+                        Integer itemReceiveId = record.get("Item{Cost}["+ j +"]["+ y +"]").asInt();
+                        Integer itemReceiveCount = record.get("Count{Cost}["+ j +"]["+ y +"]").asInt();
+                        Integer itemReceiveHQ = record.get("HQ{Cost}["+ j +"]["+ y +"]").asInt();
+                        Integer collectabilityRating = record.get("CollectabilityRating{Cost}["+ j +"]["+ y +"]").asInt();
+
+                        Item item =  findItemByOriginalId(items, itemReceiveId);
+                        if (item != null) {
+                            System.out.println("    ├── Exchange Item: " + item.getName());
+                            costs.add(new Purchasable(item, itemReceiveCount, itemReceiveHQ, collectabilityRating));
+                        }
+
+                    }
+                   purchasable.add(new SpecialShopPurchasable(receivable, costs));
+                }
+
+                if(name == null) { name = "No Name";}
+
+                System.out.println("Adding: " + originalId + " Name: " + name);
+                shops.add(new SpecialShop(originalId, name, purchasable));
+               // specialShopDao.getShops().save(new SpecialShop(originalId, name, purchasable));
             }
             i++;
         }
 
-        return new ImporterResult("SpecialShops", (long) 2);
+        System.out.println("TOTAL SHOPS: " + shops.size());
+
+        specialShopDao.getShops().saveAll(shops);
+        return new ImporterResult("SpecialShops", (long) shops.size());
     }
-
-
-
-
-
 
     // Get File JSON and convert to object.
     private JsonNode getFileAsJson(String pathname)   {
@@ -174,6 +209,16 @@ public class ShopImportController {
             return data;
         }
 
+    }
+
+
+    private Item findItemByOriginalId(List<Item> items, Integer originalId) {
+        for(Item item : items) {
+            if(item.getOriginalId().equals(originalId)) {
+                return item;
+            }
+        }
+        return null;
     }
 
 }

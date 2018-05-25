@@ -2,16 +2,14 @@ package com.xiv.gearplanner.models.shops;
 
 import com.xiv.gearplanner.models.inventory.Item;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table
 public class Purchasable {
-
-    @ManyToOne
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @ManyToOne(cascade = CascadeType.ALL)
     private Item item;
     @Column
     private Integer count;
@@ -28,6 +26,13 @@ public class Purchasable {
         this.HQ = HQ;
         this.collectabilityRating = collectabilityRating;
     }
+
+    public Purchasable(Item item, Integer count, Integer HQ) {
+        this.item = item;
+        this.count = count;
+        this.HQ = HQ;
+    }
+
 
 
     public Item getItem() {
@@ -60,5 +65,14 @@ public class Purchasable {
 
     public void setCollectabilityRating(Integer collectabilityRating) {
         this.collectabilityRating = collectabilityRating;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
