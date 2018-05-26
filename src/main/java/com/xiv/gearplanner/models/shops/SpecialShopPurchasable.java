@@ -1,6 +1,8 @@
 package com.xiv.gearplanner.models.shops;
 
 import com.xiv.gearplanner.models.inventory.Item;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,8 +16,10 @@ public class SpecialShopPurchasable  {
     private Long id;
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Purchasable> receivables;
     @ManyToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Purchasable> costs;
 
     public SpecialShopPurchasable() {}

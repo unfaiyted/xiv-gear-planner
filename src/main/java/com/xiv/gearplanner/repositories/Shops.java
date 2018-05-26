@@ -20,8 +20,11 @@ public interface Shops extends CrudRepository<Shop, Long> {
     @Query("select s from Shop s where s.originalId = ?1")
     Shop findByOriginalId(Integer originalId);
 
+    @Query("select s from Shop s left join fetch s.purchasables where s.id = ?1 ")
+    Shop findByIdWithPurchasable(Long id);
 
-    @Query(value = "select CASE WHEN COUNT(g) > 0 THEN true ELSE false END " +
+
+    @Query(value= "select CASE WHEN COUNT(g) > 0 THEN true ELSE false END " +
             "from Shop g inner join " +
             "g.items i  WHERE g.id = ?1 AND i.id = ?2")
     boolean existsInShop(Long shopId, Long itemId);

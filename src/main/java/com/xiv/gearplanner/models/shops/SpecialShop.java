@@ -2,6 +2,7 @@ package com.xiv.gearplanner.models.shops;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 @Entity
 public class SpecialShop extends Shop {
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<SpecialShopPurchasable> purchasables = new ArrayList<>();
 
     public SpecialShop(){}
@@ -25,5 +26,13 @@ public class SpecialShop extends Shop {
 
     public void setPurchasables(List<SpecialShopPurchasable> purchasables) {
         this.purchasables = purchasables;
+    }
+
+
+    @Override
+    public String toString() {
+        return "SpecialShop{" +
+                "purchasables=" + purchasables +
+                "} " + super.toString();
     }
 }

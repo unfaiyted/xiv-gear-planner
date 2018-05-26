@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/layout :: header">
+    <meta charset="UTF-8" />
+    <title>Index page</title>
+</head>
+<body>
+
+<div th:replace="partials/layout :: navbar" />
+
+<div class="h-100 container  mx-auto   p-2 m-2 ">
+
+<h1>Shop</h1>
+    <small class="text-muted" th:text="${shopType}"></small>
+    <div class="card-container-dark p-2 m-2">
+    <th:block th:if="shops != null">
+        <div class="row">
+        <div class="col-12"><h2 th:text="${shops.getName() }"></h2>
+
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-6"><h3>Buying</h3></div>
+            <div class="col-6"><h3>Exchange</h3></div>
+        </div>
+
+        <!--<span th:if="${animal instanceof T(my.project.Cat)}" th:text="A cat"></span>-->
+
+        <th:block th:if="${shopType == 'Special'}">
+        <div class="row" th:each="purchase : ${shops.getPurchasables()}">
+            <div class="col-6">
+                <div th:each="recieved : ${purchase.getReceivables()}">
+                    <a th:href="${recieved.getItem().getXivDBLink()}">
+                        <span th:text="${recieved.getItem().getName()}"></span>
+                    </a>
+                    x<span th:text="${recieved.count}"></span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div th:each="cost : ${purchase.getCosts()}">
+                    <a th:href="${cost.getItem().getXivDBLink()}">
+                    <span th:text="${cost.getItem().getName()}"></span>
+                    </a>
+                   x <span th:text="${cost.count}"></span>
+                </div>
+            </div>
+
+        </div>
+        </th:block>
+
+        <th:block th:if="${shopType == 'Gil'}">
+            <div class="col-12">
+                <div th:each="item : ${shops.items}">
+                    <a th:href="${item.getXivDBLink()}">
+                        <span th:text="${item.name}"></span>
+                    </a>
+                </div>
+            </div>
+
+        </th:block>
+
+    </th:block>
+    </div>
+
+</div>
+
+<div th:replace="partials/layout :: footer" />
+<script src="https://secure.xivdb.com/tooltips.js"></script>
+</body>
+</html>

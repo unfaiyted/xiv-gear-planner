@@ -17,7 +17,6 @@ public class Shop {
 
     public Shop() {}
 
-
     public Shop(Integer originalId, String name) {
         this.originalId = originalId;
         this.name = name;
@@ -45,5 +44,14 @@ public class Shop {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Shop{" +
+                "id=" + id +
+                ", originalId=" + originalId +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

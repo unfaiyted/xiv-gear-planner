@@ -119,6 +119,10 @@ public abstract class Item {
         this.originalId = originalId;
     }
 
+    public String getXivDBLink() {
+        return "http://xivdb.com/item/" + this.originalId;
+    }
+
     public String getDescription() {
         return description;
     }

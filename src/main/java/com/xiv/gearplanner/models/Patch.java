@@ -22,6 +22,8 @@ public class Patch {
     @Column(nullable = false)
     private String version;
 
+    public Patch() {}
+
     public Patch(String name, String version) {
             this.name = name;
             this.version = version;

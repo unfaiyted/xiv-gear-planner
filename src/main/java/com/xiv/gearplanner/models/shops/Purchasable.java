@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Purchasable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Item item;
     @Column
     private Integer count;

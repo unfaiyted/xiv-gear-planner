@@ -23,7 +23,7 @@ public class ItemController {
     * */
     @GetMapping("/item/view")
     public String viewItems(Model model,  @PageableDefault(value=50) Pageable pageable ) {
-        model.addAttribute("items",itemDao.getItems().findAll(pageable));
+        model.addAttribute("item",itemDao.getItems().findAll(pageable));
         return "item/view";
     }
 

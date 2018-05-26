@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -48,8 +49,13 @@ public class ShopImportController {
 
         // Files to be imported, results returned.
        // results.add(importGilShopNames(getFileAsJson(directory +"GilShop.csv.json")));
-       // results.add(importGilShopItems(getFileAsJson(directory +"GilShopItem.csv.json")));
-        results.add(importSpecialShop(getFileAsJson(directory + "SpecialShop.csv.json")));
+       results.add(
+               importGilShopItemsWithShops(
+                       getFileAsJson(directory +"GilShopItem.csv.json"),
+               populateGilShopNames(
+                       getFileAsJson(directory +"GilShop.csv.json"))
+               ));
+        // results.add(importSpecialShop(getFileAsJson(directory + "SpecialShop.csv.json")));
 
         //GCShop.csv.json
         //FccShop.csv.json
@@ -64,8 +70,8 @@ public class ShopImportController {
     }
 
     // Imports shop names
-    private ImporterResult importGilShopNames(JsonNode file) {
-        List<GilShop> shops = new ArrayList<>();
+    private HashMap<Integer, GilShop> populateGilShopNames(JsonNode file) {
+        HashMap<Integer, GilShop> shops = new HashMap<>();
         List<Integer> originalIds = shopDao.getShops().getAllOriginalIds();
 
         // Job Importing
@@ -77,24 +83,28 @@ public class ShopImportController {
                 String name = record.get("Name").asText();
 
                 if(!originalIds.contains(originalId)) {
-                    shops.add(new GilShop(originalId, name));
+                    shops.put(originalId, new GilShop(originalId, name));
                 }
             }
             i++;
         }
 
-        shopDao.getShops().saveAll(shops);
+        return shops;
 
-        return new ImporterResult("GilShopNames", (long) shops.size());
     }
 
 
-    // Names associated with Gil Shops
-    private ImporterResult importGilShopItems(JsonNode file) {
-
-        List<Integer> originalIds = shopDao.getShops().getAllOriginalIds();
-
+    // Items associated with Gil Shops
+    private ImporterResult importGilShopItemsWithShops(JsonNode file, HashMap<Integer, GilShop> shops) {
         // Job Importing
+        HashMap<Integer, Item> items = new HashMap<>();
+
+        List<Item> itemList = itemDao.getItems().findAll();
+
+        for(Item item : itemList) {
+            items.put(item.getOriginalId(), item);
+        }
+
         int i = 0;
         for (JsonNode record : file) {
             //Add to array
@@ -103,20 +113,22 @@ public class ShopImportController {
                 Integer originalShopId = record.get("#").asInt();
                 Integer originalItemId = record.get("Item").asInt();
 
-
                 // Item associated
-              Item item = itemDao.getItems().findByOriginalId(originalItemId);
-              Shop shop = shopDao.getShops().findByOriginalId(originalShopId);
+                Item item = items.get(originalItemId);
+                GilShop shop = shops.get(originalShopId);
 
               if(item != null && shop != null) {
+                  shop.addItems(item);
 
-                  if(!shopDao.getShops().existsInShop(shop.getId(), item.getId())) {
-                      shopDao.getShops().addGilShopItem(shop.getId(), item.getId());
-                  }
               }
             }
             i++;
         }
+
+
+        List<GilShop> list = new ArrayList<>(shops.values());
+
+        shopDao.getShops().saveAll(list);
 
         return new ImporterResult("GilShopItems", (long) 1);
     }
@@ -154,12 +166,15 @@ public class ShopImportController {
                         Integer itemReceiveCount = record.get("Count{Receive}["+ j +"]["+ x +"]").asInt();
                         Integer itemReceiveHQ = record.get("HQ{Receive}["+ j +"]["+ x +"]").asInt();
 
-                        Item item =  findItemByOriginalId(items, itemReceiveId);
+                        if(itemReceiveId != 0) {
+
+                            Item item =  findItemByOriginalId(items, itemReceiveId);
+                            if (item != null) {
+                                System.out.println("─────┬── BUY Item: " + item.getName());
+                                receivable.add(new Purchasable(item, itemReceiveCount, itemReceiveHQ));
+                            }
 
 
-                        if (item != null) {
-                            System.out.println("─────┬── BUY Item: " + item.getName());
-                            receivable.add(new Purchasable(item, itemReceiveCount, itemReceiveHQ));
                         }
 
                     }
@@ -171,14 +186,21 @@ public class ShopImportController {
                         Integer itemReceiveHQ = record.get("HQ{Cost}["+ j +"]["+ y +"]").asInt();
                         Integer collectabilityRating = record.get("CollectabilityRating{Cost}["+ j +"]["+ y +"]").asInt();
 
-                        Item item =  findItemByOriginalId(items, itemReceiveId);
-                        if (item != null) {
-                            System.out.println("    ├── Exchange Item: " + item.getName());
-                            costs.add(new Purchasable(item, itemReceiveCount, itemReceiveHQ, collectabilityRating));
+
+                        if(itemReceiveId != 0) {
+
+                            Item item = findItemByOriginalId(items, itemReceiveId);
+                            if (item != null) {
+                                System.out.println("     ├── Exchange Item: " + item.getName());
+                                costs.add(new Purchasable(item, itemReceiveCount, itemReceiveHQ, collectabilityRating));
+                            }
                         }
 
                     }
-                   purchasable.add(new SpecialShopPurchasable(receivable, costs));
+
+                    if(!receivable.isEmpty()) {
+                        purchasable.add(new SpecialShopPurchasable(receivable, costs));
+                    }
                 }
 
                 if(name == null) { name = "No Name";}
