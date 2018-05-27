@@ -2,6 +2,7 @@ package com.xiv.gearplanner.models.inventory;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xiv.gearplanner.models.Job;
 
 import javax.persistence.*;
@@ -20,9 +21,11 @@ public class GearEquipCategory {
     private String name;
 
     @Column
+    @JsonIgnore
     private Integer originalId;
 
     @ManyToMany
+    @JsonIgnore
     private List<Job> equippableJobs = new ArrayList<>();
 
     public GearEquipCategory() {

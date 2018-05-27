@@ -1,5 +1,7 @@
 package com.xiv.gearplanner.models.shops;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.xiv.gearplanner.models.inventory.Item;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -18,8 +20,8 @@ public class GilShop extends Shop {
     @ManyToMany(cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
   //  @JoinTable(name = "gil_shop_items")
-    private List<Item> items = new ArrayList<>();
 
+    private List<Item> items = new ArrayList<>();
     //default
     public GilShop() { }
 

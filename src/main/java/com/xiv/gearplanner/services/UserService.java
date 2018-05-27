@@ -1,11 +1,13 @@
 package com.xiv.gearplanner.services;
 
+import com.xiv.gearplanner.models.ExtendedSocialUser;
 import com.xiv.gearplanner.models.User;
 import com.xiv.gearplanner.models.UserProfile;
 import com.xiv.gearplanner.repositories.Users;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 
@@ -35,4 +37,20 @@ public class UserService {
                 profile.getUsername());
 
     }
+
+
+    public User getLoggedInUser() {
+
+        if(SecurityContextHolder.getContext().getAuthentication() != null) {
+            try {
+                return  (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            } catch (ClassCastException e) {
+                ExtendedSocialUser socialUser = (ExtendedSocialUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                return getUsers().findByUsername(socialUser.getUserId());
+            }
+        }
+        return null;
+
+    }
+
 }

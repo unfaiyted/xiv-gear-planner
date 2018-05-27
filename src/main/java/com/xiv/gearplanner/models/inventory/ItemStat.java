@@ -1,6 +1,8 @@
 package com.xiv.gearplanner.models.inventory;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 
@@ -18,8 +20,9 @@ public class ItemStat {
     private GearStatType statType;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonManagedReference
     private Item item;
+
 
     public ItemStat() {
     }
@@ -73,10 +76,12 @@ public class ItemStat {
         this.item = gear;
     }
 
+    @JsonIgnore
     public Item getItem() {
         return item;
     }
 
+    @JsonIgnore
     public void setItem(Item item) {
         this.item = item;
     }

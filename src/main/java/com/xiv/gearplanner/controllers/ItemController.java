@@ -7,8 +7,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/item")
 public class ItemController {
     private ItemService itemDao;
 
@@ -21,7 +23,7 @@ public class ItemController {
     /*
     * TODO: Make searchable, pageable, and auto show tooltip
     * */
-    @GetMapping("/item/view")
+    @GetMapping("/view")
     public String viewItems(Model model,  @PageableDefault(value=50) Pageable pageable ) {
         model.addAttribute("item",itemDao.getItems().findAll(pageable));
         return "item/view";

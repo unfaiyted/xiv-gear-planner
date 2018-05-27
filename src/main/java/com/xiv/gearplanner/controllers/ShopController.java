@@ -46,7 +46,6 @@ public class ShopController {
         String shopType = "default";
 
 
-
         if(shop instanceof SpecialShop) {
              shopType = "Special";
         }

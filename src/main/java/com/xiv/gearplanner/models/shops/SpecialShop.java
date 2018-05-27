@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 public class SpecialShop extends Shop {
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<SpecialShopPurchasable> purchasables = new ArrayList<>();
 
     public SpecialShop(){}

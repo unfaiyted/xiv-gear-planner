@@ -16,8 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequestMapping("/job")
 public class JobController {
-    JobService jobs;
+    private JobService jobs;
 
     // Add job
     @Autowired
@@ -25,39 +26,21 @@ public class JobController {
         this.jobs = jobs;
     }
 
-    // List of Job Types in JSON format.
-    @GetMapping("/api/jobs")
-    public @ResponseBody
-    List<Job> viewJobTypeInJson(@RequestParam(name="job", defaultValue = "true") boolean job) {
 
-        List<Job> jobList = new ArrayList<>();
-
-        try {
-            jobs.getJobs().findAll().forEach((value) -> {
-                if (value.isJob() == job) jobList.add(value);
-            });
-        } catch (NullPointerException e) {
-            return new ArrayList<>();
-        }
-
-        return jobList;
-    }
-
-
-    @GetMapping("/job/view")
+    @GetMapping("/view")
     public String viewJobTypes(Model model) {
         model.addAttribute("types", jobs.getJobs().findAll());
-        return "/job/view";
+        return "/view";
     }
 
-    @GetMapping("/job/add")
+    @GetMapping("/add")
     public String addJobType(Model model) {
         model.addAttribute("types", jobs.getJobs().getTypes());
         model.addAttribute("job",  new Job());
         return "job/add";
     }
 
-    @PostMapping("/job/add")
+    @PostMapping("/add")
     public String submitJobType(@RequestParam("job-type") String type, @Valid Job job,  Errors validation, Model model) {
 
         if(validation.hasErrors()) {
@@ -88,77 +71,7 @@ public class JobController {
         return "job/bis/view";
     }
 
-    @GetMapping("/api/bis/{jobId}")
-    public @ResponseBody   List<BISSelector> viewBISListByJob(@PathVariable Long jobId) {
 
-        List<BISSelector> BISList = new ArrayList<>();
-
-        if(jobs.getJobs().findById(jobId).isPresent()) {
-           Job job = jobs.getJobs().findById(jobId).get();
-            try {
-                jobs.getSets().findAllByJob(job).forEach((value) -> {
-                    BISList.add(new BISSelector(value.getId(), value.getJob().getId(), value.getName()));
-                });
-            } catch (NullPointerException e) {
-                return new ArrayList<>();
-            }
-
-        return BISList;
-
-        }
-
-        return  new ArrayList<>();
-
-
-    }
-
-
-    @RequestMapping(
-            value = "/api/bis/assign/",
-            method= RequestMethod.POST,
-            headers = "Accept=*/*",
-            produces = "application/json",
-            consumes="application/json")
-    @ResponseBody
-    public Response updateBIS (@RequestBody String jsonStr) {
-        try {
-            JsonNode data = strToJsonNode(jsonStr);
-            //Long staticId = staticDao.getStatics().getStaticIdByOwner(userUtil.getLoggedInUser().getId());
-
-             Long memberId =  data.path("memberId").asLong();
-             Long bisId =  data.path("bisId").asLong();
-
-            System.out.println(memberId);
-            System.out.println(bisId);
-
-            jobs.getSets().updateStaticMemberBIS(memberId, bisId);
-
-        } catch(IOException err) {
-
-            ResponseError error = new ResponseError();
-            // fill map with errors here
-            return error;
-        }
-
-        Response res = new Response();
-        res.setSuccess(true);
-        return res;
-
-
-
-    }
-
-
-
-    // package json node mapping from string
-    private JsonNode strToJsonNode(String jsonStr)  throws IOException {
-
-        jsonStr = jsonStr.replaceAll("^\"|\"$|\\\\", "");
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode actualNode = mapper.readTree(jsonStr);
-
-        return actualNode;
-    }
 
 
 

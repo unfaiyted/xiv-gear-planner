@@ -1,5 +1,7 @@
 package com.xiv.gearplanner.models.inventory;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xiv.gearplanner.models.Job;
 
 import javax.persistence.*;
@@ -10,9 +12,11 @@ import java.util.List;
 public class Gear extends Item {
 
     @Column
+    @JsonIgnore
     private boolean advancedMelding;
 
     @Column
+    @JsonIgnore
     private Integer materiaSlotCount;
 
     @Column
@@ -24,8 +28,9 @@ public class Gear extends Item {
     @OneToOne
     private GearSlotCategory slot;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "item_id")
+    @JsonBackReference
     private List<ItemStat> gearStats = new ArrayList<>();
 
     @ManyToOne

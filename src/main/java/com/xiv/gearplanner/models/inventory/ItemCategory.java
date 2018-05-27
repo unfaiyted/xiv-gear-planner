@@ -1,5 +1,6 @@
 package com.xiv.gearplanner.models.inventory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xiv.gearplanner.models.Job;
 
 import javax.persistence.*;
@@ -13,20 +14,25 @@ public class ItemCategory {
     private Long id;
 
     @Column
+    @JsonIgnore
     private Integer originalId;
     @Column
     private String name;
     @Column
+    @JsonIgnore
     private Integer icon;
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
+    @JsonIgnore
     private ItemCategory parent;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
     private List<ItemCategory> children = new ArrayList<>();
 
     @Column
+    @JsonIgnore
     private Integer displayOrder;
 
     @ManyToOne

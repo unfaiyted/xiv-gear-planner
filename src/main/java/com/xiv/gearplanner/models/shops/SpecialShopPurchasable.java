@@ -1,6 +1,6 @@
 package com.xiv.gearplanner.models.shops;
 
-import com.xiv.gearplanner.models.inventory.Item;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -17,9 +17,12 @@ public class SpecialShopPurchasable  {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonManagedReference
     private List<Purchasable> receivables;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonManagedReference
     private List<Purchasable> costs;
 
     public SpecialShopPurchasable() {}

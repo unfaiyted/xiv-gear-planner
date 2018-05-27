@@ -16,6 +16,7 @@ public class Job {
     private Long id;
 
     @Column
+    @JsonIgnore
     private Integer originalId;
 
     @NotBlank(message = "Must contain a name")
@@ -29,6 +30,7 @@ public class Job {
     private String abbr;
 
     @Column
+    @JsonIgnore
     private String icon;
 
     @OneToOne
@@ -36,6 +38,7 @@ public class Job {
     private Job parentJob;
 
     @OneToOne(cascade = {CascadeType.ALL})
+    @JsonIgnore
     private JobType type;
 
     public Job() {

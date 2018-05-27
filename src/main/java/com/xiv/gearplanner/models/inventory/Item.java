@@ -1,5 +1,8 @@
 package com.xiv.gearplanner.models.inventory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,7 +19,9 @@ public abstract class Item {
     @Column
     private String name;
 
+
     @Column
+    @JsonIgnore
     private Integer icon;
 
     @Column
@@ -29,9 +34,11 @@ public abstract class Item {
     private String description;
 
     @Column
+    @JsonIgnore
     private String lodestoneId;
 
     @ManyToOne
+    @JsonManagedReference
     ItemCategory category;
 
     @Column

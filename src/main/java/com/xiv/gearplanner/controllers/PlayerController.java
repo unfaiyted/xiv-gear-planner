@@ -13,9 +13,8 @@ import java.util.List;
 
 @Controller
 public class PlayerController {
-    PlayerService playerDao;
+    private PlayerService playerDao;
 
-    @Autowired
     public PlayerController(PlayerService playerDao) {
         this.playerDao = playerDao;
     }
@@ -51,11 +50,6 @@ public class PlayerController {
     }
 
 
-    // Return JSON data
-    @GetMapping("/api/players/{search}")
-    private @ResponseBody List<Player> playersJson(@PathVariable String search) {
-        System.out.println(search);
-        return playerDao.getPlayers().findPlayersByNameContaining(search);
-    }
+
 
 }
