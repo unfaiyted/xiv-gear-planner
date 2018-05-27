@@ -33,8 +33,8 @@ module.exports = {
     //Populates JobsList if empty.
     getJobsList: () => {
         if(module.exports.settings.jobsList.length === 0) {
-            module.exports.settings.jobsList =  api.getData('jobs');
-            return api.getData('jobs');
+            module.exports.settings.jobsList =  api.getData('job');
+            return api.getData('job');
         }
         return module.exports.settings.jobsList;
     },

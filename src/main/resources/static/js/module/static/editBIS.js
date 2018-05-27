@@ -96,7 +96,7 @@ module.exports = {
     },
 
     getBISList: (jobId) => {
-       return api.getData(`bis/${jobId}`).then(function (data) {
+       return api.getData(`job/bis/${jobId}`).then(function (data) {
             module.exports.injectEditor(data);
        }).catch(function (data) {
            alerts.displayPopUpAlert("Error getting BIS information","danger");
@@ -113,7 +113,7 @@ module.exports = {
 
         console.log(assign);
 
-        return api.addData('/api/bis/assign/', assign);
+        return api.addData('/api/job/bis/assign/', assign);
     }
 
 

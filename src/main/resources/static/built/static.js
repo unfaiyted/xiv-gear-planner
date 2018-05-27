@@ -308,9 +308,9 @@ var member = __webpack_require__(16);
 var job = __webpack_require__(17);
 var deleteMember = __webpack_require__(18);
 var syncGear = __webpack_require__(19);
-var bis = __webpack_require__(22);
-var compare = __webpack_require__(24);
-var panel = __webpack_require__(26);
+var bis = __webpack_require__(20);
+var compare = __webpack_require__(21);
+var panel = __webpack_require__(22);
 
 module.exports = {
 
@@ -603,8 +603,8 @@ module.exports = {
     //Populates JobsList if empty.
     getJobsList: function getJobsList() {
         if (module.exports.settings.jobsList.length === 0) {
-            module.exports.settings.jobsList = api.getData('jobs');
-            return api.getData('jobs');
+            module.exports.settings.jobsList = api.getData('job');
+            return api.getData('job');
         }
         return module.exports.settings.jobsList;
     },
@@ -802,9 +802,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 20 */,
-/* 21 */,
-/* 22 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -895,7 +893,7 @@ module.exports = {
     },
 
     getBISList: function getBISList(jobId) {
-        return api.getData('bis/' + jobId).then(function (data) {
+        return api.getData('job/bis/' + jobId).then(function (data) {
             module.exports.injectEditor(data);
         }).catch(function (data) {
             alerts.displayPopUpAlert("Error getting BIS information", "danger");
@@ -912,14 +910,13 @@ module.exports = {
 
         console.log(assign);
 
-        return api.addData('/api/bis/assign/', assign);
+        return api.addData('/api/job/bis/assign/', assign);
     }
 
 };
 
 /***/ }),
-/* 23 */,
-/* 24 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1020,8 +1017,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 25 */,
-/* 26 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
