@@ -1,18 +1,25 @@
 package com.xiv.gearplanner.models.shops;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.xiv.gearplanner.models.View;
+
 import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Shop {
 
+
+    @JsonView(View.Summary.class)
     @Id @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
     @Column
+    @JsonView(View.Summary.class)
     private Integer originalId;
 
     @Column
+    @JsonView(View.Summary.class)
     private String name;
 
     public Shop() {}

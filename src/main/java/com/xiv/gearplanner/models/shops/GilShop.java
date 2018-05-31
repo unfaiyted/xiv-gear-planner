@@ -1,14 +1,11 @@
 package com.xiv.gearplanner.models.shops;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.xiv.gearplanner.models.View;
 import com.xiv.gearplanner.models.inventory.Item;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +15,8 @@ import java.util.List;
 public class GilShop extends Shop {
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
   //  @JoinTable(name = "gil_shop_items")
-
+    @JsonView(View.SummaryWithItems.class)
     private List<Item> items = new ArrayList<>();
     //default
     public GilShop() { }
@@ -46,6 +42,11 @@ public class GilShop extends Shop {
         this.items.add(item);
     }
 
+
+    @JsonView(View.Summary.class)
+    public String getShopType() {
+        return "GilShop";
+    }
 
     @Override
     public String toString() {
