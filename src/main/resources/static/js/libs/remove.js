@@ -54,8 +54,6 @@ module.exports = {
 
     updateServer: (id) => {
 
-        console.log(module.exports.settings.dataSet);
-
         let json = {memberId: id};
         return api.deleteData(module.exports.settings.dataSet,  JSON.stringify(json));
     }
